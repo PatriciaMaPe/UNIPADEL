@@ -16,7 +16,7 @@
 *
 * @author lipido <lipido@gmail.com>
 */
-class I18n {
+/*class I18n {
 
 	private $messages;
 
@@ -99,3 +99,4 @@ class I18n {
 function i18n($key) {
 	return I18n::getInstance()->i18n($key);
 }
+*/

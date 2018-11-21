@@ -34,20 +34,21 @@ class ClasificacionMapper {
 	* @return Post The Post instances (without comments). NULL
 	* if the Post is not found
 	*/
-	public function findById($clasificacionId){
-		$stmt = $this->db->prepare("SELECT * FROM posts WHERE idClasificacion=?");
-		$stmt->execute(array($clasificacionId));
-		$clasificacion = $stmt->fetch(PDO::FETCH_ASSOC);
+	public function findByLigaCampeonato($campeonatoId, $tipoLiga){
+		$stmt = $this->db->prepare("SELECT ParejaidPareja, resultado FROM Clasificacion
+			WHERE CampeonatoidCampeonato=? AND GrupotipoLiga=? ORDER BY resultado");
+		$stmt->execute(array($campeonatoId, $tipoLiga));
+		$clasificacion_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-		if($post != null) {
-			return new Post(
-			$post["id"],
-			$post["title"],
-			$post["content"],
-			new User($post["author"]));
-		} else {
-			return NULL;
+
+		$clasificacion = array();
+
+		foreach ($clasificacion_db as $clas) {
+			array_push($clasificacion, new Clasificacion(NULL, new Pareja($clas['ParejaidPareja']), $clas['resultado']));
 		}
+
+		 return $clasificacion;
+
 	}
 
 	/**

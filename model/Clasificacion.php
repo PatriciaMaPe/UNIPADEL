@@ -3,6 +3,10 @@
 
 require_once(__DIR__."/../core/ValidationException.php");
 
+require_once(__DIR__."/../model/Campeonato.php");
+require_once(__DIR__."/../model/Pareja.php");
+require_once(__DIR__."/../model/Grupo.php");
+
 /**
 * Class Post
 *
@@ -26,6 +30,23 @@ class Clasificacion {
 	private $pareja;
 
 	/**
+	* The title of this post
+	* @var int
+	*/
+	private $resultado;
+	/**
+	* The title of this post
+	* @var Grupo
+	*/
+	private $grupo;
+	/**
+	* The title of this post
+	* @var Campeonato
+	*/
+	private $campeonato;
+
+
+	/**
 	* The constructor
 	*
 	* @param string $id The id of the post
@@ -34,9 +55,12 @@ class Clasificacion {
 	* @param User $author The author of the post
 	* @param mixed $comments The list of comments
 	*/
-	public function __construct($idClasificacion=NULL, Pareja $pareja=NULL) {
+	public function __construct($idClasificacion=NULL, Pareja $pareja=NULL, $resultado=NULL, Grupo $grupo=NULL, Campeonato $campeonato=NULL) {
 		$this->idClasificacion = $idClasificacion;
 		$this->pareja = $pareja;
+		$this->resultado = $resultado;
+		$this->grupo = $grupo;
+		$this->campeonato = $campeonato;
 
 	}
 
@@ -52,13 +76,21 @@ class Clasificacion {
 	/**
 	* Gets the title of this post
 	*
-	* @return string The title of this post
+	* @return Pareja The title of this post
 	*/
 	public function getPareja() {
 		return $this->pareja;
 	}
+	public function getResultado() {
+		return $this->resultado;
+	}
+	public function getGrupo() {
+		return $this->grupo;
+	}
+	public function getCampeonato() {
+		return $this->campeonato;
+	}
 
-	
 
 	/**
 	* Checks if the current instance is valid

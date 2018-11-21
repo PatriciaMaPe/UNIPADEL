@@ -6,6 +6,7 @@ require_once(__DIR__."/../model/Enfrentamiento.php");
 require_once(__DIR__."/../model/EnfrentamientoMapper.php");
 require_once(__DIR__."/../model/GrupoMapper.php");
 require_once(__DIR__."/../model/ParejaMapper.php");
+require_once(__DIR__."/../model/ClasificacionMapper.php");
 
 require_once(__DIR__."/../core/ViewManager.php");
 require_once(__DIR__."/../controller/BaseController.php");
@@ -36,6 +37,7 @@ class EnfrentamientoController extends BaseController {
 		$this->enfrentamientoMapper = new EnfrentamientoMapper();
 		$this->grupoMapper = new GrupoMapper();
 		$this->parejaMapper = new ParejaMapper();
+		$this->clasificacionMapper = new ClasificacionMapper();
 	}
 
 	/**
@@ -92,20 +94,29 @@ class EnfrentamientoController extends BaseController {
 		if (!isset($_REQUEST["liga"])) {
 			throw new Exception("A post id is mandatory");
 		}
+		if (!isset($_REQUEST["campeonato"])) {
+			throw new Exception("A post id is mandatory");
+		}
 
 		$grupoId = $_REQUEST["id"];
 		$tipoLiga = $_REQUEST["liga"];
+		$campeonato = $_REQUEST["campeonato"];
 
 		// obtain the data from the database
-		//$enfrentamientos = $this->enfrentamientoMapper->findAllByGrupoLiga($grupoId, $tipoLiga); //Grupo y su liga
-		$enfrentamientosParejas = $this->enfrentamientoMapper->findByIdPareja($grupoId, $tipoLiga);
+		$enfrentamientosParejas = $this->enfrentamientoMapper->findByIdPareja($grupoId, $tipoLiga, $campeonato);
 		$parejas = $this->enfrentamientoMapper->findAllParejas($grupoId, $tipoLiga);
 
+
+		if($enfrentamientosParejas==NULL){
+			throw new Exception("No se han realizado los enfrentamientos");
+		}
 
 		// put the array containing Post object to the view
 		//$this->view->setVariable("enfrentamientos", $enfrentamientos, false);
 		$this->view->setVariable("enfrentamientosParejas", $enfrentamientosParejas, false);
 		$this->view->setVariable("parejas", $parejas, false);
+		$this->view->setVariable("idGrupo", $grupoId, false);
+		$this->view->setVariable("tipoLiga", $tipoLiga, false);
 
 		// render the view (/view/enfrentamientos/view.php)
 		$this->view->render("enfrentamientos", "view");
@@ -120,6 +131,12 @@ class EnfrentamientoController extends BaseController {
 		if (!isset($_REQUEST["liga"])) {
 			throw new Exception("A post id is mandatory");
 		}
+		if (!isset($_REQUEST["campeonato"])) {
+			throw new Exception("A post id is mandatory");
+		}
+		if (!isset($_REQUEST["categoria"])) {
+			throw new Exception("A post id is mandatory");
+		}
 
 
 		/*if (!isset($this->currentUser)) {
@@ -127,11 +144,16 @@ class EnfrentamientoController extends BaseController {
 		}*/
 		$grupoId = $_REQUEST["id"];
 		$tipoLiga = $_REQUEST["liga"];
+		$campeonatoId = $_REQUEST["campeonato"];
+		$categoriaId = $_REQUEST["categoria"];
 		// Get the Post object from the database
 		if($tipoLiga=='regular'){
-		$lastInsert = $this->parejaMapper->generarEnfrentamientosRegular($grupoId);
+		$lastInsert = $this->parejaMapper->generarEnfrentamientosRegular($grupoId,$campeonatoId, $categoriaId);
 	} elseif ($tipoLiga=='cuartos') {
-		$lastInsert = $this->parejaMapper->generarEnfrentamientosCuartos($grupoId);
+		$lastInsert = $this->parejaMapper->generarEnfrentamientosCuartos($grupoId,$campeonatoId, $categoriaId);
+	} elseif ($tipoLiga=='semifinal') {
+		$lastInsert = $this->parejaMapper->generarEnfrentamientosSemifinales($grupoId,$campeonatoId, $categoriaId);
+
 		// Put the Post object visible to the view
 		//$this->view->setVariable("lastInsert", $lastInsert);
 		//$this->view->render("enfrentamientos", "prueba");
@@ -146,6 +168,12 @@ class EnfrentamientoController extends BaseController {
 		if (!isset($_REQUEST["liga"])) {
 			throw new Exception("A post id is mandatory");
 		}
+		if (!isset($_REQUEST["campeonato"])) {
+			throw new Exception("A post id is mandatory");
+		}
+		if (!isset($_REQUEST["categoria"])) {
+			throw new Exception("A post id is mandatory");
+		}
 		/*if (!isset($this->currentUser)) {
 			throw new Exception("Not in session. Editing posts requires login");
 		}*/
@@ -153,14 +181,55 @@ class EnfrentamientoController extends BaseController {
 		// Get the Post object from the database
 		$grupoId = $_REQUEST["id"];
 		$tipoLiga = $_REQUEST["liga"];
-		$lastInsert = $this->parejaMapper->generarEnfrentamientosRegular($grupoId);
-		$this->view();
+		$campeonatoId = $_REQUEST["campeonato"];
+		$categoriaId = $_REQUEST["categoria"];
+		if($tipoLiga=='regular'){
+			$lastInsert = $this->parejaMapper->generarRankingRegular($grupoId,$campeonatoId, $categoriaId, $tipoLiga);
+			$clasificacion = $this->clasificacionMapper->findByLigaCampeonato($campeonatoId, $tipoLiga);
+
+			$this->view->setVariable("clasificacion", $clasificacion, false);
+			// render the view (/view/enfrentamientos/view.php)
+			$this->view->render("clasificacion", "index");
+
+		} elseif ($tipoLiga=='cuartos') {
+			$lastInsert = $this->parejaMapper->generarRankingCuartos($grupoId, $campeonatoId, $categoriaId, $tipoLiga);
+			$clasificacion = $this->clasificacionMapper->findByLigaCampeonato($campeonatoId, $tipoLiga);
+
+			$this->view->setVariable("clasificacion", $clasificacion, false);
+			// render the view (/view/enfrentamientos/view.php)
+			$this->view->render("clasificacion", "index");
+		}
+		//$this->view();
 		// Put the Post object visible to the view
 		//$this->view->setVariable("lastInsert", $lastInsert);
 		//$this->view->render("enfrentamientos", "prueba");
 	}
 
 
+	public function modificarResultados() {
+		$idPareja1 = $_POST["pareja1"];
+		$idPareja2 = $_POST["pareja2"];
+		$set1 = $_POST["set1"];
+		$set2 = $_POST["set2"];
+		$set3 = $_POST["set3"];
+
+		$this->enfrentamientoMapper->recogerResultados($idPareja1, $idPareja2, $set1, $set2, $set3);
+		//$this->index();
+		$this->view->redirect("enfrentamiento", "index");
+		//$this->view->render("enfrentamientos", "view");
+
+
+
+
+	// obtain the data from the database
+	//$gruposCampeonatos = $this->grupoMapper->findAll();
+
+	// put the array containing Post object to the view
+	//$this->view->setVariable("gruposCampeonatos", $gruposCampeonatos, false);
+
+	// render the view (/view/enfrentamientos/index.php)
+	//$this->view->render("enfrentamientos", "prueba");
+}
 	/**
 	* Action to add a new post
 	*

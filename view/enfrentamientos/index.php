@@ -43,9 +43,9 @@ $view->setVariable("title", "Resultados");
       <td>
 
 
-        <a href="index.php?controller=enfrentamiento&amp;action=view&amp;id=<?= $grupo->getIdGrupo(); ?>&amp;liga=<?= $grupo->getTipoLiga(); ?>">Consultar</a>
-        <a href="index.php?controller=enfrentamiento&amp;action=generarEnfrentamientos&amp;id=<?= $grupo->getIdGrupo(); ?>&amp;liga=<?= $grupo->getTipoLiga(); ?>">Enfrentar</a>
-        <a href="index.php?controller=enfrentamiento&amp;action=generarRanking&amp;id=<?= $grupo->getIdGrupo(); ?>&amp;liga=<?= $grupo->getTipoLiga(); ?>">Ranking</a>
+        <a href="index.php?controller=enfrentamiento&amp;action=view&amp;id=<?= $grupo->getIdGrupo(); ?>&amp;liga=<?= $grupo->getTipoLiga(); ?>&amp;campeonato=<?= $grupo->getCampeonato()->getIdCampeonato(); ?>">Consultar</a>
+        <a href="index.php?controller=enfrentamiento&amp;action=generarEnfrentamientos&amp;id=<?= $grupo->getIdGrupo(); ?>&amp;liga=<?= $grupo->getTipoLiga(); ?>&amp;campeonato=<?= $grupo->getCampeonato()->getIdCampeonato(); ?>&amp;categoria=<?= $grupo->getCategoria()->getIdCategoria(); ?>">Enfrentar</a>
+        <a href="index.php?controller=enfrentamiento&amp;action=generarRanking&amp;id=<?= $grupo->getIdGrupo(); ?>&amp;liga=<?= $grupo->getTipoLiga(); ?>&amp;campeonato=<?= $grupo->getCampeonato()->getIdCampeonato(); ?>&amp;categoria=<?= $grupo->getCategoria()->getIdCategoria(); ?>">Ranking</a>
 
       </td>
 

@@ -7,9 +7,9 @@ $view = ViewManager::getInstance();
 
 //$enfren = $view->getVariable("enfrentamientos");
 $enfrenParejas = $view->getVariable("enfrentamientosParejas"); //array con enfrentamientos por parejas
-var_dump($enfrenParejas);
-
 $parejas = $view->getVariable("parejas");
+$idGrupo = $view->getVariable("idGrupo");
+$tipoLiga = $view->getVariable("tipoLiga");
 //$currentuser = $view->getVariable("currentusername");
 $view->setVariable("title", "Enfrentamientos");
 
@@ -18,6 +18,8 @@ if($enfrenParejas==null){
 }
 ?>
 
+<h2><?= $idGrupo ?></h2>
+<h2><?= $tipoLiga ?></h2>
 <!-- Enfrentamientos -->
 <div class="table-responsive">
   <table class="table">
@@ -28,6 +30,7 @@ if($enfrenParejas==null){
       <?php foreach ($parejas as $pareja): ?>
         <th scope="col"> <?= htmlentities($pareja->getIdPareja()) ?> </th>
       <?php endforeach; ?>
+      <th>Resultado</th>
       <th> Acciones </th>
     </tr>
   </thead>
@@ -42,22 +45,88 @@ if($enfrenParejas==null){
         <!-- col resultado -->
         <?php foreach ($enfrentamientoPareja as $enfrentamiento): ?>
             <?php if($enfrentamiento->getPareja1()->getIdPareja() == $enfrentamiento->getPareja2()->getIdPareja()): ?>
-              <td><?= $enfrentamiento->getPareja1()->getIdPareja(); ?></td>
+              <td></td>
             <?php else: ?>
-              <td><?= $enfrentamiento->getSet1(); ?></td>
-            <?php endif; ?>
+
+                <td>
+                  <a data-target="#exampleModal" data-toggle="modal"
+                  data-pareja1="<?= $enfrentamiento->getPareja1()->getIdPareja() ?>"
+                  data-pareja2="<?= $enfrentamiento->getPareja2()->getIdPareja() ?>"
+                  data-set1="<?= $enfrentamiento->getSet1(); ?>"
+                  data-set2="<?= $enfrentamiento->getSet2(); ?>"
+                  data-set3="<?= $enfrentamiento->getSet3(); ?>"
+                  data-grupo="<?= $idGrupo ?>"
+                  data-liga="<?= $tipoLiga ?>"
+                  >
+                  <?= $enfrentamiento->getSet1(); ?> /
+                  <?= $enfrentamiento->getSet2(); ?> /
+                  <?= $enfrentamiento->getSet3(); ?>
+                  </a>
+                </td>
+
+              <?php endif; ?>
             <?php $contColumna++;?>
 
       <?php endforeach; ?>
 
       <?php $contPareja++;?>
+      <td><?= $enfrentamiento->getResultado(); ?></td>
       <td>
-        <a class="add" title="Add" data-toggle="tooltip">Add</a>
+        <a class="add" title="Add" data-toggle="tooltip" >Add</a>
         <a class="edit" title="Edit" data-toggle="tooltip">Edit</a>
       </td>
         </tr>
 
-    <?php endforeach; ?>
-  </tbody>
 
-  </table>
+    <?php endforeach; ?>
+
+
+      </tbody>
+
+      </table>
+
+    <!-- Pruebas Modal -->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Titulo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="index.php?controller=enfrentamiento&amp;action=modificarResultados" method="POST">
+
+          <div class="form-group">
+            <div class="form-row">
+              <div class="col">
+            <label for="message-text" class="col-form-label">Pareja:</label>
+            <input id="pareja1" type="text" name="pareja1" class="form-control-plaintext" readonly>
+          </div>
+          <div class="col">
+            <label for="message-text" class="col-form-label">Pareja:</label>
+            <input id="pareja2" type="text" name="pareja2" class="form-control-plaintext" readonly>
+          </div>
+          </div>
+            <label for="message-text" class="col-form-label">Set1:</label>
+            <input id="set1" name="set1" type="text" class="form-control">
+
+            <label for="message-text" class="col-form-label">Set2:</label>
+            <input id="set2" name="set2" type="text" class="form-control">
+
+            <label for="message-text" class="col-form-label">Set3:</label>
+            <input id="set3" name="set3" type="text" class="form-control">
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Modificar resultados</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- !Pruebas Modal -->

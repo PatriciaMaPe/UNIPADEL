@@ -38,7 +38,8 @@ class GrupoMapper {
 	*/
 	public function findAll() {
 		$stmt = $this->db->query("SELECT Grupo.*, Categoria.nivel, Categoria.tipo
-			FROM `Grupo`, `Categoria` WHERE Categoria.idCategoria = Grupo.Campeonato_CategoriaCategoriaidCategoria");
+			FROM `Grupo`, `Categoria` WHERE Categoria.idCategoria = Grupo.Campeonato_CategoriaCategoriaidCategoria
+			ORDER BY Grupo.Campeonato_CategoriaCampeonatoidCampeonato, Grupo.tipoLiga,Grupo.idGrupo");
 		$gruposCampeonato_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		$grupos = array();

@@ -57,6 +57,26 @@ $currentuser = $view->getVariable("currentusername");
 		//$(".add-new").attr("disabled", "disabled");
     });
 
+		$('#exampleModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+	var pareja1 = button.data('pareja1')
+	var pareja2 = button.data('pareja2')
+	var set1 = button.data('set1')
+	var set2 = button.data('set2')
+	var set3 = button.data('set3')
+	var grupo = button.data('grupo')
+	var liga = button.data('liga')
+
+  var modal = $(this)
+  modal.find('.modal-title').text('Grupo: ' + grupo + ' - Liga: ' + liga)
+	modal.find('#pareja1').val(pareja1)
+	modal.find('#pareja2').val(pareja2)
+  modal.find('#set1').val(set1)
+	modal.find('#set2').val(set2)
+	modal.find('#set3').val(set3)
+})
+
+
 });
 </script>
 
