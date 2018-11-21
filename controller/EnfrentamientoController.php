@@ -52,6 +52,10 @@ class EnfrentamientoController extends BaseController {
 	* </ul>
 	*/
 	public function index() {
+		if (!isset($this->currentUser)) {
+			//throw new Exception("Necesitas iniciar sesion");
+			$this->view->render("usuarios", "login");
+		}else{
 
 		// obtain the data from the database
 		$gruposCampeonatos = $this->grupoMapper->findAll();
@@ -61,6 +65,7 @@ class EnfrentamientoController extends BaseController {
 
 		// render the view (/view/enfrentamientos/index.php)
 		$this->view->render("enfrentamientos", "index");
+		}
 	}
 
 	/**
