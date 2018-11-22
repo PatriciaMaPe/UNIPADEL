@@ -45,32 +45,8 @@ class CampeonatoMapper {
 		return $posts;
 	}
 
-	/**
-	* Loads a Post from the database given its id
-	*
-	* Note: Comments are not added to the Post
-	*
-	* @throws PDOException if a database error occurs
-	* @return Post The Post instances (without comments). NULL
-	* if the Post is not found
-	*/
-	public function findById($postid){
-		$stmt = $this->db->prepare("SELECT * FROM posts WHERE id=?");
-		$stmt->execute(array($postid));
-		$post = $stmt->fetch(PDO::FETCH_ASSOC);
 
-		if($post != null) {
-			return new Post(
-			$post["id"],
-			$post["title"],
-			$post["content"],
-			new User($post["author"]));
-		} else {
-			return NULL;
-		}
-	}
-
-	public function test($idCampeonato ) {
+	public function test($idCampeonato) {
 
 		$stmt = $this->db->prepare("SELECT idCampeonato FROM Campeonato");
 		$stmt->execute(array($idCampeonato));

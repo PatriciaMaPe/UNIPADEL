@@ -5,12 +5,10 @@ require_once(__DIR__."/../../core/ViewManager.php");
 
 $view = ViewManager::getInstance();
 
-//$enfren = $view->getVariable("enfrentamientos");
 $enfrenParejas = $view->getVariable("enfrentamientosParejas"); //array con enfrentamientos por parejas
 $parejas = $view->getVariable("parejas");
 $idGrupo = $view->getVariable("idGrupo");
 $tipoLiga = $view->getVariable("tipoLiga");
-//$currentuser = $view->getVariable("currentusername");
 $view->setVariable("title", "Enfrentamientos");
 
 
@@ -87,7 +85,7 @@ $view->setVariable("title", "Enfrentamientos");
 
       </table>
 
-    <!-- Pruebas Modal -->
+    <!-- Modal -->
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -131,4 +129,4 @@ $view->setVariable("title", "Enfrentamientos");
     </div>
   </div>
 </div>
-<!-- !Pruebas Modal -->
+<!-- !Modal -->

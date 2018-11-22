@@ -7,7 +7,7 @@ require_once(__DIR__."/../core/PDOConnection.php");
 /**
 * Class PostMapper
 *
-* Database interface for Post entities
+* Database interface for Pareja entities
 *
 * @author Patricia
 */
@@ -264,8 +264,6 @@ class ParejaMapper {
 	}
 
 
-
-
 	public function borrarClasificacion($campeonatoId, $tipoLiga){
 		$stmt = $this->db->prepare("DELETE FROM Clasificacion
 			WHERE CampeonatoidCampeonato=? AND GrupotipoLiga=?");
@@ -362,46 +360,6 @@ class ParejaMapper {
 			}
 
 				return $this->db->lastInsertId();
-		}
-
-
-
-
-		/**
-		* Saves a Post into the database
-		*
-		* @param Post $post The post to be saved
-		* @throws PDOException if a database error occurs
-		* @return int The mew post id
-		*/
-		public function save(Post $post) {
-			$stmt = $this->db->prepare("INSERT INTO posts(title, content, author) values (?,?,?)");
-			$stmt->execute(array($post->getTitle(), $post->getContent(), $post->getAuthor()->getUsername()));
-			return $this->db->lastInsertId();
-		}
-
-		/**
-		* Updates a Post in the database
-		*
-		* @param Post $post The post to be updated
-		* @throws PDOException if a database error occurs
-		* @return void
-		*/
-		public function update(Post $post) {
-			$stmt = $this->db->prepare("UPDATE posts set title=?, content=? where id=?");
-			$stmt->execute(array($post->getTitle(), $post->getContent(), $post->getId()));
-		}
-
-		/**
-		* Deletes a Post into the database
-		*
-		* @param Post $post The post to be deleted
-		* @throws PDOException if a database error occurs
-		* @return void
-		*/
-		public function delete(Post $post) {
-			$stmt = $this->db->prepare("DELETE from posts WHERE id=?");
-			$stmt->execute(array($post->getId()));
 		}
 
 	}

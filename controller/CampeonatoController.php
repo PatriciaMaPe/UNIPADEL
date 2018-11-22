@@ -21,6 +21,7 @@ class CampeonatoController extends BaseController {
         $this->categoriaMapper = new CategoriaMapper();
     }
 
+
     //Crear campeonato
     public function index() {
       if (!isset($this->currentUser)) {

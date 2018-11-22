@@ -1,5 +1,5 @@
 <?php
-// file: model/PostMapper.php
+// file: model/GrupoMapper.php
 require_once(__DIR__."/../core/PDOConnection.php");
 
 require_once(__DIR__."/../model/Campeonato.php");
@@ -8,9 +8,9 @@ require_once(__DIR__."/../model/Grupo.php");
 
 
 /**
-* Class PostMapper
+* Class GrupoMapper
 *
-* Database interface for Post entities
+* Database interface for Grupo entities
 *
 * @author Patricia
 */
@@ -27,12 +27,7 @@ class GrupoMapper {
 	}
 
 	/**
-	* Retrieves all posts
 	*
-	* Note: Comments are not added to the Post instances
-	*
-	* @throws PDOException if a database error occurs
-	* @return mixed Array of Post instances (without comments)
 	*/
 	public function findAll() {
 		$stmt = $this->db->query("SELECT Grupo.*, Categoria.nivel, Categoria.tipo

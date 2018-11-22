@@ -5,7 +5,7 @@ require_once(__DIR__."/../model/UsuarioRegistrado.php");
 require_once(__DIR__."/../model/UsuarioRegistradoMapper.php");
 require_once(__DIR__."/../controller/BaseController.php");
 /**
-* Class UsersController
+* Class UsuarioRegistradoController
 *
 * Controller to login, logout and user registration
 *
@@ -13,7 +13,7 @@ require_once(__DIR__."/../controller/BaseController.php");
 */
 class UsuarioRegistradoController extends BaseController {
 	/**
-	* Reference to the UserMapper to interact
+	* Reference to the UsuarioRegistradoMapper to interact
 	* with the database
 	*
 	* @var UserMapper
