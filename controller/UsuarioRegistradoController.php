@@ -25,7 +25,7 @@ class UsuarioRegistradoController extends BaseController {
 		// Users controller operates in a "welcome" layout
 		// different to the "default" layout where the internal
 		// menu is displayed
-		//$this->view->setLayout("home");
+		$this->view->setLayout("home");
 	}
 	/**
 	* Action to login
@@ -62,7 +62,7 @@ class UsuarioRegistradoController extends BaseController {
 				$_SESSION["currentuser"]=$_POST["username"];
 			 	$_SESSION["currenttype"]=$usuario->getTipo();
 				// send user to the restricted area (HTTP 302 code)
-				$this->view->redirect("home", "index");
+				$this->view->redirect("enfrentamiento", "index");
 			}else{
 				$errors = array();
 				$errors["general"] = "Usuario no valido";

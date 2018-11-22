@@ -13,9 +13,7 @@ $tipoLiga = $view->getVariable("tipoLiga");
 //$currentuser = $view->getVariable("currentusername");
 $view->setVariable("title", "Enfrentamientos");
 
-if($enfrenParejas==null){
-  echo "null";
-}
+
 ?>
 <div class="row justify-content-md-center">
   <h5>Grupo:</h5>

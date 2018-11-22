@@ -2,25 +2,29 @@
 
 require_once(__DIR__."/../core/ValidationException.php");
 /**
+
 * @author Victor
 */
+class establecerPistas {
 
-class GestionarReservas {
-
-	
+	private $idPista;
 	private $fecha;
 	private $disponibilidad;
 	private $horarioIdPista;
 	private $hora;
 
-	public function __construct($fecha=NULL,  $disponibilidad=NULL,
-												$horarioIdPista=NULL, $hora=NULL) {
-	
+	public function __construct($idPista=NULL,  $fecha=NULL,  $disponibilidad=NULL,
+															$horarioIdPista=NULL, $hora=NULL) {
+		$this->idPista = $idPista;
 		$this->fecha = $fecha;
 		$this->disponibilidad = $disponibilidad;
-		$this->horarioIdPista = $horarioIdPista;
+		$this->horarioPista = $horarioIdPista;
 		$this->hora = $hora;
 	
+	}
+	
+	public function getIdPista() {
+		return $this->idPista;
 	}
 
 	public function getFecha() {
@@ -32,13 +36,15 @@ class GestionarReservas {
 	}
 	
 	public function getHorarioIdPista() {
-		return $this->horarioIdPista;
+		return $this->horarioPista;
 	}
 	public function getHora() {
 		return $this->hora;
 	}
 	
-
+	public function setPista($pista) {
+		$this->idPista = $pista;
+	}
 	public function setFecha($fech) {
 		$this->fecha = $fech;
 	}
@@ -52,5 +58,4 @@ class GestionarReservas {
 		$this->hora = $hora;
 	}
 	
-
 }

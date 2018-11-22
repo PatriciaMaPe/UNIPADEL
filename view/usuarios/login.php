@@ -6,7 +6,7 @@ $view->setVariable("title", "");
 $errors = $view->getVariable("errors");
 ?>
 
-<h1> Login </h1>
+<h1> Iniciar sesion </h1>
 
 <?php if($errors["general"]!=NULL): ?>
 <div class="alert alert-danger" role="alert">

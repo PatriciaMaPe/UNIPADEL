@@ -85,6 +85,19 @@ class Categoria {
 		return $this->maxParticipantes;
 	}
 
+	public function setIdCategoria($idCategoria) {
+			$this->idCategoria = $idCategoria;
+	}
+
+	public function setNivel($nivel) {
+			$this->nivel = $nivel;
+	}
+
+	public function setTipo($tipo) {
+			$this->tipo = $tipo;
+	}
+
+
 	/**
 	* Checks if the current user instance is valid
 	* for being registered in the database

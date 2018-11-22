@@ -10,7 +10,22 @@ $gruposCampeonatos = $view->getVariable("gruposCampeonatos");
 $currentuser = $view->getVariable("currentusername");
 $view->setVariable("title", "Resultados");
 
+$currentuser = $view->getVariable("currentuser");
+$currentype = $view->getVariable("currenttype");
+
+
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title><?= $view->getVariable("title", "home") ?></title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="css/style.css" type="text/css">
+	<?= $view->getFragment("css") ?>
+	<?= $view->getFragment("javascript") ?>
+</head>
+<body>
 
 <!-- Enfrentamientos -->
 <div class="table-responsive">
@@ -55,3 +70,8 @@ $view->setVariable("title", "Resultados");
   </tbody>
 
   </table>
+
+</main>
+
+</body>
+</html>

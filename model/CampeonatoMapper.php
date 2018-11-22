@@ -10,7 +10,6 @@ require_once(__DIR__."/../model/Categoria.php");
 *
 * Database interface for Post entities
 *
-* @author Patricia
 */
 class CampeonatoMapper {
 
@@ -71,92 +70,26 @@ class CampeonatoMapper {
 		}
 	}
 
-	/**
-	* Loads a Post from the database given its id
-	*
-	* It includes all the comments
-	*
-	* @throws PDOException if a database error occurs
-	* @return Post The Post instances (without comments). NULL
-	* if the Post is not found
-	*/
-	public function findByIdWithComments($postid){
-		$stmt = $this->db->prepare("SELECT
-			P.id as 'post.id',
-			P.title as 'post.title',
-			P.content as 'post.content',
-			P.author as 'post.author',
-			C.id as 'comment.id',
-			C.content as 'comment.content',
-			C.post as 'comment.post',
-			C.author as 'comment.author'
+	public function test($idCampeonato ) {
 
-			FROM posts P LEFT OUTER JOIN comments C
-			ON P.id = C.post
-			WHERE
-			P.id=? ");
+		$stmt = $this->db->prepare("SELECT idCampeonato FROM Campeonato");
+		$stmt->execute(array($idCampeonato));
+		$campeonatos_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-			$stmt->execute(array($postid));
-			$post_wt_comments= $stmt->fetchAll(PDO::FETCH_ASSOC);
+		$campeonato = array();
 
-			if (sizeof($post_wt_comments) > 0) {
-				$post = new Post($post_wt_comments[0]["post.id"],
-				$post_wt_comments[0]["post.title"],
-				$post_wt_comments[0]["post.content"],
-				new User($post_wt_comments[0]["post.author"]));
-				$comments_array = array();
-				if ($post_wt_comments[0]["comment.id"]!=null) {
-					foreach ($post_wt_comments as $comment){
-						$comment = new Comment( $comment["comment.id"],
-						$comment["comment.content"],
-						new User($comment["comment.author"]),
-						$post);
-						array_push($comments_array, $comment);
-					}
-				}
-				$post->setComments($comments_array);
-
-				return $post;
-			}else {
-				return NULL;
-			}
+		foreach ($campeonatos_db as $campeonato) {
+			array_push($campeonato, new Campeonato($campeonato["idCampeonato"]));
 		}
 
-		/**
-		* Saves a Post into the database
-		*
-		* @param Post $post The post to be saved
-		* @throws PDOException if a database error occurs
-		* @return int The mew post id
-		*/
-		public function save(Post $post) {
-			$stmt = $this->db->prepare("INSERT INTO posts(title, content, author) values (?,?,?)");
-			$stmt->execute(array($post->getTitle(), $post->getContent(), $post->getAuthor()->getUsername()));
-			return $this->db->lastInsertId();
-		}
+		return $campeonato;
+	}
 
-		/**
-		* Updates a Post in the database
-		*
-		* @param Post $post The post to be updated
-		* @throws PDOException if a database error occurs
-		* @return void
-		*/
-		public function update(Post $post) {
-			$stmt = $this->db->prepare("UPDATE posts set title=?, content=? where id=?");
-			$stmt->execute(array($post->getTitle(), $post->getContent(), $post->getId()));
-		}
+	public function save(Campeonato $campeonato) {
 
-		/**
-		* Deletes a Post into the database
-		*
-		* @param Post $post The post to be deleted
-		* @throws PDOException if a database error occurs
-		* @return void
-		*/
-		public function delete(Post $post) {
-			$stmt = $this->db->prepare("DELETE from posts WHERE id=?");
-			$stmt->execute(array($post->getId()));
-		}
+		$stmt = $this->db->prepare("INSERT INTO Campeonato(nombre, fechaInicio, fechaFin, fechaInicioInscripciones, fechaFinInscripciones, reglas) values (?,?,?,?,?,?)");
+		$stmt->execute(array($campeonato->getNombreCampeonato(),$campeonato->getFechaInicio(), $campeonato->getFechaFin(), $campeonato->getFechaInicioInscripciones(), $campeonato->getFechaFinInscripciones(), $campeonato->getReglas()));
+
+	}
 
 	}

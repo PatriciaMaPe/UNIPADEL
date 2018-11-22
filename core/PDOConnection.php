@@ -3,7 +3,7 @@
 
 class PDOConnection {
 	private static $dbhost = "localhost";
-	private static $dbname = "unipadel";
+	private static $dbname = "unipadelbd";
 	private static $dbuser = "root";
 	private static $dbpass = "";
 	private static $db_singleton = null;

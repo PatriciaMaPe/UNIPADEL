@@ -55,12 +55,14 @@ class EnfrentamientoController extends BaseController {
 		if (!isset($this->currentUser)) {
 			$this->view->render("usuarios", "login");
 		}else{
+			if($this->currentUser->getTipo()!='admin'){
+
+			}
+
 		// obtain the data from the database
 		$gruposCampeonatos = $this->grupoMapper->findAll();
-
 		// put the array containing Post object to the view
 		$this->view->setVariable("gruposCampeonatos", $gruposCampeonatos, false);
-
 		// render the view (/view/enfrentamientos/index.php)
 		$this->view->render("enfrentamientos", "index");
 		}
@@ -96,13 +98,13 @@ class EnfrentamientoController extends BaseController {
 			$this->view->render("usuarios", "login");
 		}else{
 		if (!isset($_REQUEST["id"])) {
-			throw new Exception("A post id is mandatory");
+			throw new Exception("A id is mandatory");
 		}
 		if (!isset($_REQUEST["liga"])) {
-			throw new Exception("A post id is mandatory");
+			throw new Exception("A liga is mandatory");
 		}
 		if (!isset($_REQUEST["campeonato"])) {
-			throw new Exception("A post id is mandatory");
+			throw new Exception("A campeonato is mandatory");
 		}
 
 		$grupoId = $_REQUEST["id"];
