@@ -61,14 +61,16 @@ class EnfrentamientoMapper {
 	* @return mixed Array of Post instances (without comments)
 	*/
 	public function findAllParejas($grupoId, $tipoLiga) {
-		$stmt = $this->db->prepare("SELECT idPareja FROM Pareja WHERE GrupoidGrupo=? AND GrupotipoLiga=?");
+		$stmt = $this->db->prepare("SELECT idPareja, capitan, deportista FROM Pareja WHERE GrupoidGrupo=? AND GrupotipoLiga=?");
 		$stmt->execute(array($grupoId, $tipoLiga));
 		$parejas_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		$parejas = array();
 
 		foreach ($parejas_db as $pareja) {
-			array_push($parejas, new Pareja($pareja["idPareja"]));
+			array_push($parejas, new Pareja($pareja["idPareja"],
+														new UsuarioRegistrado($pareja["capitan"]),
+														new UsuarioRegistrado($pareja["deportista"])));
 		}
 
 		return $parejas;

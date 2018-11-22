@@ -40,10 +40,10 @@ class BaseController {
 
 		if(isset($_SESSION["currentuser"])) {
 
-			$this->currentUser = new User($_SESSION["currentuser"]);
+			$this->currentUser = new UsuarioRegistrado($_SESSION["currentuser"]);
 			//add current user to the view, since some views require it
 			$this->view->setVariable("currentusername",
-					$this->currentUser->getUsername());
+					$this->currentUser->getUsuario());
 		}
 	}
 }

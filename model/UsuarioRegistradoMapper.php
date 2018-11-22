@@ -2,6 +2,7 @@
 // file: model/UserMapper.php
 
 require_once(__DIR__."/../core/PDOConnection.php");
+require_once(__DIR__."/../model/UsuarioRegistrado.php");
 
 /**
 * Class UserMapper
@@ -53,8 +54,8 @@ class UsuarioRegistradoMapper {
 	* @return void
 	*/
 	public function save($user) {
-		$stmt = $this->db->prepare("INSERT INTO users values (?,?)");
-		$stmt->execute(array($user->getUsername(), $user->getPasswd()));
+		$stmt = $this->db->prepare("INSERT INTO UsuarioRegistrado values (?,?,?,?,?)");
+		$stmt->execute(array($user->getUsuario(), $user->getPassword(), $user->getNombre(),$user->getApellido(), $user->getTipo()));
 	}
 
 	/**
@@ -64,7 +65,7 @@ class UsuarioRegistradoMapper {
 	* @return boolean true if the username exists, false otherwise
 	*/
 	public function usernameExists($username) {
-		$stmt = $this->db->prepare("SELECT count(username) FROM users where username=?");
+		$stmt = $this->db->prepare("SELECT count(usuario) FROM UsuarioRegistrado where usuario=?");
 		$stmt->execute(array($username));
 
 		if ($stmt->fetchColumn() > 0) {
@@ -80,7 +81,7 @@ class UsuarioRegistradoMapper {
 	* @return boolean true the username/passwrod exists, false otherwise.
 	*/
 	public function isValidUser($username, $passwd) {
-		$stmt = $this->db->prepare("SELECT count(username) FROM users where username=? and passwd=?");
+		$stmt = $this->db->prepare("SELECT count(usuario) FROM UsuarioRegistrado where usuario=? and password=?");
 		$stmt->execute(array($username, $passwd));
 
 		if ($stmt->fetchColumn() > 0) {

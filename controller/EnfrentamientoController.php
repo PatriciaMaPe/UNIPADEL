@@ -53,10 +53,8 @@ class EnfrentamientoController extends BaseController {
 	*/
 	public function index() {
 		if (!isset($this->currentUser)) {
-			//throw new Exception("Necesitas iniciar sesion");
 			$this->view->render("usuarios", "login");
 		}else{
-
 		// obtain the data from the database
 		$gruposCampeonatos = $this->grupoMapper->findAll();
 
@@ -93,6 +91,10 @@ class EnfrentamientoController extends BaseController {
 	*
 	*/
 	public function view(){
+		if (!isset($this->currentUser)) {
+			//throw new Exception("Necesitas iniciar sesion");
+			$this->view->render("usuarios", "login");
+		}else{
 		if (!isset($_REQUEST["id"])) {
 			throw new Exception("A post id is mandatory");
 		}
@@ -125,7 +127,7 @@ class EnfrentamientoController extends BaseController {
 
 		// render the view (/view/enfrentamientos/view.php)
 		$this->view->render("enfrentamientos", "view");
-
+		}
 	}
 
 	//TODO desactivar boton de generar enfrentamientos una vez realizado

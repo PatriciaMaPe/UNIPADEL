@@ -61,7 +61,7 @@ class UsuarioRegistrado {
 	*
 	* @return string The username of this user
 	*/
-	public function getUsusario() {
+	public function getUsuario() {
 		return $this->usuario;
 	}
 

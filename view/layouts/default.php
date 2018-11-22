@@ -3,6 +3,7 @@
 
 $view = ViewManager::getInstance();
 $currentuser = $view->getVariable("currentusername");
+$currentype = $view->getVariable("currenttype");
 
 ?><!DOCTYPE html>
 <html>
@@ -87,6 +88,7 @@ $currentuser = $view->getVariable("currentusername");
 </head>
 <body>
 
+	<?php if($currentype=="admin"): ?>
 	<!-- Header -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="index.php?controller=home&amp;action=index">UNIPADEL</a>
@@ -98,7 +100,7 @@ $currentuser = $view->getVariable("currentusername");
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="index.php?controller=reservas&amp;action=index">Reservas<span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="index.php?controller=gestionarReservas&amp;action=index">Reservas<span class="sr-only">(current)</span></a>
         </li>
 
         <li class="nav-item dropdown">
@@ -108,7 +110,6 @@ $currentuser = $view->getVariable("currentusername");
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="index.php?controller=campeonato&amp;action=index">Crear campeonato</a>
             <a class="dropdown-item" href="index.php?controller=enfrentamiento&amp;action=index">Enfrentamientos</a>
-            <a class="dropdown-item" href="index.php?controller=enfrentamiento&amp;action=view">Resultados</a>
           </div>
         </li>
 
@@ -127,6 +128,47 @@ $currentuser = $view->getVariable("currentusername");
 
     </div>
   </nav>
+<?php else: ?>
+	<!-- Header Usuario deportista-->
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="index.php?controller=home&amp;action=index">UNIPADEL</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active">
+					<a class="nav-link" href="index.php?controller=gestionarReservas&amp;action=index">Reservas<span class="sr-only">(current)</span></a>
+				</li>
+
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Campeonatos
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="index.php?controller=campeonato&amp;action=index">Consultar campeonatos</a>
+						<a class="dropdown-item" href="index.php?controller=enfrentamiento&amp;action=index">Enfrentamientos</a>
+					</div>
+				</li>
+
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="index.php?controller=partidos&amp;action=index" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Partidos
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="index.php?controller=partidos&amp;action=index">Promocionar partido</a>
+					</div>
+				</li>
+
+				<li class="nav-item">
+					<a class="nav-link" href="index.php?controller=pistas&amp;action=index">Pistas</a>
+				</li>
+
+		</div>
+	</nav>
+<?php endif ?>
   <!-- /Header -->
 
 	<main>

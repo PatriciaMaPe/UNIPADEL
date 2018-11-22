@@ -3,13 +3,18 @@
 require_once(__DIR__."/../../core/ViewManager.php");
 $view = ViewManager::getInstance();
 $view->setVariable("title", "");
-
+$errors = $view->getVariable("errors");
 ?>
 
 <h1> Login </h1>
 
+<?php if($errors["general"]!=NULL): ?>
+<div class="alert alert-danger" role="alert">
+  <?= $errors["general"] ?>
+</div>
+<?php endif ?>
 
-<form action="index.php?controller=users&amp;action=login" method="POST">
+<form action="index.php?controller=usuarioRegistrado&amp;action=login" method="POST">
   <div class="form-group col-md-6">
     <label for="inputUsuario">Usuario</label>
     <input name="username" type="text" class="form-control" placeholder="Usuario">
@@ -25,4 +30,4 @@ $view->setVariable("title", "");
   </div>
 </form>
 
-<p>Not user? <a href="index.php?controller=users&amp;action=register"> Register here!</a></p>
+<p>Not user? <a href="index.php?controller=usuarioController&amp;action=register"> Register here!</a></p>

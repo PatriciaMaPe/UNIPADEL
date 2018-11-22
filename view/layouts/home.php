@@ -6,7 +6,7 @@ $view = ViewManager::getInstance();
 ?><!DOCTYPE html>
 <html>
 <head>
-	<title><?= $view->getVariable("title", "no title") ?></title>
+	<title><?= $view->getVariable("title", "home") ?></title>
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="css/style.css" type="text/css">
 	<?= $view->getFragment("css") ?>
@@ -14,7 +14,7 @@ $view = ViewManager::getInstance();
 </head>
 <body>
 	<header>
-		<h1><?= "Welcome to the Blog App!" ?></h1>
+		<h1 class="display-3 text-center"><?= "Bienvenido al Club UNIPADEL!" ?></h1>
 	</header>
 	<main>
 		<!-- flash message -->
@@ -22,11 +22,45 @@ $view = ViewManager::getInstance();
 			<?= $view->popFlash() ?>
 		</div>
 		<?= $view->getFragment(ViewManager::DEFAULT_FRAGMENT) ?>
+
+
+		    <!-- Cards -->
+		    <div id="noticias" class="container">
+					<div class="row justify-content-md-center">
+		  <div class="card col-sm-12 col-md-8 col-lg-5 col-xl-3" >
+		    <img class="card-img-top" src="../assets/padel1.jpg" alt="Card image cap">
+		    <div class="card-body">
+		      <h5 class="card-title">IV Campeonato</h5>
+		      <p class="card-text">Lorem ipsum dolor sit amet consectetur adipiscing, elit facilisi fusce varius sodales,
+		        aenean facilisis aliquet condimentum praesent.</p>
+		        <button type="button" class="btn btn-lg btn-block btn-light">Inscribirse</button>
+		    </div>
+		  </div>
+
+		  <div class="card col-sm-12 col-md-8 col-lg-5 col-xl-3">
+		    <img class="card-img-top" src="padel1.jpg" alt="Card image cap">
+		    <div class="card-body">
+		      <h5 class="card-title">Nuevos horarios de pistas</h5>
+		      <p class="card-text">Lorem ipsum dolor sit amet consectetur adipiscing, elit facilisi fusce varius sodales,
+		        aenean facilisis aliquet condimentum praesent. Lorem ipsum dolor sit amet consectetur adipiscing.Lorem ipsum dolor sit amet consectetur adipiscing.</p>
+		        <button type="button" class="btn btn-lg btn-block btn-light">Consultar horarios</button>
+		    </div>
+		  </div>
+
+		  <div class="card col-sm-12 col-md-8 col-lg-5 col-xl-3">
+		    <img class="card-img-top" src="../assets/padel1.jpg" alt="Card image cap">
+		    <div class="card-body">
+		      <h5 class="card-title">Abrimos nuevo centro de padel</h5>
+		      <p class="card-text">Lorem ipsum dolor sit amet consectetur adipiscing, elit facilisi fusce varius sodales,
+		        aenean facilisis aliquet condimentum praesent.</p>
+		        <button type="button" class="btn btn-lg btn-block btn-light">+ Informacion</button>
+		    </div>
+		  </div>
+
+		</div>
+		</div>
+		    <!-- /Cards -->
 	</main>
-	<footer>
-		<?php
-		include(__DIR__."/language_select_element.php");
-		?>
-	</footer>
+
 </body>
 </html>

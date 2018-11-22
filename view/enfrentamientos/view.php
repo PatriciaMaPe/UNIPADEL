@@ -17,21 +17,27 @@ if($enfrenParejas==null){
   echo "null";
 }
 ?>
+<div class="row justify-content-md-center">
+  <h5>Grupo:</h5>
+  <h5><?= $idGrupo ?></h5>
+</div>
+<div class="row justify-content-md-center">
+  <h5>Liga:</h5>
+  <h5><?= $tipoLiga ?></h5>
+</div>
 
-<h2><?= $idGrupo ?></h2>
-<h2><?= $tipoLiga ?></h2>
+
 <!-- Enfrentamientos -->
 <div class="table-responsive">
   <table class="table">
 
   <thead>
     <tr>
+      <th> # </th>
       <th> Parejas </th>
       <?php foreach ($parejas as $pareja): ?>
-        <th scope="col"> <?= htmlentities($pareja->getIdPareja()) ?> </th>
+        <th scope="col"><?= $pareja->getCapitan()->getUsuario() ?>-<?= $pareja->getDeportista()->getUsuario() ?> </th>
       <?php endforeach; ?>
-      <th>Resultado</th>
-      <th> Acciones </th>
     </tr>
   </thead>
 
@@ -41,7 +47,9 @@ if($enfrenParejas==null){
     <?php foreach ($enfrenParejas as $enfrentamientoPareja): ?>
       <tr>
         <?php $contColumna=0; ?>
-        <td> <?= $parejas[$contPareja]->getIdPareja(); ?> </td>
+        <td> <?= $parejas[$contPareja]->getIdPareja(); ?></td>
+
+        <td> <?= $parejas[$contPareja]->getCapitan()->getUsuario(); ?> <br> <?= $parejas[$contPareja]->getDeportista()->getUsuario(); ?></td>
         <!-- col resultado -->
         <?php foreach ($enfrentamientoPareja as $enfrentamiento): ?>
             <?php if($enfrentamiento->getPareja1()->getIdPareja() == $enfrentamiento->getPareja2()->getIdPareja()): ?>
@@ -70,11 +78,7 @@ if($enfrenParejas==null){
       <?php endforeach; ?>
 
       <?php $contPareja++;?>
-      <td><?= $enfrentamiento->getResultado(); ?></td>
-      <td>
-        <a class="add" title="Add" data-toggle="tooltip" >Add</a>
-        <a class="edit" title="Edit" data-toggle="tooltip">Edit</a>
-      </td>
+
         </tr>
 
 

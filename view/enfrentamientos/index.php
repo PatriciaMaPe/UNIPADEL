@@ -7,7 +7,7 @@ $view = ViewManager::getInstance();
 
 $gruposCampeonatos = $view->getVariable("gruposCampeonatos");
 
-//$currentuser = $view->getVariable("currentusername");
+$currentuser = $view->getVariable("currentusername");
 $view->setVariable("title", "Resultados");
 
 ?>
