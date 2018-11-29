@@ -10,7 +10,7 @@ require_once(__DIR__."/../core/ViewManager.php");
 require_once(__DIR__."/../controller/BaseController.php");
 
 class CampeonatoController extends BaseController {
-
+    //probamos esto a ver si funcioona
     private $campeonatoMapper;
     private $categoriaMapper;
 
