@@ -43,13 +43,15 @@ class EnfrentamientoController extends BaseController {
 	*
 	*/
 	public function index() {
+		//var_dump($_SESSION["currentuser"]);
+		//die;
 		if (!isset($this->currentUser)) {
 			$this->view->render("usuarios", "login");
 		}else{
 			if($this->currentUser->getTipo()!='admin'){
 
-			}
-
+		}
+	
 		// obtain the data from the database
 		$gruposCampeonatos = $this->grupoMapper->findAll();
 		// put the array containing Post object to the view

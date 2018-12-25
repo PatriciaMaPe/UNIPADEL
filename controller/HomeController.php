@@ -24,8 +24,12 @@ class HomeController extends BaseController {
  	*
 	*/
 	public function index() {
+		if(isset($_SESSION["currentuser"])){
+			$this->view->render("layouts", "home");
+		}else{
+			$this->view->redirect("usuarioRegistrado", "login");
+		}
 
-		$this->view->render("layouts", "home");
 
 	}
 

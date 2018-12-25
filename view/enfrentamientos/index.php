@@ -12,6 +12,8 @@ $view->setVariable("title", "Resultados");
 
 $currentuser = $view->getVariable("currentuser");
 $currentype = $view->getVariable("currenttype");
+$currentuser = $_SESSION["currentuser"];
+$currenttype = $_SESSION["currenttype"];
 
 
 ?>
@@ -59,8 +61,10 @@ $currentype = $view->getVariable("currenttype");
 
 
         <a href="index.php?controller=enfrentamiento&amp;action=view&amp;id=<?= $grupo->getIdGrupo(); ?>&amp;liga=<?= $grupo->getTipoLiga(); ?>&amp;campeonato=<?= $grupo->getCampeonato()->getIdCampeonato(); ?>">Consultar</a>
-        <a href="index.php?controller=enfrentamiento&amp;action=generarEnfrentamientos&amp;id=<?= $grupo->getIdGrupo(); ?>&amp;liga=<?= $grupo->getTipoLiga(); ?>&amp;campeonato=<?= $grupo->getCampeonato()->getIdCampeonato(); ?>&amp;categoria=<?= $grupo->getCategoria()->getIdCategoria(); ?>">Enfrentar</a>
-        <a href="index.php?controller=enfrentamiento&amp;action=generarRanking&amp;id=<?= $grupo->getIdGrupo(); ?>&amp;liga=<?= $grupo->getTipoLiga(); ?>&amp;campeonato=<?= $grupo->getCampeonato()->getIdCampeonato(); ?>&amp;categoria=<?= $grupo->getCategoria()->getIdCategoria(); ?>">Ranking</a>
+				<?php if(isset($currenttype) == "admin"): ?>
+				<a href="index.php?controller=enfrentamiento&amp;action=generarEnfrentamientos&amp;id=<?= $grupo->getIdGrupo(); ?>&amp;liga=<?= $grupo->getTipoLiga(); ?>&amp;campeonato=<?= $grupo->getCampeonato()->getIdCampeonato(); ?>&amp;categoria=<?= $grupo->getCategoria()->getIdCategoria(); ?>">Enfrentar</a>
+				<?php endif ?>
+				<a href="index.php?controller=enfrentamiento&amp;action=generarRanking&amp;id=<?= $grupo->getIdGrupo(); ?>&amp;liga=<?= $grupo->getTipoLiga(); ?>&amp;campeonato=<?= $grupo->getCampeonato()->getIdCampeonato(); ?>&amp;categoria=<?= $grupo->getCategoria()->getIdCategoria(); ?>">Ranking</a>
 
       </td>
 

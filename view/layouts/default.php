@@ -3,9 +3,9 @@
 
 $view = ViewManager::getInstance();
 
-$currentuser = $view->getVariable("currentuser");
-$currentype = $view->getVariable("currenttype");
-
+$currentuser = $_SESSION["currentuser"];
+$currentype = $_SESSION["currenttype"];
+var_dump($_SESSION["currentuser"]);
 
 ?><!DOCTYPE html>
 <html>
@@ -127,6 +127,19 @@ $currentype = $view->getVariable("currenttype");
         <li class="nav-item">
           <a class="nav-link" href="index.php?controller=pistas&amp;action=index">Pistas</a>
         </li>
+				</ul>
+
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	            <?= $currentuser ?>
+	          </a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+	            <a class="dropdown-item" href="index.php?controller=usuarioRegistrado&amp;action=logout">Logout</a>
+
+	          </div>
+					</li>
+			</ul>
 
     </div>
   </nav>

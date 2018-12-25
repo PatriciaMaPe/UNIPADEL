@@ -2,7 +2,7 @@
 //file: view/users/login.php
 require_once(__DIR__."/../../core/ViewManager.php");
 $view = ViewManager::getInstance();
-$view->setVariable("title", "");
+$view->setVariable("title", "inicio de sesion");
 $errors = $view->getVariable("errors");
 ?>
 

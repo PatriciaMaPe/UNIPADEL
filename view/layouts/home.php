@@ -9,7 +9,7 @@ $view = ViewManager::getInstance();
 //var_dump($currentuser);
 //var_dump($currentype);
 $errors = $view->getVariable("errors");
-
+$view->setVariable("title", "home");
 ?><!DOCTYPE html>
 <html>
 <head>
@@ -31,14 +31,14 @@ $errors = $view->getVariable("errors");
 			<?= $view->popFlash() ?>
 		</div>
 
-
+<!--
 		<h1> Iniciar sesion </h1>
 
-		<?php if($errors["general"]!=NULL): ?>
+		 <?php if($errors["general"]!=NULL): ?>
 		<div class="alert alert-danger" role="alert">
 		  <?= $errors["general"] ?>
 		</div>
-		<?php endif ?>
+		 <?php endif ?>
 
 		<form action="index.php?controller=usuarioRegistrado&amp;action=login" method="POST">
 		  <div class="form-group col-md-6">
@@ -57,9 +57,9 @@ $errors = $view->getVariable("errors");
 		</form>
 
 		<p>Not user? <a href="index.php?controller=usuarioController&amp;action=register"> Register here!</a></p>
+-->
 
 
-		    <!--
 		    <div id="noticias" class="container">
 					<div class="row justify-content-md-center">
 		  <div class="card col-sm-12 col-md-8 col-lg-5 col-xl-3" >
@@ -94,7 +94,7 @@ $errors = $view->getVariable("errors");
 
 		</div>
 		</div>
-		    /Cards -->
+
 	</main>
 
 </body>

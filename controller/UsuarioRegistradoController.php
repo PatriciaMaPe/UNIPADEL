@@ -25,8 +25,20 @@ class UsuarioRegistradoController extends BaseController {
 		// Users controller operates in a "welcome" layout
 		// different to the "default" layout where the internal
 		// menu is displayed
-		$this->view->setLayout("home");
+		//$this->view->setLayout("home");
 	}
+
+
+	public function index() {
+
+		if(isset($_SESSION["currentuser"])){
+			$this->view->redirect("home", "index");
+		}else{
+			$this->view->redirect("usuarioRegistrado", "login");
+		}
+
+	}
+
 	/**
 	* Action to login
 	*
@@ -55,19 +67,19 @@ class UsuarioRegistradoController extends BaseController {
 	* @return void
 	*/
 	public function login() {
+
 		if (isset($_POST["username"])){ // reaching via HTTP Post...
 			//process login form
 			if ($this->userMapper->isValidUser($_POST["username"],$_POST["passwd"])) {
 				$usuario = $this->userMapper->findById($_POST["username"]);
 				$_SESSION["currentuser"]=$_POST["username"];
 			 	$_SESSION["currenttype"]=$usuario->getTipo();
-				// send user to the restricted area (HTTP 302 code)
-				$this->view->redirect("enfrentamiento", "index");
+				$this->view->redirect("home", "index");
 			}else{
 				$errors = array();
 				$errors["general"] = "Usuario no valido";
 				$this->view->setVariable("errors", $errors);
-				//$this->view->redirect("usuarioRegistrado", "login");
+				$this->view->redirect("usuarioRegistrado", "login");
 			}
 		}
 		// render the view (/view/usuarios/login.php)
@@ -158,6 +170,6 @@ class UsuarioRegistradoController extends BaseController {
 		// perform a redirection. More or less:
 		// header("Location: index.php?controller=users&action=login")
 		// die();
-		$this->view->redirect("users", "login");
+		$this->view->redirect("usuarioRegistrado", "login");
 	}
 }

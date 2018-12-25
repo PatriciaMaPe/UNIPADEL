@@ -25,12 +25,12 @@ class CampeonatoController extends BaseController {
         if (!isset($this->currentUser)) {
             $this->view->render("usuarios", "login");
         } else {
-            //if($this->currentUser->getTipo()!='admin'){
-            //$errors = array();
-            //$errors["general"] = "Usuario no valido para crear campeonatos";
-            //$this->view->setVariable("errors", $errors);
-            //$this->view->redirect("home", "index");
-            //}
+            if($this->currentUser->getTipo()!='admin'){
+              $errors = array();
+              $errors["general"] = "Usuario no valido para crear campeonatos";
+              $this->view->setVariable("errors", $errors);
+              $this->view->redirect("home", "index");
+            }
             $campeonatos = $this->campeonatoMapper->findAll();
             $this->view->setVariable("campeonatos", $campeonatos, false);
             $this->view->render("campeonato", "index");
@@ -84,7 +84,7 @@ class CampeonatoController extends BaseController {
                     try {
 
                         $campeonato->checkIsValidForCreate();
-                        
+
                         $this->campeonatoMapper->save($campeonato);
                         $this->categoriaMapper->save($categoria);
                     } catch (ValidationException $ex) {
@@ -110,16 +110,16 @@ class CampeonatoController extends BaseController {
 
                         $this->campeonatoMapper->save($campeonato);
                         $this->categoriaMapper->save($categoria);
-                        
+
                     } catch (ValidationException $ex) {
                         $errors = $ex->getErrors();
                         $this->view->setVariable("errors", $errors);
                     }
                 }
-                
+
                 $this->view->setFlash(sprintf("Campeonato \"%s\" añadido correctamente."), $campeonato->getNombreCampeonato());
                 $this->view->redirect("campeonato", "index");
-                
+
             } catch (ValidationException $ex) {
 
                 $errors = $ex->getErrors();
