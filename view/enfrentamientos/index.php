@@ -10,8 +10,6 @@ $gruposCampeonatos = $view->getVariable("gruposCampeonatos");
 $currentuser = $view->getVariable("currentusername");
 $view->setVariable("title", "Resultados");
 
-$currentuser = $view->getVariable("currentuser");
-$currentype = $view->getVariable("currenttype");
 $currentuser = $_SESSION["currentuser"];
 $currenttype = $_SESSION["currenttype"];
 
