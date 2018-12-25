@@ -3,9 +3,8 @@
 
 $view = ViewManager::getInstance();
 
-$currentuser = $_SESSION['currentuser'];
+$currentuser = $_SESSION["currentuser"];
 $currenttype = $_SESSION["currenttype"];
-var_dump($_SESSION["currentuser"]);
 
 ?><!DOCTYPE html>
 <html>
