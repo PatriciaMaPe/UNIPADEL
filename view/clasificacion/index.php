@@ -25,7 +25,8 @@ $view->setVariable("title", "Clasificacion");
   <tbody>
     <?php foreach ($clasificaciones as $clasificacion): ?>
       <tr>
-        <td> <?= $clasificacion->getPareja()->getIdPareja(); ?></td>
+        <td> <?= $clasificacion->getPareja()->getCapitan()->getUsuario(); ?>
+        - <?= $clasificacion->getPareja()->getDeportista()->getUsuario(); ?></td>
         <td> <?= $clasificacion->getResultado();?></td>
       </tr>
     <?php endforeach; ?>

@@ -23,7 +23,17 @@ class ParejaMapper {
 		$this->db = PDOConnection::getInstance();
 	}
 
+	public function getUsuariosPareja($idPareja){
+		$stmt = $this->db->prepare("SELECT capitan, deportista from Pareja where idPareja=?");
+		$stmt->execute(array($idPareja));
+		$pareja_db = $stmt->fetch(PDO::FETCH_ASSOC);
 
+		$pareja= array();
+		array_push($pareja, $pareja_db['capitan']);
+		array_push($pareja, $pareja_db['deportista']);
+
+		return $pareja;
+	}
 
 	public function generarEnfrentamientosRegular($grupoId,$campeonatoId, $categoriaId){
 		//Comprobacion numero minimo de participantes: Regular->minimo de 8 participantes
@@ -74,16 +84,17 @@ class ParejaMapper {
 			$this->borrarClasificacion($campeonatoId, $tipoLiga);
 		}
 
-		$grupoid = $this->crearGrupo($campeonatoId, $categoriaId, 'cuartos');
+		//$grupoid = $this->crearGrupo($campeonatoId, $categoriaId, 'cuartos');
 		//Devuelve parejas y su grupo en el campeonato
-		$stmt = $this->db->prepare("SELECT idPareja, GrupoidGrupo FROM Pareja, Grupo
-			WHERE GrupoidGrupo=idGrupo AND GrupotipoLiga='regular' AND Grupo.Campeonato_CategoriaCampeonatoidCampeonato=?");
-		$stmt->execute(array($campeonatoId));
+		$stmt = $this->db->prepare("SELECT distinct(idPareja), GrupoidGrupo FROM Pareja, Grupo
+			WHERE GrupoidGrupo=? AND GrupotipoLiga=? AND Grupo.Campeonato_CategoriaCampeonatoidCampeonato=?");
+		$stmt->execute(array($grupoId,'regular',$campeonatoId));
 		$parejas_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+		//Comprueba si existe el campeonato regular del grupo en alguna clasificacion
 		$stmt = $this->db->prepare("SELECT CampeonatoidCampeonato FROM Clasificacion
-			WHERE CampeonatoidCampeonato=? AND GrupotipoLiga ='regular'");
-		$stmt->execute(array($campeonatoId));
+			WHERE CampeonatoidCampeonato=? AND GrupotipoLiga ='regular' AND GrupoidGrupo=?");
+		$stmt->execute(array($campeonatoId,'regular',$grupoId));
 		$clasificacion_db = $stmt->fetch(PDO::FETCH_ASSOC);
 
 		if($clasificacion_db==NULL){

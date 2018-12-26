@@ -434,7 +434,26 @@ INSERT INTO `UsuarioRegistrado` (`usuario`, `password`, `nombre`, `apellido`, `t
 ('miguel', 'purple', 'Miguel', 'Sanchez', 'deportista'),
 ('pepe', 'purple', 'Pepito', 'Grillo', 'deportista'),
 ('pmperez', 'purple', 'Patricia', 'Martin', 'deportista'),
-('vfvarela', 'purple', 'Victor', 'Fernandez', 'deportista');
+('vfvarela', 'purple', 'Victor', 'Fernandez', 'deportista'),
+('pep', 'pep', 'Pepi', 'Grill', 'deportista'),
+('ipereira', 'ipereira', 'Ismael', 'Pereira', 'deportista'),
+('maria', 'maria', 'Maria', 'Sanchez', 'deportista'),
+('sara', 'sara', 'Sara', 'Fernandez', 'deportista'),
+('pperez', 'pperez', 'Pablo', 'Perez', 'deportista'),
+('irerra', 'irerra', 'Iris', 'Herrera', 'deportista'),
+('vvarela', 'vvarela', 'Vlas', 'Varela', 'deportista'),
+('marie', 'marie', 'Maria', 'Lopez', 'deportista'),
+('elna', 'elna', 'Elena', 'Vila', 'deportista'),
+('ala', 'ala', 'Ana', 'Alvarez', 'deportista'),
+('mguel', 'mguel', 'Miguel', 'Martin', 'deportista'),
+('lau', 'lau', 'Laura', 'Lopez', 'deportista'),
+('pp', 'pp', 'Paula', 'Perez', 'deportista'),
+('bet', 'bet', 'Bella', 'Torres', 'deportista'),
+('pereira', 'pereira', 'Maria', 'Pereira', 'deportista'),
+('jan', 'jan', 'Juan', 'Santiago', 'deportista'),
+('mria', 'mria', 'Maria', 'Santiago', 'deportista'),
+('lea', 'lea', 'Lara', 'Santalla', 'deportista'),
+('ara', 'ara', 'Ana', 'Rodriguez', 'deportista');
 --
 -- Volcado de datos para la tabla `Campeonato`
 --

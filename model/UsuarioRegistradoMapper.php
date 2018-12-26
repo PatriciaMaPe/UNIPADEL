@@ -30,10 +30,11 @@ class UsuarioRegistradoMapper {
 	* @return Post La instancia Usuario. NULL si no se encuentra el usuario
 	*/
 	public function findById($nombreUsuario){
+
 		$stmt = $this->db->prepare("SELECT * FROM UsuarioRegistrado WHERE usuario=?");
 		$stmt->execute(array($nombreUsuario));
 		$usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-
+		
 		if($usuario != null) {
 			return new UsuarioRegistrado(
 			$usuario["usuario"],

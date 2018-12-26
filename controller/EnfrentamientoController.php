@@ -51,7 +51,7 @@ class EnfrentamientoController extends BaseController {
 			if($this->currentUser->getTipo()!='admin'){
 
 		}
-	
+
 		// obtain the data from the database
 		$gruposCampeonatos = $this->grupoMapper->findAll();
 		// put the array containing Post object to the view
@@ -158,9 +158,10 @@ class EnfrentamientoController extends BaseController {
 		$tipoLiga = $_REQUEST["liga"];
 		$campeonatoId = $_REQUEST["campeonato"];
 		$categoriaId = $_REQUEST["categoria"];
+
 		if($tipoLiga=='regular'){
 			$lastInsert = $this->parejaMapper->generarRankingRegular($grupoId,$campeonatoId, $categoriaId, $tipoLiga);
-			$clasificacion = $this->clasificacionMapper->findByLigaCampeonato($campeonatoId, $tipoLiga);
+			$clasificacion = $this->clasificacionMapper->findByLigaCampeonato($campeonatoId, $tipoLiga, $grupoId);
 
 			$this->view->setVariable("clasificacion", $clasificacion, false);
 			// render the view (/view/enfrentamientos/view.php)
