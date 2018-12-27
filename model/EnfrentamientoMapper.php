@@ -72,9 +72,10 @@ class EnfrentamientoMapper {
 	public function findByIdPareja($grupoId, $tipoLiga){
 		$parejas = $this->findAllParejas($grupoId, $tipoLiga);
 		$enfrentamientos = array();
-
+		
 		foreach ($parejas as $pareja) {
 			$pareja1Id = $pareja->getIdPareja();
+
 			$stmt = $this->db->prepare("SELECT * FROM Enfrentamiento WHERE GrupoidGrupo=? AND GrupotipoLiga=?
 				AND ParejaidPareja1=? ORDER BY ParejaidPareja2");
 			$stmt->execute(array($grupoId, $tipoLiga, $pareja1Id));
@@ -83,6 +84,7 @@ class EnfrentamientoMapper {
 			$enfrentamientosPareja = array();
 
 			foreach ($enfrentamientoPareja1_db as $enfrentamiento) {
+				//var_dump($enfrentamiento);
 				$pareja1 = new Pareja($enfrentamiento["ParejaidPareja1"]);
 				$pareja2 = new Pareja($enfrentamiento["ParejaidPareja2"]);
 				array_push($enfrentamientosPareja, new Enfrentamiento($enfrentamiento["idEnfrentamiento"],

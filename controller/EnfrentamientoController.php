@@ -91,7 +91,6 @@ class EnfrentamientoController extends BaseController {
 		$enfrentamientosParejas = $this->enfrentamientoMapper->findByIdPareja($grupoId, $tipoLiga, $campeonato);
 		$parejas = $this->enfrentamientoMapper->findAllParejas($grupoId, $tipoLiga);
 
-
 		if($enfrentamientosParejas==NULL){
 			throw new Exception("No se han realizado los enfrentamientos");
 		}
@@ -169,7 +168,7 @@ class EnfrentamientoController extends BaseController {
 
 		} elseif ($tipoLiga=='cuartos') {
 			$lastInsert = $this->parejaMapper->generarRankingCuartos($grupoId, $campeonatoId, $categoriaId, $tipoLiga);
-			$clasificacion = $this->clasificacionMapper->findByLigaCampeonato($campeonatoId, $tipoLiga);
+			$clasificacion = $this->clasificacionMapper->findByLigaCampeonato($campeonatoId, $tipoLiga, $grupoId);
 
 			$this->view->setVariable("clasificacion", $clasificacion, false);
 			// render the view (/view/enfrentamientos/view.php)

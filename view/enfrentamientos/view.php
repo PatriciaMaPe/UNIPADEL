@@ -22,8 +22,8 @@ $view->setVariable("title", "Enfrentamientos");
   <h5><?= $tipoLiga ?></h5>
 </div>
 
-
-<!-- Enfrentamientos -->
+<?php if ($tipoLiga=='regular'): ?>
+<!-- Enfrentamientos Regular -->
 <div class="table-responsive">
   <table class="table">
 
@@ -39,7 +39,6 @@ $view->setVariable("title", "Enfrentamientos");
 
   <tbody>
     <?php $contPareja=0; ?>
-
     <?php foreach ($enfrenParejas as $enfrentamientoPareja): ?>
       <tr>
         <?php $contColumna=0; ?>
@@ -70,21 +69,67 @@ $view->setVariable("title", "Enfrentamientos");
 
               <?php endif; ?>
             <?php $contColumna++;?>
-
       <?php endforeach; ?>
-
       <?php $contPareja++;?>
-
         </tr>
-
-
     <?php endforeach; ?>
-
-
       </tbody>
-
       </table>
+</div>
+    <!-- /Enfrentamientos Regular -->
+<?php else: ?>
+    <!-- Enfrentamientos Resto Ligas -->
+    <div class="table-responsive">
+      <table class="table">
 
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Pareja 1</th>
+            <th scope="col">#</th>
+            <th scope="col">Pareja 2</th>
+            <th scope="col">Resultado</th>
+          </tr>
+        </thead>
+
+      <tbody>
+<?php $contPareja=0; ?>
+<?php $contPareja2=(sizeof($parejas)-1); ?>
+<?php foreach ($enfrenParejas as $enfrentamientos):?>
+    <?php foreach ($enfrentamientos as $enfrentamiento):?>
+          <tr>
+
+              <td>  <?= $enfrentamiento->getPareja1()->getIdPareja() ?></td>
+                <td>  <?= $parejas[$contPareja]->getCapitan()->getUsuario() ?></td>
+              <td>  <?= $enfrentamiento->getPareja2()->getIdPareja() ?></td>
+              <td>  <?= $parejas[$contPareja2]->getCapitan()->getUsuario() ?></td>
+              <td>
+                    <a data-target="#exampleModal" data-toggle="modal"
+                      data-pareja1="<?= $enfrentamiento->getPareja1()->getIdPareja() ?>"
+                      data-pareja2="<?= $enfrentamiento->getPareja2()->getIdPareja() ?>"
+                      data-set1="<?= $enfrentamiento->getSet1(); ?>"
+                      data-set2="<?= $enfrentamiento->getSet2(); ?>"
+                      data-set3="<?= $enfrentamiento->getSet3(); ?>"
+                      data-grupo="<?= $idGrupo ?>"
+                      data-liga="<?= $tipoLiga ?>"
+                      >
+                      <?= $enfrentamiento->getSet1(); ?> /
+                      <?= $enfrentamiento->getSet2(); ?> /
+                      <?= $enfrentamiento->getSet3(); ?>
+                    </a>
+              </td>
+
+
+            </tr>
+              <?php endforeach; ?>
+              <?php $contPareja++;?>
+              <?php $contPareja2--;?>
+              <?php endforeach; ?>
+          </tbody>
+          </table>
+    </div>
+    <!-- /Enfrentamientos Resto Ligas -->
+<?php endif; ?>
     <!-- Modal -->
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -123,6 +168,7 @@ $view->setVariable("title", "Enfrentamientos");
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
             <button type="submit" class="btn btn-primary">Modificar resultados</button>
           </div>
+        </div>
         </form>
       </div>
 

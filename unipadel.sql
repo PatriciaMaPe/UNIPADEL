@@ -251,7 +251,6 @@ ALTER TABLE `Enfrentamiento`
 --
 ALTER TABLE `Grupo`
   ADD PRIMARY KEY (`idGrupo`,`tipoLiga`),
-  ADD UNIQUE KEY `idGrupo` (`idGrupo`),
   ADD KEY `FKGrupo875320` (`Campeonato_CategoriaCampeonatoidCampeonato`,`Campeonato_CategoriaCategoriaidCategoria`);
 
 --
@@ -265,8 +264,6 @@ ALTER TABLE `Horario`
 --
 ALTER TABLE `Pareja`
   ADD PRIMARY KEY (`idPareja`),
-  ADD UNIQUE KEY `capitan` (`capitan`),
-  ADD UNIQUE KEY `deportista` (`deportista`),
   ADD KEY `FKPareja602943` (`GrupoidGrupo`,`GrupotipoLiga`);
 
 --
@@ -492,7 +489,6 @@ INSERT INTO `Campeonato_Categoria` (`CampeonatoidCampeonato`, `CategoriaidCatego
 INSERT INTO `Grupo` (`idGrupo`, `tipoLiga`, `Campeonato_CategoriaCampeonatoidCampeonato`, `Campeonato_CategoriaCategoriaidCategoria`) VALUES
 (1, 'regular', 1, 1),
 (2, 'regular', 1, 1),
-(3, 'cuartos', 1, 1),
 (4, 'regular', 3, 3);
 
 

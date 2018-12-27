@@ -43,7 +43,7 @@ class ParejaMapper {
 			minimo 8 participantes, hay " . $numParticipantes);
 		}
 
-		$numEnfrentamientos = $this->combrobarEnfrentamientos($grupoId);
+		$numEnfrentamientos = $this->combrobarEnfrentamientos($grupoId, 'regular');
 		if($numEnfrentamientos>0){
 			throw new Exception("Ya se han realizado los enfrentamientos del grupo: " . $grupoId);
 		}
@@ -84,7 +84,7 @@ class ParejaMapper {
 			$this->borrarClasificacion($campeonatoId, $tipoLiga);
 		}
 
-		//$grupoid = $this->crearGrupo($campeonatoId, $categoriaId, 'cuartos');
+		$grupoid = $this->crearGrupo($grupoId,$campeonatoId, $categoriaId, 'cuartos');
 		//Devuelve parejas y su grupo en el campeonato
 		$stmt = $this->db->prepare("SELECT distinct(idPareja), GrupoidGrupo FROM Pareja, Grupo
 			WHERE GrupoidGrupo=? AND GrupotipoLiga=? AND Grupo.Campeonato_CategoriaCampeonatoidCampeonato=?");
@@ -119,13 +119,13 @@ class ParejaMapper {
  //TODO comprobar que se ha finalizado la liga regular
  //TODO generar nuevas parejas
 	public function generarEnfrentamientosCuartos($grupoId, $campeonatoId, $categoriaId){
-		$numEnfrentamientos = $this->combrobarEnfrentamientos($grupoId);
+		$numEnfrentamientos = $this->combrobarEnfrentamientos($grupoId, 'cuartos');
 		if($numEnfrentamientos>0){
 			throw new Exception("Ya se han realizado los enfrentamientos del grupo: " . $grupoId);
 		}
 		$stmt = $this->db->prepare("SELECT ParejaidPareja FROM Clasificacion
-			WHERE CampeonatoidCampeonato=? AND GrupotipoLiga='regular' ORDER BY resultado DESC");
-		$stmt->execute(array($campeonatoId));
+			WHERE CampeonatoidCampeonato=? AND GrupotipoLiga=? AND GrupoidGrupo=? ORDER BY resultado DESC");
+		$stmt->execute(array($campeonatoId, 'regular', $grupoId));
 		$parejas_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		$parejas= array();
@@ -144,22 +144,33 @@ class ParejaMapper {
 		}
 
 		//insertar las parejeas en cuartos
-		$grupoid = $this->crearGrupo($campeonatoId, $categoriaId, 'cuartos');
-		$this->insertar($parejas, $grupoid, 'cuartos');
+		//$grupoid = $this->crearGrupo($campeonatoId, $categoriaId, 'cuartos');
+		$this->insertar($parejas, $grupoId, 'cuartos');
+
+		$stmt = $this->db->prepare("SELECT idPareja FROM Pareja
+			WHERE  GrupotipoLiga=? AND GrupoidGrupo=?");
+		$stmt->execute(array('cuartos', $grupoId));
+		$parejas_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		$parejasC= array();
+		foreach ($parejas_db as $par) {
+			$pareja = new Pareja($par["idPareja"]);
+			array_push($parejasC, $pareja);
+		}
 
 		$stmt = $this->db->prepare("INSERT INTO Enfrentamiento(ParejaidPareja1, ParejaidPareja2,
 		resultado, set1, set2, set3, GrupoidGrupo, GrupotipoLiga) VALUES (?,?,?,?,?,?,?,?)");
 
+
 		for($i=0; $i<4;$i++) {
-			$stmt->execute(array($parejasCuartos[$i]->getIdPareja(), $parejasCuartos[sizeof($parejasCuartos)-($i+1)]->getIdPareja(), 0, "-", "-", "-", $grupoid['idGrupo'], 'cuartos'));
-			$stmt->execute(array($parejasCuartos[sizeof($parejasCuartos)-($i+1)]->getIdPareja(), $parejasCuartos[$i]->getIdPareja(), 0, "-", "-", "-", $grupoid['idGrupo'], 'cuartos'));
+			$stmt->execute(array($parejasC[$i]->getIdPareja(), $parejasC[sizeof($parejasC)-($i+1)]->getIdPareja(), 0, "-", "-", "-", $grupoId, 'cuartos'));
+			$stmt->execute(array($parejasC[sizeof($parejasC)-($i+1)]->getIdPareja(), $parejasC[$i]->getIdPareja(), 0, "-", "-", "-", $grupoId, 'cuartos'));
 
 		}
 
 		return $this->db->lastInsertId();
 
 	}
-
 
 
 	//TODO mostrar pagina de clasificacion despues de generarla
@@ -169,7 +180,7 @@ class ParejaMapper {
 				$this->borrarClasificacion($campeonatoId, $tipoLiga);
 			}
 			//Creamos grupo para la proxima liga
-			$grupoid = $this->crearGrupo($campeonatoId, $categoriaId, 'semifinal');
+			$grupoid = $this->crearGrupo($grupoId, $campeonatoId, $categoriaId, 'semifinal');
 
 			$stmt = $this->db->prepare("SELECT ParejaidPareja1, resultado, Grupo.idGrupo FROM Enfrentamiento, Grupo
 				WHERE GrupotipoLiga='cuartos' AND Grupo.Campeonato_CategoriaCampeonatoidCampeonato = ?
@@ -213,21 +224,20 @@ class ParejaMapper {
 
 
 
-	public function crearGrupo($campeonatoId, $categoriaId, $tipoLiga){
+	public function crearGrupo($grupoId, $campeonatoId, $categoriaId, $tipoLiga){
 		$stmt = $this->db->prepare("SELECT idGrupo FROM Grupo
 			WHERE Campeonato_CategoriaCampeonatoidCampeonato=? AND Campeonato_CategoriaCategoriaidCategoria=?
-			AND  tipoLiga=?");
-		$stmt->execute(array($campeonatoId, $categoriaId, $tipoLiga));
+			AND  tipoLiga=? AND idGrupo=?");
+		$stmt->execute(array($campeonatoId, $categoriaId, $tipoLiga, $grupoId));
 		$grupoid_db = $stmt->fetch(PDO::FETCH_ASSOC);
 
 		if($grupoid_db==NULL){
-			$stmt = $this->db->prepare("INSERT INTO Grupo (tipoLiga, Campeonato_CategoriaCampeonatoidCampeonato,
-				Campeonato_CategoriaCategoriaidCategoria) VALUES (?,?,?);");
-			$stmt->execute(array($tipoLiga, $campeonatoId, $categoriaId));
+			$stmt = $this->db->prepare("INSERT INTO Grupo (idGrupo, tipoLiga, Campeonato_CategoriaCampeonatoidCampeonato,
+				Campeonato_CategoriaCategoriaidCategoria) VALUES (?,?,?,?);");
+			$stmt->execute(array($grupoId,$tipoLiga, $campeonatoId, $categoriaId));
 			$registro = $this->db->lastInsertId();
 		}
 
-		return $grupoid_db;
 	}
 
 	public function comprobarNumMinParticipantes($grupoId,$tipoLiga){
@@ -239,10 +249,10 @@ class ParejaMapper {
 		return $numParticipantes['count(idPareja)'];
 	}
 
-	public function combrobarEnfrentamientos($grupoId){
+	public function combrobarEnfrentamientos($grupoId, $tipoLiga){
 		$stmt = $this->db->prepare("SELECT count(GrupoidGrupo) FROM Enfrentamiento
-			WHERE GrupoidGrupo=?");
-		$stmt->execute(array($grupoId));
+			WHERE GrupoidGrupo=? AND GrupotipoLiga=?");
+		$stmt->execute(array($grupoId, $tipoLiga));
 		$numEnfrentamientos = $stmt->fetch(PDO::FETCH_ASSOC);
 
 		return $numEnfrentamientos['count(GrupoidGrupo)'];
@@ -263,7 +273,7 @@ class ParejaMapper {
 
 		foreach ($parejas as $pareja) {
 			$stmt = $this->db->prepare("SELECT * FROM Pareja WHERE idPareja=?");
-			$stmt->execute(array($pareja['idPareja']));
+			$stmt->execute(array($pareja['ParejaidPareja']));
 			$infoPareja = $stmt->fetch(PDO::FETCH_ASSOC);
 
 			$stmt = $this->db->prepare("INSERT INTO Pareja(capitan,
@@ -283,12 +293,12 @@ class ParejaMapper {
 	}
 
 
-	public function generarEnfrentamientosSemifinales($grupoId, $campeonatoId, $categoriaId, $tipoLiga){
-		$clasificacionSemiFinales = $this->combrobarRanking($campeonatoId, $tipoLiga);
+	public function generarEnfrentamientosSemifinales($grupoId, $campeonatoId, $categoriaId){
+		$clasificacionSemiFinales = $this->combrobarRanking($campeonatoId, 'semifinal');
 		if($clasificacionSemiFinales>0){
-			throw new Exception("Ya se han realizado la clasificacion ". $tipoLiga ." del campeonato: " . $campeonatoId);
+			throw new Exception("Ya se han realizado la clasificacion semifinales del campeonato: " . $campeonatoId);
 		}
-		$numEnfrentamientos = $this->combrobarEnfrentamientos($grupoId);
+		$numEnfrentamientos = $this->combrobarEnfrentamientos($grupoId, 'semifinal');
 		if($numEnfrentamientos>0){
 			throw new Exception("Ya se han realizado los enfrentamientos del grupo: " . $grupoId);
 		}
@@ -316,13 +326,25 @@ class ParejaMapper {
 			throw new Exception("No hay suficientes parejas para realizar las semifinales");
 		}
 
+		$this->insertar($parejas, $grupoId, 'semifinal');
+
+		$stmt = $this->db->prepare("SELECT idPareja FROM Pareja
+			WHERE  GrupotipoLiga=? AND GrupoidGrupo=?");
+		$stmt->execute(array('semifinales', $grupoId));
+		$parejas_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		$parejasS= array();
+		foreach ($parejas_db as $par) {
+			$pareja = new Pareja($par["idPareja"]);
+			array_push($parejasS, $pareja);
+		}
 
 		$stmt = $this->db->prepare("INSERT INTO Enfrentamiento(ParejaidPareja1, ParejaidPareja2,
 		resultado, set1, set2, set3, GrupoidGrupo, GrupotipoLiga) values (?,?,?,?,?,?,?,?)");
-
+		var_dump($parejasS);
 		for($i=0; $i<2;$i++) {
-			$stmt->execute(array($parejasSemifinales[$i]->getIdPareja(), $parejasSemifinales[sizeof($parejasSemifinales)-($i+1)]->getIdPareja(), 0, "-", "-", "-", $grupoId, 'semifinal'));
-			$stmt->execute(array($parejasSemifinales[sizeof($parejasSemifinales)-($i+1)]->getIdPareja(), $parejasSemifinales[$i]->getIdPareja(), 0, "-", "-", "-", $grupoId, 'semifinal'));
+			$stmt->execute(array($parejasS[$i]->getIdPareja(), $parejasS[sizeof($parejasS)-($i+1)]->getIdPareja(), 0, "-", "-", "-", $grupoId, 'semifinal'));
+			$stmt->execute(array($parejasS[sizeof($parejasS)-($i+1)]->getIdPareja(), $parejasS[$i]->getIdPareja(), 0, "-", "-", "-", $grupoId, 'semifinal'));
 
 		}
 
