@@ -77,7 +77,14 @@ $view->setVariable("title", "Enfrentamientos");
       </table>
 </div>
     <!-- /Enfrentamientos Regular -->
+
+
+
+
 <?php else: ?>
+
+
+
     <!-- Enfrentamientos Resto Ligas -->
     <div class="table-responsive">
       <table class="table">
@@ -100,9 +107,11 @@ $view->setVariable("title", "Enfrentamientos");
           <tr>
 
               <td>  <?= $enfrentamiento->getPareja1()->getIdPareja() ?></td>
-                <td>  <?= $parejas[$contPareja]->getCapitan()->getUsuario() ?></td>
+                <td>  <?= $parejas[$contPareja]->getCapitan()->getUsuario() ?>
+                <br> <?= $parejas[$contPareja]->getDeportista()->getUsuario() ?></td>
               <td>  <?= $enfrentamiento->getPareja2()->getIdPareja() ?></td>
-              <td>  <?= $parejas[$contPareja2]->getCapitan()->getUsuario() ?></td>
+              <td>  <?= $parejas[$contPareja2]->getCapitan()->getUsuario() ?>
+              <br> <?= $parejas[$contPareja2]->getDeportista()->getUsuario() ?></td>
               <td>
                     <a data-target="#exampleModal" data-toggle="modal"
                       data-pareja1="<?= $enfrentamiento->getPareja1()->getIdPareja() ?>"

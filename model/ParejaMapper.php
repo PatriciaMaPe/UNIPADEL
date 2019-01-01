@@ -189,8 +189,8 @@ class ParejaMapper {
 			$parejas_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 			$parejasSemifinales= array();
-			if(sizeof($parejas_db)>=4){
-				for($i=0; $i<4;$i++) {
+			if(sizeof($parejas_db)>=8){
+				for($i=0; $i<8;$i++) {
 					array_push($parejasSemifinales, $parejas_db[$i]);
 				}
 			}else{
@@ -330,7 +330,7 @@ class ParejaMapper {
 
 		$stmt = $this->db->prepare("SELECT idPareja FROM Pareja
 			WHERE  GrupotipoLiga=? AND GrupoidGrupo=?");
-		$stmt->execute(array('semifinales', $grupoId));
+		$stmt->execute(array('semifinal', $grupoId));
 		$parejas_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		$parejasS= array();
@@ -354,11 +354,12 @@ class ParejaMapper {
 
 	//TODO mostrar pagina de clasificacion despues de generarla
 		public function generarRankingSemifinales($grupoId, $campeonatoId, $categoriaId){
-			if($clasificacionRegular>0){
+			$clasificacionSemifinal = $this->combrobarRanking($campeonatoId, $tipoLiga);
+			if($clasificacionSemifinal>0){
 				$this->borrarClasificacion($campeonatoId, $tipoLiga);
 			}
 			//Creamos grupo para la proxima liga
-			$grupoid = $this->crearGrupo($campeonatoId, $categoriaId, 'final');
+			$grupoid = $this->crearGrupo($grupoId, $campeonatoId, $categoriaId, 'final');
 
 			$stmt = $this->db->prepare("SELECT ParejaidPareja1, resultado, Grupo.idGrupo FROM Enfrentamiento, Grupo
 				WHERE GrupotipoLiga='semifinal' AND Grupo.Campeonato_CategoriaCampeonatoidCampeonato = ?
@@ -366,19 +367,19 @@ class ParejaMapper {
 			$stmt->execute(array($campeonatoId));
 			$parejas_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-			$parejasFinal= array();
-			if(sizeof($parejas_db)>=2){
-				for($i=0; $i<2;$i++) {
-					array_push($parejasFinal, $parejas_db[$i]);
+			$parejasSemifinales= array();
+			if(sizeof($parejas_db)>=4){
+				for($i=0; $i<4;$i++) {
+					array_push($parejasSemifinales, $parejas_db[$i]);
 				}
 			}else{
 				throw new Exception("No hay suficientes parejas para realizar la semifinal");
 			}
 
 
-			//Comprobamos si ya existe clasificacion para cuartos del campeonato
+			//Comprobamos si ya existe clasificacion para semifinales del campeonato
 			$stmt = $this->db->prepare("SELECT CampeonatoidCampeonato FROM Clasificacion
-				WHERE CampeonatoidCampeonato=? AND GrupotipoLiga ='cuartos'");
+				WHERE CampeonatoidCampeonato=? AND GrupotipoLiga ='semifinal'");
 			$stmt->execute(array($campeonatoId));
 			$clasificacion_db = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -387,7 +388,7 @@ class ParejaMapper {
 				foreach ($parejasSemifinales as $pareja) {
 						$stmt = $this->db->prepare("INSERT INTO Clasificacion(ParejaidPareja,
 							 resultado, GrupoidGrupo, GrupotipoLiga, CampeonatoidCampeonato) values (?,?,?,?,?)");
-						$stmt->execute(array($pareja['ParejaidPareja1'], $pareja['resultado'], $pareja['idGrupo'], 'cuartos', $campeonatoId));
+						$stmt->execute(array($pareja['ParejaidPareja1'], $pareja['resultado'], $pareja['idGrupo'], 'semifinal', $campeonatoId));
 
 				}
 			}

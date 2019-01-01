@@ -90,7 +90,7 @@ $currenttype = $_SESSION["currenttype"];
 <body>
 
 	<?php if($currenttype=="admin"): ?>
-	<!-- Header -->
+	<!-- Header ADMIN-->
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="index.php?controller=home&amp;action=index">UNIPADEL</a>
 
@@ -115,11 +115,11 @@ $currenttype = $_SESSION["currenttype"];
         </li>
 
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="index.php?controller=partidos&amp;action=index" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="index.php?controller=partido&amp;action=index" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Partidos
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="index.php?controller=partidos&amp;action=index">Promocionar partido</a>
+            <a class="dropdown-item" href="index.php?controller=partido&amp;action=index">Promocionar partido</a>
           </div>
         </li>
 
