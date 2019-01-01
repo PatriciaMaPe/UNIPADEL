@@ -414,7 +414,7 @@ class ParejaMapper {
 			$parejasFinales= array();
 
 			if(sizeof($parejas_db)>=2){
-				for($i=0; $i<4;$i++) {
+				for($i=0; $i<2;$i++) {
 					array_push($parejas, $parejas_db[$i]);
 				}
 
@@ -446,11 +446,53 @@ class ParejaMapper {
 			resultado, set1, set2, set3, GrupoidGrupo, GrupotipoLiga) values (?,?,?,?,?,?,?,?)");
 
 			$stmt->execute(array($parejasF[0]->getIdPareja(), $parejasF[1]->getIdPareja(), 0, "-", "-", "-", $grupoId, 'final'));
+			$stmt->execute(array($parejasF[1]->getIdPareja(), $parejasF[0]->getIdPareja(), 0, "-", "-", "-", $grupoId, 'final'));
 
 
 			return $this->db->lastInsertId();
 		}
 
-		
+
+
+			public function generarRankingFinales($grupoId, $campeonatoId, $categoriaId){
+				$clasificacionFinal = $this->combrobarRanking($campeonatoId, $tipoLiga);
+				if($clasificacionFinal>0){
+					$this->borrarClasificacion($campeonatoId, $tipoLiga);
+				}
+
+				$stmt = $this->db->prepare("SELECT ParejaidPareja1, resultado, Grupo.idGrupo FROM Enfrentamiento, Grupo
+					WHERE GrupotipoLiga='final' AND Grupo.Campeonato_CategoriaCampeonatoidCampeonato = ?
+					 group by ParejaidPareja1 ORDER BY resultado DESC");
+				$stmt->execute(array($campeonatoId));
+				$parejas_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+				$parejasFinales= array();
+				if(sizeof($parejas_db)>=2){
+					for($i=0; $i<2;$i++) {
+						array_push($parejasFinales, $parejas_db[$i]);
+					}
+				}else{
+					throw new Exception("No hay suficientes parejas para realizar la final");
+				}
+
+
+				//Comprobamos si ya existe clasificacion para semifinales del campeonato
+				$stmt = $this->db->prepare("SELECT CampeonatoidCampeonato FROM Clasificacion
+					WHERE CampeonatoidCampeonato=? AND GrupotipoLiga ='final'");
+				$stmt->execute(array($campeonatoId));
+				$clasificacion_db = $stmt->fetch(PDO::FETCH_ASSOC);
+
+				//Si no existe insertamos las parejas
+				if($clasificacion_db==NULL){
+					foreach ($parejasFinales as $pareja) {
+							$stmt = $this->db->prepare("INSERT INTO Clasificacion(ParejaidPareja,
+								 resultado, GrupoidGrupo, GrupotipoLiga, CampeonatoidCampeonato) values (?,?,?,?,?)");
+							$stmt->execute(array($pareja['ParejaidPareja1'], $pareja['resultado'], $pareja['idGrupo'], 'final', $campeonatoId));
+
+					}
+				}
+
+					return $this->db->lastInsertId();
+			}
 
 	}

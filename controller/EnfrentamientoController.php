@@ -181,6 +181,13 @@ class EnfrentamientoController extends BaseController {
 			$this->view->setVariable("clasificacion", $clasificacion, false);
 			// render the view (/view/enfrentamientos/view.php)
 			$this->view->render("clasificacion", "index");
+		}elseif ($tipoLiga=='final') {
+			$lastInsert = $this->parejaMapper->generarRankingFinales($grupoId, $campeonatoId, $categoriaId, $tipoLiga);
+			$clasificacion = $this->clasificacionMapper->findByLigaCampeonato($campeonatoId, $tipoLiga, $grupoId);
+
+			$this->view->setVariable("clasificacion", $clasificacion, false);
+			// render the view (/view/enfrentamientos/view.php)
+			$this->view->render("clasificacion", "index");
 		}
 
 	}
