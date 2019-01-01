@@ -396,4 +396,61 @@ class ParejaMapper {
 				return $this->db->lastInsertId();
 		}
 
+		public function generarEnfrentamientosFinales($grupoId, $campeonatoId, $categoriaId){
+			$clasificacionFinales = $this->combrobarRanking($campeonatoId, 'final');
+			if($clasificacionFinales>0){
+				throw new Exception("Ya se han realizado la clasificacion final del campeonato: " . $campeonatoId);
+			}
+			$numEnfrentamientos = $this->combrobarEnfrentamientos($grupoId, 'final');
+			if($numEnfrentamientos>0){
+				throw new Exception("Ya se han realizado los enfrentamientos del grupo: " . $grupoId);
+			}
+			$stmt = $this->db->prepare("SELECT ParejaidPareja FROM Clasificacion
+				WHERE CampeonatoidCampeonato=? AND GrupotipoLiga='semifinal' ORDER BY resultado DESC");
+			$stmt->execute(array($campeonatoId));
+			$parejas_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+			$parejas = array();
+			$parejasFinales= array();
+
+			if(sizeof($parejas_db)>=2){
+				for($i=0; $i<4;$i++) {
+					array_push($parejas, $parejas_db[$i]);
+				}
+
+				//Se reordena los arrays aleatoriamente
+				//shuffle($parejas);
+
+				foreach ($parejas as $par) {
+					$pareja = new Pareja($par["ParejaidPareja"]);
+					array_push($parejasFinales, $pareja);
+				}
+			}else{
+				throw new Exception("No hay suficientes parejas para realizar las finales");
+			}
+
+			$this->insertar($parejas, $grupoId, 'final');
+
+			$stmt = $this->db->prepare("SELECT idPareja FROM Pareja
+				WHERE  GrupotipoLiga=? AND GrupoidGrupo=?");
+			$stmt->execute(array('final', $grupoId));
+			$parejas_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+			$parejasF= array();
+			foreach ($parejas_db as $par) {
+				$pareja = new Pareja($par["idPareja"]);
+				array_push($parejasF, $pareja);
+			}
+
+			$stmt = $this->db->prepare("INSERT INTO Enfrentamiento(ParejaidPareja1, ParejaidPareja2,
+			resultado, set1, set2, set3, GrupoidGrupo, GrupotipoLiga) values (?,?,?,?,?,?,?,?)");
+
+			$stmt->execute(array($parejasF[0]->getIdPareja(), $parejasF[1]->getIdPareja(), 0, "-", "-", "-", $grupoId, 'final'));
+
+
+			return $this->db->lastInsertId();
+		}
+
+		
+
 	}

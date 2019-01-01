@@ -109,16 +109,16 @@ class EnfrentamientoController extends BaseController {
 	//TODO desactivar boton de generar enfrentamientos una vez realizado
 	public function generarEnfrentamientos() {
 		if (!isset($_REQUEST["id"])) {
-			throw new Exception("A post id is mandatory");
+			throw new Exception("A id is mandatory");
 		}
 		if (!isset($_REQUEST["liga"])) {
-			throw new Exception("A post id is mandatory");
+			throw new Exception("A liga is mandatory");
 		}
 		if (!isset($_REQUEST["campeonato"])) {
-			throw new Exception("A post id is mandatory");
+			throw new Exception("A campeonato is mandatory");
 		}
 		if (!isset($_REQUEST["categoria"])) {
-			throw new Exception("A post id is mandatory");
+			throw new Exception("A categoria is mandatory");
 		}
 
 		$grupoId = $_REQUEST["id"];
@@ -132,23 +132,24 @@ class EnfrentamientoController extends BaseController {
 		$lastInsert = $this->parejaMapper->generarEnfrentamientosCuartos($grupoId,$campeonatoId, $categoriaId);
 	} elseif ($tipoLiga=='semifinal') {
 		$lastInsert = $this->parejaMapper->generarEnfrentamientosSemifinales($grupoId,$campeonatoId, $categoriaId);
-
+	} elseif ($tipoLiga=='final') {
+		$lastInsert = $this->parejaMapper->generarEnfrentamientosFinales($grupoId,$campeonatoId, $categoriaId);
 	}
 }
 
 
 	public function generarRanking() {
 		if (!isset($_REQUEST["id"])) {
-			throw new Exception("A post id is mandatory");
+			throw new Exception("A id is mandatory");
 		}
 		if (!isset($_REQUEST["liga"])) {
-			throw new Exception("A post id is mandatory");
+			throw new Exception("A liga is mandatory");
 		}
 		if (!isset($_REQUEST["campeonato"])) {
-			throw new Exception("A post id is mandatory");
+			throw new Exception("A campeonato is mandatory");
 		}
 		if (!isset($_REQUEST["categoria"])) {
-			throw new Exception("A post id is mandatory");
+			throw new Exception("A categoria is mandatory");
 		}
 
 
