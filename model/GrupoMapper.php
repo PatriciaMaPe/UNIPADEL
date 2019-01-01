@@ -32,9 +32,15 @@ class GrupoMapper {
 	public function findAll() {
 		$stmt = $this->db->query("SELECT Grupo.*, Categoria.nivel, Categoria.tipo
 			FROM `Grupo`, `Categoria` WHERE Categoria.idCategoria = Grupo.Campeonato_CategoriaCategoriaidCategoria
-			ORDER BY Grupo.Campeonato_CategoriaCampeonatoidCampeonato, Grupo.tipoLiga,Grupo.idGrupo");
+			ORDER BY Grupo.Campeonato_CategoriaCampeonatoidCampeonato, Grupo.idGrupo, CASE Grupo.tipoLiga
+			WHEN'regular' THEN 0
+			WHEN 'cuartos' THEN 1
+			WHEN 'semifinal' THEN 2
+			WHEN 'final' THEN 3
+			ELSE 4
+			END ASC");
 		$gruposCampeonato_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+//Order by case when firstname like 'jack' then 0 else 1 end
 		$grupos = array();
 
 		foreach ($gruposCampeonato_db as $grupo) {
