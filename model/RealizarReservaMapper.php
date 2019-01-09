@@ -18,16 +18,51 @@ class RealizarReservaMapper {
 		$this->db = PDOConnection::getInstance();
 	}
 
-	public function insertarReserva(RealizarReserva $reserva) {
-		$stmt = $this->db->prepare("INSERT INTO Reserva (fecha,PistaidPista,horaInicio,horaFin,disponibilidad) VALUES (?,?,?,?,?)");
-		$stmt->execute(array($reserva->getFecha(),$reserva->getPistaidPista(),$reserva->getHoraInicio(),$reserva->getHoraFin(),$reserva->getDisponibilidad()));
+	public function insertarReserva(RealizarReserva $reserva , $fecha,$hora,$pista,$num) {
+		
+		
+			
+		 	if($num==2){//ESTE IF PARA SABER SI NUM INSCRITOS ES IGUAL, SI LO ES INSERTA LA RESERVA Y SE PONE A CERO
+		 		
+				$stmt = $this->db->prepare("INSERT INTO Reserva (fecha,PistaidPista,horaInicio,horaFin,disponibilidad,UsuarioRegistradousuario) VALUES (?,?,?,?,?,?)");
+				$stmt->execute(array($reserva->getFecha(),$reserva->getPistaidPista(),$reserva->getHoraInicio(),$reserva->getHoraFin(),'ocupado',$reserva->getUsuarioRegistradousuario()));
+				
+				
+				$stmt6 = $this->db->prepare("UPDATE Horario SET disponibilidad='ocupado' WHERE fecha='".$fecha."' AND horario='".$hora."' AND idPista='".$pista."'");
+				$stmt6->execute();
+				
+
+		 		
+		 	}else if($num==0){//SI NO SE ACTUALIZA EL VALOR NUM INSCRITOS 
+		 		
+		 		$num++;
+		 		$stmt = $this->db->prepare("INSERT INTO Partido (fecha,horaInicio,horaFin,pista) VALUES (?,?,?,?)");
+				$stmt->execute(array($reserva->getFecha(),$reserva->getHoraInicio(),$reserva->getHoraFin(),$reserva->getPistaidPista()));
+				$stmt6 = $this->db->prepare("UPDATE Horario SET numInscritos='".$num."' WHERE fecha='".$fecha."' AND horario='".$hora."' AND idPista='".$pista."'");
+				$stmt6->execute();
+		 	}else{
+		 		$num++;
+		 		$stmt6 = $this->db->prepare("UPDATE Horario SET numInscritos='".$num."' WHERE fecha='".$fecha."' AND horario='".$hora."' AND idPista='".$pista."'");
+				$stmt6->execute();
+		 	}
+	
+		
+
 		return $this->db->lastInsertId();
+		
 	}
-	public function cancelarReserva(RealizarReserva $reserva) {
+
+	public function cancelarReserva(RealizarReserva $reserva,$fecha,$hora,$pista,$num) {
 		$stmt = $this->db->prepare("DELETE FROM Reserva WHERE PistaidPista=? AND horaInicio=? AND fecha=?");
 		$stmt->execute(array($reserva->getPistaidPista(),$reserva->getHoraInicio(),$reserva->getFecha()));
+		$stmt6 = $this->db->prepare("UPDATE Horario SET disponibilidad='disponible' WHERE fecha='".$fecha."' AND horario='".$hora."' AND idPista='".$pista."'");
+		$stmt6->execute();
+		$num=0;
+		$stmt7 = $this->db->prepare("UPDATE Horario SET numInscritos='".$num."' WHERE fecha='".$fecha."' AND horario='".$hora."' AND idPista='".$pista."'");
 
+				$stmt7->execute();
 	}
+	
 
 
 

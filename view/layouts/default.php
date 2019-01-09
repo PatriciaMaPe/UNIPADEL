@@ -101,9 +101,9 @@ $currenttype = $_SESSION["currenttype"];
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="index.php?controller=gestionarReservas&amp;action=index">Reservas<span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="index.php?controller=gestionarReservas&amp;action=index">Reservas</a>
         </li>
-
+        
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Campeonatos
@@ -120,11 +120,12 @@ $currenttype = $_SESSION["currenttype"];
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="index.php?controller=partido&amp;action=index">Promocionar partido</a>
+           
           </div>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="index.php?controller=pistas&amp;action=index">Pistas</a>
+        <li class="nav-item active">
+          <a class="nav-link" href="index.php?controller=establecerPistas&amp;action=index">Pistas</a>
         </li>
 				</ul>
 
@@ -181,7 +182,7 @@ $currenttype = $_SESSION["currenttype"];
 				</li>
 
 				<li class="nav-item">
-					<a class="nav-link" href="index.php?controller=pistas&amp;action=index">Pistas</a>
+					<a class="nav-link" href="index.php?controller=establecerPistas&amp;action=index">Pistas</a>
 				</li>
 			</ul>
 			<ul class="navbar-nav ml-auto">
