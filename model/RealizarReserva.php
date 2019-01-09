@@ -13,13 +13,12 @@ class RealizarReserva {
 	private $horaFin;
 	private $PistaidPista;
 	private $disponibilidad;
-	private $UsuarioRegistradousuario;
-
-
+	
+	
 
 	public function __construct($idReserva=NULL,$fecha=NULL,$horaInicio=NULL,
 								$horaFin=NULL,	
-								$PistaidPista=NULL,$disponibilidad=NULL,$UsuarioRegistradousuario=NULL) {
+								$PistaidPista=NULL,$disponibilidad=NULL) {
 	
 		$this->idReserva = $idReserva;
 		$this->fecha = $fecha;
@@ -27,9 +26,7 @@ class RealizarReserva {
 		$this->horaFin = $horaFin;
 		$this->PistaidPista = $PistaidPista;
 		$this->disponibilidad = $disponibilidad;
-		$this->usuario = $usuario;
-		
-
+	
 	}
 	public function getIdReserva() {
 		return $this->idReserva;
@@ -51,10 +48,6 @@ class RealizarReserva {
 	public function getDisponibilidad() {
 		return $this->disponibilidad;
 	}
-	public function getUsuarioRegistradousuario() {
-		return $this->UsuarioRegistradousuario;
-	}
-	
 	public function setIdReserva($idReserva) {
 		$this->idReserva = $idReserva;
 	}
@@ -73,9 +66,6 @@ class RealizarReserva {
 	}
 	public function setDisponibilidad($disp) {
 		$this->disponibilidad = $disp;
-	}
-	public function setUsuarioRegistradousuario($UsuarioRegistradousuario) {
-		$this->UsuarioRegistradousuario = $UsuarioRegistradousuario;
 	}
 	
 	

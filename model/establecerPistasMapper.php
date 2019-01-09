@@ -15,15 +15,10 @@ class establecerPistasMapper {
 		$this->db = PDOConnection::getInstance();
 	}
 
-	public function insertarPista($pista) {
-		$stmt = $this->db->prepare("SELECT idPista FROM Pista WHERE idPista='".$pista."'");
-		$stmt->execute();
-		$pistas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-		$existe=count($pistas);
-		if($existe ==0){
-			$stmt = $this->db->prepare("INSERT INTO Pista (idPista) VALUES (?)");
-			$stmt->execute(array($pista));
-		}
+	public function insertarPista(establecerPistas $pista) {
+
+		$stmt = $this->db->prepare("INSERT INTO Pista (idPista) VALUES (?)");
+		$stmt->execute(array($pista->getIdPista()));
 		return $this->db->lastInsertId();
 	}
 	public function insertarHorario(establecerPistas $horario) {

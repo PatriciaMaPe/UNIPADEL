@@ -22,7 +22,7 @@ class EstablecerPistasController extends BaseController {
 	}
 
 	public function index() {
-		
+		var_dump("index");
 		$this->view->render("pistas", "establecerPistas");
 
 	}
@@ -30,11 +30,9 @@ class EstablecerPistasController extends BaseController {
 
 		$pist = new establecerPistas();
 			// populate the Post object with data form the form
-			
-			
+			$pist->setPista($_POST["pista"]);
 			if ($_POST["pista"]!=$pist->getIdPista()) { // reaching via HTTP Post...
-				$pist->setPista($_POST["pista"]);
-			$this->establecerPistasMapper->insertarPista($_POST["pista"]);
+			$this->establecerPistasMapper->insertarPista($pist);
 			$this->view->setFlash("Operación realizada");
 
 			?>
@@ -42,7 +40,7 @@ class EstablecerPistasController extends BaseController {
 				 alert('Operacion realizada');
 
 				 </script>;
-				<?php
+				<?
 			$this->view->render("pistas", "establecerPistas");
 
 		}else{
@@ -51,6 +49,7 @@ class EstablecerPistasController extends BaseController {
 		}
 		$hor = new establecerPistas();
 		$disponible='disponible';
+
 		if (isset($_POST['cero'])){
 			$hor->setHora($_POST["cero"]);
 			$hor->setHorarioIdPista($pist->getIdPista());
@@ -197,7 +196,8 @@ class EstablecerPistasController extends BaseController {
 		}
 
 
+
+
 	}
 
 }
-?>

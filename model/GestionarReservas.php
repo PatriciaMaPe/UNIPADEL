@@ -12,17 +12,14 @@ class GestionarReservas {
 	private $disponibilidad;
 	private $horarioIdPista;
 	private $hora;
-	private $numInscritos;
 
 	public function __construct($fecha=NULL,  $disponibilidad=NULL,
-												$horarioIdPista=NULL, $hora=NULL,$numInscritos=NULL) {
+												$horarioIdPista=NULL, $hora=NULL) {
 	
 		$this->fecha = $fecha;
 		$this->disponibilidad = $disponibilidad;
 		$this->horarioIdPista = $horarioIdPista;
 		$this->hora = $hora;
-		$this->numInscritos = $numInscritos;
-		
 	
 	}
 
@@ -41,13 +38,6 @@ class GestionarReservas {
 		return $this->hora;
 	}
 	
-
-public function getNumInscritos() {
-		return $this->numInscritos;
-	}
-	public function setNumInscritos($numInscritos) {
-		$this->numInscritos = $numInscritos;
-	}
 
 	public function setFecha($fech) {
 		$this->fecha = $fech;
