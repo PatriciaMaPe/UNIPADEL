@@ -35,20 +35,24 @@ class GestionarReservasController extends BaseController {
 	public function comprobarReserva() {
 			// populate the Post object with data form the form
 			$pista=$_REQUEST["pista"];
-
+			$num=$_REQUEST["numInscritos"];
 			$hora=$_REQUEST["hora"];
 			$fecha=$_REQUEST["fecha"];
 
 			$disponibilidad=$_REQUEST["disponibilidad"];
+		
 			$minutosAumentar=90;
 			$segundos_horaInicio=strtotime($hora);
 			$segundos_minutoAumentar = $minutosAumentar*60;
 			$horaFinal=date("H:i",$segundos_horaInicio+$segundos_minutoAumentar);
+
 			$this->view->setVariable("pista", $pista, false);
 			$this->view->setVariable("hora", $hora, false);
 			$this->view->setVariable("fecha", $fecha, false);
 			$this->view->setVariable("disponibilidad", $disponibilidad, false);
 			$this->view->setVariable("horaFinal", $horaFinal, false);
+			$this->view->setVariable("numInscritos", $num, false);
+		
 
 			$this->view->render("reservas", "reserva");
 
