@@ -16,8 +16,11 @@ $anterior=0;
 	<section>
 			<table class="table" >
 			<thead><tr><th>Etiquetas</th></tr></thead>
-			<tbody><tr><td style="border:solid;background-color:green;color:black;">Disponible</td>
-			<td style="border:solid;background-color:red;color:black;">Ocupado</td></tr></tbody>
+			<tbody><tr>
+				<td style="border:solid;background-color:green;color:black;">Disponible</td>
+				<td style="border:solid;background-color:blue;color:black;">Libre</td>
+				<td style="border:solid;background-color:red;color:black;">Ocupado</td>
+			</tr></tbody>
 			</table>
  
 	</section>
@@ -47,11 +50,22 @@ $anterior=0;
 											?>
 											<?php
 											if($pista->getDisponibilidad()=='disponible'){
+												if($pista->getNumInscritos()=='' ||$pista->getNumInscritos()=='0'){
+													?>
+													<td><a style="border:solid;background-color:green;color:black;" href="index.php?controller=gestionarReservas&amp;action=comprobarReserva&amp;fecha=<?= $pista->getFecha(); ?>&amp;
+													pista=<?= $pista->getHorarioIdPista(); ?>&amp;hora=<?= $pista->getHora(); ?>&amp;
+													disponibilidad=<?= $pista->getDisponibilidad();?>&amp;
+													numInscritos=<?= $pista->getNumInscritos();?>"><?php echo $pista->getHora(); ?></a></td>
+												<?php
+												}else{
+													?>
+													<td><a style="border:solid;background-color:blue;color:black;" href="index.php?controller=gestionarReservas&amp;action=comprobarReserva&amp;fecha=<?= $pista->getFecha(); ?>&amp;
+													pista=<?= $pista->getHorarioIdPista(); ?>&amp;hora=<?= $pista->getHora(); ?>&amp;
+													disponibilidad=<?= $pista->getDisponibilidad();?>&amp;
+													numInscritos=<?= $pista->getNumInscritos();?>"><?php echo $pista->getHora(); ?></a></td>
+												<?php
+												}
 												?>
-												<td><a style="border:solid;background-color:green;color:black;" href="index.php?controller=gestionarReservas&amp;action=comprobarReserva&amp;fecha=<?= $pista->getFecha(); ?>&amp;
-												pista=<?= $pista->getHorarioIdPista(); ?>&amp;hora=<?= $pista->getHora(); ?>&amp;
-												disponibilidad=<?= $pista->getDisponibilidad();?>&amp;
-												numInscritos=<?= $pista->getNumInscritos();?>"><?php echo $pista->getHora(); ?></a></td>
 
 											<?php
 											}else{
