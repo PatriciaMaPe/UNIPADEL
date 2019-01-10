@@ -21,6 +21,14 @@ $view->setVariable("title", "Gestionar reservas");
 									<tr><th>Fecha</th><td> <input style="border:none" type="text" name="fecha" value="<?= $view->getVariable("fecha");?>" readonly></td></tr>
 									<tr><th>Hora Final</th><td> <input style="border:none" type="text" name="horaFinal" value="<?= $view->getVariable("horaFinal");?>:00" readonly></td></tr>
 									<tr><th>Numero Inscritos</th><td> <input style="border:none" type="text" name="numInscritos" value="<?= $view->getVariable("numInscritos");?>" readonly></td></tr>
+									
+									<?php
+										$fecha = $view->getVariable("fecha");
+										$nuevafecha = strtotime ( '-7 day' , strtotime ( $fecha ) ) ;
+										$nuevafecha = date ( 'Y/m/d' , $nuevafecha );
+										
+									?>
+									<tr><th>Fin inscripcion</th><td> <input style="border:none" type="text" name="finInscripcion" <?php echo "value='".$nuevafecha."'";?> readonly></td></tr>
 								
 									<tr><th></th><td> <input style="border:none" type="hidden" name="disponibilidad" value="<?= $view->getVariable("disponibilidad");?>" readonly></td></tr>
 

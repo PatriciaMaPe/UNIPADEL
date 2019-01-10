@@ -31,6 +31,7 @@ $anterior=0;
 							
 								
 									<form  action="index.php?controller=gestionarReservas&amp;action=verPistasFecha" method="POST">
+										
 										<tbody><tr><td><input type="date"  name="fecha" id="fecha" >
 										<input type="submit" name="ver" value="Ver pistas"></td></tr></tbody></table>
 										<table class="table" >

@@ -38,6 +38,7 @@ class RealizarReservaController extends BaseController {
 			$horaFin=$_REQUEST["horaFinal"];
 			$fecha=$_REQUEST["fecha"];
 			$disponibilidad=$_REQUEST["disponibilidad"];
+			$fin=$_REQUEST["finInscripcion"];
 			
 			$usuario=$_REQUEST["usuario"];
 			$reserva->setPistaIdPista($pista);
@@ -45,28 +46,35 @@ class RealizarReservaController extends BaseController {
 			$reserva->setHoraFin($horaFin);
 			$reserva->setFecha($fecha);
 			$reserva->setUsuarioRegistradoUsuario($usuario);
+			$reserva->setFinInscripcion($fin);
 			
 
-		
+			
+			
+			$hoy = date ( 'Y/m/d');
 
 			
 			
 			if($disponibilidad=='disponible'){
-				/*COMPROBAR AQUI QUE ESTE LLENO DE PAREJAS ANTES DE PONERLO A OCUPADO*/
-			
+				if($hoy<=$fin){
+					
 			
 					/*$disponibilidad='ocupado';
 					$reserva->setDisponibilidad('ocupado');*/
 				
-				$this->RealizarReservaMapper->insertarReserva($reserva,$fecha,$hora,$pista,$num);
-				$this->view->setFlash("Operación realizada");
+					$this->RealizarReservaMapper->insertarReserva($reserva,$fecha,$hora,$pista,$num,$fin);
+					echo 'Operación realizada';
 				//$this->GestionarReservasMapper->updateHorario($disponibilidad,$pista,$hora,$fecha);
+					
+				}else{
+					echo 'No se puede realizar más inscripciones';
+				}
 				
 			}else{
 				/*$disponibilidad='disponible';
 				$reserva->setDisponibilidad('disponible');*/
 				$this->RealizarReservaMapper->cancelarReserva($reserva,$fecha,$hora,$pista,$num);
-				$this->view->setFlash("Operación realizada");
+				echo 'Operación realizada';
 				//$this->GestionarReservasMapper->updateHorario($disponibilidad,$pista,$hora,$fecha);
 			}
 			

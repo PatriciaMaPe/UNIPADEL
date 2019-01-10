@@ -18,7 +18,7 @@ class RealizarReservaMapper {
 		$this->db = PDOConnection::getInstance();
 	}
 
-	public function insertarReserva(RealizarReserva $reserva , $fecha,$hora,$pista,$num) {
+	public function insertarReserva(RealizarReserva $reserva , $fecha,$hora,$pista,$num,$finInscripcion) {
 		
 		
 			
@@ -36,19 +36,18 @@ class RealizarReservaMapper {
 		 	}else if($num==0){//SI NO SE ACTUALIZA EL VALOR NUM INSCRITOS 
 		 		
 		 		$num++;
-		 		$stmt = $this->db->prepare("INSERT INTO Partido (fecha,horaInicio,horaFin,pista) VALUES (?,?,?,?)");
-				$stmt->execute(array($reserva->getFecha(),$reserva->getHoraInicio(),$reserva->getHoraFin(),$reserva->getPistaidPista()));
+		 		$stmt = $this->db->prepare("INSERT INTO Partido (fecha,horaInicio,horaFin,pista,finInscripcion) VALUES (?,?,?,?,?)");
+				$stmt->execute(array($reserva->getFecha(),$reserva->getHoraInicio(),$reserva->getHoraFin(),$reserva->getPistaidPista(),$reserva->getFinInscripcion()));
 				$stmt6 = $this->db->prepare("UPDATE Horario SET numInscritos='".$num."' WHERE fecha='".$fecha."' AND horario='".$hora."' AND idPista='".$pista."'");
 				$stmt6->execute();
+			
 		 	}else{
 		 		$num++;
 		 		$stmt6 = $this->db->prepare("UPDATE Horario SET numInscritos='".$num."' WHERE fecha='".$fecha."' AND horario='".$hora."' AND idPista='".$pista."'");
 				$stmt6->execute();
+				
 		 	}
-	
-		
-
-		return $this->db->lastInsertId();
+		 	return $this->db->lastInsertId();
 		
 	}
 
