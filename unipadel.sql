@@ -205,6 +205,23 @@ CREATE TABLE `Reserva` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Enfrentamiento`
+--
+
+CREATE TABLE `Reserva_Enfrentamiento` (
+  `idReserva` int(4) NOT NULL,
+  `idEnfrentamiento` int(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+--
+-- Indices de la tabla `Campeonato_Categoria`
+--
+ALTER TABLE `Reserva_Enfrentamiento`
+  ADD PRIMARY KEY (`idReserva`,`idEnfrentamiento`);
+
 --
 -- Índices para tablas volcadas
 --

@@ -35,6 +35,17 @@ class ParejaMapper {
 		return $pareja;
 	}
 
+	/**
+	* Recuperamos los distintos ids que tiene una pareja dependiendo de la liga
+	*/
+	public function getIdPareja($usuario){
+		$stmt = $this->db->prepare("SELECT idPareja from Pareja where capitan=? OR deportista=?");
+		$stmt->execute(array($usuario,$usuario));
+		$idsPareja_db = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		return $idsPareja_db;
+	}
+
 	public function generarEnfrentamientosRegular($grupoId,$campeonatoId, $categoriaId){
 		//Comprobacion numero minimo de participantes: Regular->minimo de 8 participantes
 		$numParticipantes = $this->comprobarNumMinParticipantes($grupoId,'regular');

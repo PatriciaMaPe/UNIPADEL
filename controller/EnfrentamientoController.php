@@ -7,6 +7,7 @@ require_once(__DIR__."/../model/EnfrentamientoMapper.php");
 require_once(__DIR__."/../model/GrupoMapper.php");
 require_once(__DIR__."/../model/ParejaMapper.php");
 require_once(__DIR__."/../model/ClasificacionMapper.php");
+require_once(__DIR__."/../model/ReservaEnfrentamientoMapper.php");
 
 require_once(__DIR__."/../core/ViewManager.php");
 require_once(__DIR__."/../controller/BaseController.php");
@@ -37,14 +38,13 @@ class EnfrentamientoController extends BaseController {
 		$this->grupoMapper = new GrupoMapper();
 		$this->parejaMapper = new ParejaMapper();
 		$this->clasificacionMapper = new ClasificacionMapper();
+		$this->reservaEnfrentamientoMapper = new ReservaEnfrentamientoMapper();
 	}
 
 	/**
 	*
 	*/
 	public function index() {
-		//var_dump($_SESSION["currentuser"]);
-		//die;
 		if (!isset($this->currentUser)) {
 			$this->view->render("usuarios", "login");
 		}else{
@@ -59,6 +59,29 @@ class EnfrentamientoController extends BaseController {
 		// render the view (/view/enfrentamientos/index.php)
 		$this->view->render("enfrentamientos", "index");
 		}
+	}
+
+	/**
+	* Recuperamos los enfrentamientos que tiene un usuario
+	*/
+	public function enfrentamientosUsuario() {
+		if (!isset($this->currentUser)) {
+			$this->view->render("usuarios", "login");
+		}
+		$usuario = $this->currentUser->getUsuario();
+
+		//Recogemos los distintos ids que tiene la pareja segun la liga
+		$idPareja = $this->parejaMapper->getIdPareja($usuario);
+		//recogemos los enfrentamientos de la pareja
+		$enfrentamientosPareja = $this->enfrentamientoMapper->findByEnfrentamientosPareja($idPareja);
+		//Recuperamos las pistas asociados a cada enfrentamiento
+		$reservasEnfrentamiento = $this->reservaEnfrentamientoMapper->findReservaByIdEnfrentamiento($enfrentamientosPareja);
+
+		$this->view->setVariable("enfrentamientosPareja", $enfrentamientosPareja, false);
+		$this->view->setVariable("reservasEnfrentamiento", $reservasEnfrentamiento, false);
+		// render the view (/view/enfrentamientos/enfrentamientosUsuario.php)
+		$this->view->render("enfrentamientos", "enfrentamientosUsuario");
+
 	}
 
 	/**
