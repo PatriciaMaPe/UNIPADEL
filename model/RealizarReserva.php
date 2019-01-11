@@ -29,7 +29,7 @@ class RealizarReserva {
 		$this->horaFin = $horaFin;
 		$this->PistaidPista = $PistaidPista;
 		$this->disponibilidad = $disponibilidad;
-		$this->usuario = $usuario;
+		$this->UsuarioRegistradousuario = $UsuarioRegistradousuario;
 		$this->finInscripcion = $finInscripcion;
 
 	}

@@ -30,6 +30,9 @@ class RealizarReservaMapper {
 				
 				$stmt6 = $this->db->prepare("UPDATE Horario SET disponibilidad='ocupado' WHERE fecha='".$fecha."' AND horario='".$hora."' AND idPista='".$pista."'");
 				$stmt6->execute();
+				$num++;
+		 		$stmt6 = $this->db->prepare("UPDATE Horario SET numInscritos='".$num."' WHERE fecha='".$fecha."' AND horario='".$hora."' AND idPista='".$pista."'");
+				$stmt6->execute();
 				
 
 		 		
@@ -51,15 +54,45 @@ class RealizarReservaMapper {
 		
 	}
 
-	public function cancelarReserva(RealizarReserva $reserva,$fecha,$hora,$pista,$num) {
-		$stmt = $this->db->prepare("DELETE FROM Reserva WHERE PistaidPista=? AND horaInicio=? AND fecha=?");
-		$stmt->execute(array($reserva->getPistaidPista(),$reserva->getHoraInicio(),$reserva->getFecha()));
-		$stmt6 = $this->db->prepare("UPDATE Horario SET disponibilidad='disponible' WHERE fecha='".$fecha."' AND horario='".$hora."' AND idPista='".$pista."'");
-		$stmt6->execute();
-		$num=0;
-		$stmt7 = $this->db->prepare("UPDATE Horario SET numInscritos='".$num."' WHERE fecha='".$fecha."' AND horario='".$hora."' AND idPista='".$pista."'");
+	public function cancelarInscripcion(RealizarReserva $reserva,$fecha,$hora,$pista,$num) {
 
-				$stmt7->execute();
+		if($num < 3 && $num > 0){
+			$num--;
+			$stmt7 = $this->db->prepare("UPDATE Horario SET numInscritos='".$num."' WHERE fecha='".$fecha."' AND horario='".$hora."' AND idPista='".$pista."'");
+			$stmt7->execute();
+		}else{
+			echo "No hay personas inscritas, no se puede cancelar la inscripción";
+		}
+	}
+	public function cancelarReserva(RealizarReserva $reserva,$fecha,$hora,$pista,$num) {
+		
+		/*CANCELAR UNA RESERVA*/
+
+			$stmt = $this->db->prepare("DELETE FROM Reserva WHERE PistaidPista=? AND horaInicio=? AND fecha=?");
+			$stmt->execute(array($reserva->getPistaidPista(),$reserva->getHoraInicio(),$reserva->getFecha()));
+			$stmt6 = $this->db->prepare("UPDATE Horario SET disponibilidad='disponible' WHERE fecha='".$fecha."' AND horario='".$hora."' AND idPista='".$pista."'");
+			$stmt6->execute();
+			$num=0;
+			$stmt7 = $this->db->prepare("UPDATE Horario SET numInscritos='".$num."' WHERE fecha='".$fecha."' AND horario='".$hora."' AND idPista='".$pista."'");
+
+			$stmt7->execute();
+		
+		
+	}
+	public function misReservas($user){
+		$stmt = $this->db->prepare("SELECT * FROM Reserva WHERE UsuarioRegistradousuario=? ORDER BY fecha,horaInicio");
+		$stmt->execute(array($user));
+		$reservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		
+		$usuario=array();
+
+		foreach($reservas as $reserva){
+			array_push($usuario, new RealizarReserva($user,$reserva["fecha"],$reserva["PistaidPista"],$reserva["horaInicio"],$reserva["horaFin"]));
+			
+		}
+		
+		return $usuario;
+
 	}
 	
 

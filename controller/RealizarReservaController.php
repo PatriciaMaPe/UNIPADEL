@@ -26,7 +26,17 @@ class RealizarReservaController extends BaseController {
 		$this->view->render("reservas", "gestionarReservas");
 
 	}
-
+	public function comprobarMisReservas() {
+		$reserva = new RealizarReserva();
+		$user = $_SESSION["currentuser"];
+		$usuario= $this->RealizarReservaMapper->misReservas($user);
+		
+		$this->view->setVariable("UsuarioRegistradousuario", $usuario, false);
+		
+		$this->view->render("reservas", "misReservas");
+		
+		
+	}
 
 	
 	public function anadirReserva() {
@@ -52,37 +62,39 @@ class RealizarReservaController extends BaseController {
 			
 			
 			$hoy = date ( 'Y/m/d');
-
+		
 			
-			
-			if($disponibilidad=='disponible'){
-				if($hoy<=$fin){
-					
-			
-					/*$disponibilidad='ocupado';
-					$reserva->setDisponibilidad('ocupado');*/
+				//Si viene de darle a inscribirse
+				if(isset($_REQUEST["inscripcion"])){
+					if($hoy<=$fin){
+						$this->RealizarReservaMapper->insertarReserva($reserva,$fecha,$hora,$pista,$num,$fin);
+						echo 'Operación realizada';
+						
+					}else{
+						echo 'No se puede realizar más inscripciones';
+					}
 				
-					$this->RealizarReservaMapper->insertarReserva($reserva,$fecha,$hora,$pista,$num,$fin);
-					echo 'Operación realizada';
-				//$this->GestionarReservasMapper->updateHorario($disponibilidad,$pista,$hora,$fecha);
+				}else if(isset($_REQUEST["desinscribirse"])){//Si viene de darle a desinscribirse
+					if($hoy<=$fin){
+						$this->RealizarReservaMapper->cancelarInscripcion($reserva,$fecha,$hora,$pista,$num);
+						echo 'Operación realizada';
+					}else{
+						echo 'No se puede cancelar la inscripción';
+					}
+						
+			
 					
-				}else{
-					echo 'No se puede realizar más inscripciones';
+				}else{//Si viene de darle a cancelar Reserva
+					$fechafin = strtotime ( '-1 day' , strtotime ( $fecha ) ) ;
+					$fechafin = date ( 'Y/m/d' , $fechafin );
+					
+					if($hoy<=$fechafin){
+						$this->RealizarReservaMapper->cancelarReserva($reserva,$fecha,$hora,$pista,$num);
+						echo 'Operación realizada';
+					}else{
+						echo 'No se puede cancelar la reserva';
+					}
 				}
-				
-			}else{
-				/*$disponibilidad='disponible';
-				$reserva->setDisponibilidad('disponible');*/
-				$this->RealizarReservaMapper->cancelarReserva($reserva,$fecha,$hora,$pista,$num);
-				echo 'Operación realizada';
-				//$this->GestionarReservasMapper->updateHorario($disponibilidad,$pista,$hora,$fecha);
-			}
-			
-			?>
-			<!--<script>
-			 alert('Operacion realizada');
-			 </script>;-->
-			<?php
 
 			$this->view->render("reservas", "gestionarReservas");
 			

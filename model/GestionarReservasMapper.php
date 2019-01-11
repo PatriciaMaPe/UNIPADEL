@@ -18,12 +18,6 @@ class GestionarReservasMapper {
 	}
 
 	public function updateHorario( $disponibilidad, $idPista, $horario, $fecha) {
-		/*$stmt3 = $this->db->prepare("SELECT disponibilidad FROM Reserva WHERE PistaidPista='".$idPista."' ");
-		$stmt3->execute();
-		$row = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-		foreach ($row as $value) {
-    			$disp= $value['disponibilidad'];
-			}*/
 		$stmt = $this->db->prepare("UPDATE HORARIO SET disponibilidad=? WHERE idPista=? AND horario=? AND fecha=?");
 		$stmt->execute(array($disponibilidad,$idPista,$horario,$fecha));
 
@@ -41,6 +35,7 @@ class GestionarReservasMapper {
 		return $horas;
 
 	}
+	
 
 
 }
