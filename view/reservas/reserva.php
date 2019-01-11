@@ -15,7 +15,13 @@ $view->setVariable("title", "Gestionar reservas");
 								
 								<form method="POST" action="index.php?controller=RealizarReserva&amp;action=anadirReserva">
 									<tbody>
-									<tr><th>Usuario</th><td> <input style="border:none" type="text" name="usuario" value="<?= $_SESSION["currentuser"];?>" readonly></td></tr>
+									<?php
+									if($view->getVariable("numInscritos")=='' ||$view->getVariable("numInscritos")=='0'){
+									?>
+										<tr><th>Usuario</th><td> <input style="border:none" type="text" name="usuario" value="<?= $_SESSION["currentuser"];?>" readonly></td></tr>
+									<?php
+									}
+									?>
 									<tr><th>Pista</th><td> <input style="border:none" type="text" name="pista" value="<?= $view->getVariable("pista");?>" readonly></td></tr>
 									<tr><th>Hora Inicial</th><td> <input style="border:none" type="text" name="hora" value="<?= $view->getVariable("hora");?>" readonly></td></tr>
 									<tr><th>Hora Final</th><td> <input style="border:none" type="text" name="horaFinal" value="<?= $view->getVariable("horaFinal");?>:00" readonly></td></tr>
