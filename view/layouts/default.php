@@ -113,7 +113,8 @@ $currenttype = $_SESSION["currenttype"];
             Campeonatos
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="index.php?controller=campeonato&amp;action=index">Crear campeonato</a>
+              <a class="dropdown-item" href="index.php?controller=campeonato&amp;action=index">Consultar campeonatos</a>
+            <a class="dropdown-item" href="index.php?controller=campeonato&amp;action=crearCampeonato">Crear campeonato</a>
             <a class="dropdown-item" href="index.php?controller=enfrentamiento&amp;action=index">Enfrentamientos</a>
           </div>
         </li>
@@ -124,7 +125,7 @@ $currenttype = $_SESSION["currenttype"];
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="index.php?controller=partido&amp;action=index">Promocionar partido</a>
-           
+           <!-- <a class="dropdown-item" href="index.php?controller=partido&amp;action=view">Consultar partidos</a> -->
           </div>
         </li>
 
@@ -185,7 +186,7 @@ $currenttype = $_SESSION["currenttype"];
 						Partidos
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="index.php?controller=partidos&amp;action=index">Promocionar partido</a>
+						<!-- <a class="dropdown-item" href="index.php?controller=partido&amp;action=view">Consultar partidos</a> -->
 					</div>
 				</li>
 				<!--<li class="nav-item active">

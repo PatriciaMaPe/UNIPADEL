@@ -94,7 +94,7 @@ class Campeonato {
 	 *
 	 * @return void
 	 */
-	public function checkIsValidForCreate() {
+		public function checkIsValidForCreate() {
             
 			$errors = array();
                         
@@ -117,4 +117,24 @@ class Campeonato {
 					throw new ValidationException($errors, "Creacion de campeonato no valida");
 			}
 	}
+        
+        public function checkIsValidForUpdate() {
+
+        $errors = array();
+
+        if (!isset($this->idCampeonato)) {
+            $errors["idCampeonato"] = "id is mandatory";
+        }
+
+        try {
+            $this->checkIsValidForCreate();
+        } catch (ValidationException $ex) {
+            foreach ($ex->getErrors() as $key => $error) {
+                $errors[$key] = $error;
+            }
+        }
+        if (sizeof($errors) > 0) {
+            throw new ValidationException($errors, "update is not valid");
+        }
+    }
 }

@@ -96,7 +96,10 @@ class Categoria {
 	public function setTipo($tipo) {
 			$this->tipo = $tipo;
 	}
-
+        
+                public function setMaxParticipantes($maxParticipantes) {
+		$this->maxParticipantes = $maxParticipantes;
+	}
 
 	/**
 	* Checks if the current user instance is valid
@@ -107,7 +110,8 @@ class Categoria {
 	*
 	* @return void
 	*/
-	public function checkIsValidForRegister() {
+        
+        public function checkIsValidForRegister() {
 		$errors = array();
 		if (strlen($this->usuario) < 3) {
 			$errors["usuario"] = "Username must be at least 3 characters length";
@@ -119,5 +123,19 @@ class Categoria {
 		if (sizeof($errors)>0){
 			throw new ValidationException($errors, "user is not valid");
 		}
+	}
+        
+        public function checkIsValidForCreate() {
+		$errors = array();
+                        
+			if ($this->nivel == NULL) {
+					$errors["nivel"] = "Nivel de categoria no encontrado";
+			}
+			if ($this->tipo == NULL) {
+					$errors["tipo"] = "Tipo de categoria no encontrado";
+			}
+			if (sizeof($errors) > 0) {
+					throw new ValidationException($errors, "Creacion de categoria no valida");
+			}
 	}
 }

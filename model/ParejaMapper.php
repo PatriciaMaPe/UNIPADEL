@@ -494,5 +494,42 @@ class ParejaMapper {
 
 					return $this->db->lastInsertId();
 			}
+                        
+                        
+    //Funciones Nacho   
+                        
+    public function countByGrupo($idGrupo) {
 
-	}
+        $stmt = $this->db->prepare("SELECT COUNT(*) as cont FROM Pareja WHERE GrupoidGrupo = $idGrupo ");
+        $stmt->execute();
+        $numParejas = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $numParejas;
+    }
+
+    public function addPareja($capitan, $deportista, $grupoId, $tipoLiga) {
+
+        $stmt = $this->db->prepare("INSERT INTO Pareja(capitan,deportista,GrupoidGrupo,GrupotipoLiga) values (?,?,?,?)");
+        $stmt->execute(array($capitan, $deportista, $grupoId, $tipoLiga));
+        return $this->db->lastInsertId();
+    }
+
+    public function findDupledA($deportista, $grupoId, $tipoLiga) {
+
+        $stmt = $this->db->prepare("SELECT COUNT(*) as cont FROM Pareja WHERE capitan = '$deportista' AND GrupoidGrupo = $grupoId AND GrupotipoLiga = '$tipoLiga'");
+        $stmt->execute();
+        $numParejas = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $numParejas;
+    }
+
+    public function findDupledB($deportista, $grupoId, $tipoLiga) {
+
+        $stmt = $this->db->prepare("SELECT COUNT(*) as cont FROM Pareja WHERE deportista = '$deportista' AND GrupoidGrupo = $grupoId AND GrupotipoLiga = '$tipoLiga'");
+        $stmt->execute();
+        $numParejas = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $numParejas;
+    }
+
+}

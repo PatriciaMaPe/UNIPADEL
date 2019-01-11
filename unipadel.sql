@@ -326,8 +326,8 @@ CREATE TABLE `partido` (
   `fecha` date NOT NULL,
   `horaInicio` time NOT NULL,
   `horaFin` time NOT NULL,
-  `inicioInscripcion` date NOT NULL,
-  `finInscripcion` date NOT NULL,
+  `inicioInscripcion` date DEFAULT NULL,
+  `finInscripcion` date DEFAULT NULL,
   `pista` int(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
@@ -654,8 +654,8 @@ ALTER TABLE `pareja`
 -- Filtros para la tabla `partido_reserva`
 --
 ALTER TABLE `partido_reserva`
-  ADD CONSTRAINT `FKPartido_Re279823` FOREIGN KEY (`ReservaidReserva`) REFERENCES `reserva` (`idReserva`),
-  ADD CONSTRAINT `FKPartido_Re355375` FOREIGN KEY (`PartidoidPartido`) REFERENCES `partido` (`idPartido`);
+  ADD CONSTRAINT `FKPartido_Re279823` FOREIGN KEY (`ReservaidReserva`) REFERENCES `reserva` (`idReserva`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FKPartido_Re355375` FOREIGN KEY (`PartidoidPartido`) REFERENCES `partido` (`idPartido`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `reserva`

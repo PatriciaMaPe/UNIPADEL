@@ -17,9 +17,8 @@ class RealizarReservaController extends BaseController {
 	public function __construct() {
 		parent::__construct();
 		$this->RealizarReservaMapper = new RealizarReservaMapper();
-		$this->GestionarReservasMapper = new GestionarReservasMapper();
-		
-		;
+		$this->GestionarReservasMapper = new GestionarReservasMapper();	
+                
 	}
 	public function index() {
 

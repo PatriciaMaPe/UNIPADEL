@@ -12,12 +12,12 @@ require_once(__DIR__."/../controller/BaseController.php");
 class GestionarReservasController extends BaseController {
 
 	private $gestionarReservasMapper;
-
+        
 	public function __construct() {
 		parent::__construct();
 		$this->GestionarReservasMapper = new GestionarReservasMapper();
 
-
+                
 	}
 	public function index() {
 			$this->view->render("reservas", "gestionarReservas");
@@ -57,5 +57,5 @@ class GestionarReservasController extends BaseController {
 			$this->view->render("reservas", "reserva");
 
 	}
-
+        
 }

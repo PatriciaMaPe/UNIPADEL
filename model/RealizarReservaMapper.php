@@ -96,6 +96,24 @@ class RealizarReservaMapper {
 	}
 	
 
+        //Funcion Nacho
 
+    public function insertarReserva2(RealizarReserva $reserva) {
+        $stmt = $this->db->prepare("INSERT INTO Reserva (fecha,PistaidPista,horaInicio,horaFin,disponibilidad) VALUES (?,?,?,?,?)");
+        $stmt->execute(array($reserva->getFecha(), $reserva->getPistaidPista(), $reserva->getHoraInicio(), $reserva->getHoraFin(), $reserva->getDisponibilidad()));
+        return $this->db->lastInsertId();
+    }
+
+    public function cancelarReserva2(RealizarReserva $reserva) {
+
+        $stmt = $this->db->prepare("DELETE FROM Reserva WHERE PistaidPista=? AND horaInicio=? AND fecha=?");
+        $stmt->execute(array($reserva->getPistaidPista(), $reserva->getHoraInicio(), $reserva->getFecha()));
+        $stmt6 = $this->db->prepare("UPDATE Horario SET disponibilidad='disponible' WHERE fecha='" . $fecha . "' AND horario='" . $hora . "' AND idPista='" . $pista . "'");
+        $stmt6->execute();
+        $num = 0;
+        $stmt7 = $this->db->prepare("UPDATE Horario SET numInscritos='" . $num . "' WHERE fecha='" . $fecha . "' AND horario='" . $hora . "' AND idPista='" . $pista . "'");
+
+        $stmt7->execute();
+    }
 
 }
