@@ -18,6 +18,7 @@ foreach($user as $usuario){
 	<td><?php echo $usuario->getPistaidPista();?></td>
 	<td><?php echo $usuario->getHoraInicio();?></td>
 	<td><?php echo $usuario->getHoraFin();?></td>
+	<td><a href="index.php?controller=RealizarReserva&amp;action=cancelarReserva&amp;fecha=<?= $usuario->getFecha(); ?>&amp;pista=<?= $usuario->getPistaidPista(); ?>&amp;horaInicio=<?= $usuario->getHoraInicio(); ?>&amp;horaFin=<?= $usuario->getHoraFin(); ?>">Cancelar Reserva</a></td>
 	</tr>
 <?php
 }

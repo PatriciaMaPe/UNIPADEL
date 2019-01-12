@@ -15,13 +15,9 @@ $view->setVariable("title", "Gestionar reservas");
 								
 								<form method="POST" action="index.php?controller=RealizarReserva&amp;action=anadirReserva">
 									<tbody>
-									<?php
-									if($view->getVariable("numInscritos")=='' ||$view->getVariable("numInscritos")=='0'){
-									?>
+									
 										<tr><th>Usuario</th><td> <input style="border:none" type="text" name="usuario" value="<?= $_SESSION["currentuser"];?>" readonly></td></tr>
-									<?php
-									}
-									?>
+									
 									<tr><th>Pista</th><td> <input style="border:none" type="text" name="pista" value="<?= $view->getVariable("pista");?>" readonly></td></tr>
 									<tr><th>Hora Inicial</th><td> <input style="border:none" type="text" name="hora" value="<?= $view->getVariable("hora");?>" readonly></td></tr>
 									<tr><th>Hora Final</th><td> <input style="border:none" type="text" name="horaFinal" value="<?= $view->getVariable("horaFinal");?>:00" readonly></td></tr>
@@ -47,18 +43,16 @@ $view->setVariable("title", "Gestionar reservas");
 									</tbody></table>
 
 									<a href="index.php?controller=RealizarReserva"><button type="button" >Volver</button></a>
-									<?php if($view->getVariable("disponibilidad")=='disponible'){?>
-										
 											<input type="submit" name="inscripcion" value="Inscribirse" >
-											
-												<!--<input type="submit" name="reservar" value="Reservar" >-->
 											<input type="submit" name="desinscribirse" value="Cancelar Inscripcion" >
-										<?php
-										}else{
-										?>
-											<input type="submit" name="cancelar" value="Cancelar Reserva" >
-										<?php
-										}
+											<?php
+											if($_SESSION["currentuser"]=='admin'){
+												?>
+												<input type="submit" name="reservar" value="Reservar" >
+												<?php
+											}
+										
+										
 										?>
 									
 									

@@ -65,6 +65,9 @@ class RealizarReserva {
 	public function setIdReserva($idReserva) {
 		$this->idReserva = $idReserva;
 	}
+	public function setNumInscritos($numInscritos) {
+		$this->numInscritos = $numInscritos;
+	}
 
 	public function setFecha($fech) {
 		$this->fecha = $fech;

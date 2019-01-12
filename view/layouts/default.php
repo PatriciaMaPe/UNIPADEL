@@ -166,7 +166,7 @@ $currenttype = $_SESSION["currenttype"];
 				<li class="nav-item active">
 					<a  class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Reservas</a>
 					 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-			            <a class="dropdown-item" href="index.php?controller=gestionarReservas&amp;action=index">Mis reservas</a>
+			            <a class="dropdown-item" href="index.php?controller=RealizarReserva&amp;action=comprobarMisReservas">Mis reservas</a>
 			            <a class="dropdown-item" href="index.php?controller=gestionarReservas&amp;action=index">Listado reservas</a>
 			         </div>
 				</li>

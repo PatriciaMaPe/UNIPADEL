@@ -17,8 +17,10 @@ class GestionarReservasMapper {
 		$this->db = PDOConnection::getInstance();
 	}
 
-	public function updateHorario( $disponibilidad, $idPista, $horario, $fecha) {
+	public function updateHorario( $disponibilidad, $idPista, $horario, $fecha,$numInscritos) {
 		$stmt = $this->db->prepare("UPDATE HORARIO SET disponibilidad=? WHERE idPista=? AND horario=? AND fecha=?");
+		$stmt->execute(array($disponibilidad,$idPista,$horario,$fecha));
+		$stmt = $this->db->prepare("UPDATE HORARIO SET numInscritos=? WHERE idPista=? AND horario=? AND fecha=?");
 		$stmt->execute(array($disponibilidad,$idPista,$horario,$fecha));
 
 	}
