@@ -18,14 +18,14 @@ class GestionarReservasMapper {
 	}
 
 	public function updateHorario( $disponibilidad, $idPista, $horario, $fecha,$numInscritos) {
-		$stmt = $this->db->prepare("UPDATE HORARIO SET disponibilidad=? WHERE idPista=? AND horario=? AND fecha=?");
+		$stmt = $this->db->prepare("UPDATE Horario SET disponibilidad=? WHERE idPista=? AND horario=? AND fecha=?");
 		$stmt->execute(array($disponibilidad,$idPista,$horario,$fecha));
-		$stmt = $this->db->prepare("UPDATE HORARIO SET numInscritos=? WHERE idPista=? AND horario=? AND fecha=?");
+		$stmt = $this->db->prepare("UPDATE Horario SET numInscritos=? WHERE idPista=? AND horario=? AND fecha=?");
 		$stmt->execute(array($disponibilidad,$idPista,$horario,$fecha));
 
 	}
 	public function findByFecha($fec){
-		$stmt = $this->db->prepare("SELECT idPista,horario,disponibilidad,numInscritos FROM HORARIO WHERE fecha=? ORDER BY idPista,horario");
+		$stmt = $this->db->prepare("SELECT idPista,horario,disponibilidad,numInscritos FROM Horario WHERE fecha=? ORDER BY idPista,horario");
 		$stmt->execute(array($fec));
 		$pistas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		$horas=array();
@@ -37,7 +37,7 @@ class GestionarReservasMapper {
 		return $horas;
 
 	}
-	
+
 
 
 }

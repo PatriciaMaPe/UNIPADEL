@@ -13,12 +13,12 @@ class RealizarReservaController extends BaseController {
 
 
 	private $RealizarReservaController;
-	
+
 	public function __construct() {
 		parent::__construct();
 		$this->RealizarReservaMapper = new RealizarReservaMapper();
-		$this->GestionarReservasMapper = new GestionarReservasMapper();	
-                
+		$this->GestionarReservasMapper = new GestionarReservasMapper();
+
 	}
 	public function index() {
 
@@ -30,12 +30,12 @@ class RealizarReservaController extends BaseController {
 
 		$user = $_SESSION["currentuser"];
 		$usuario= $this->RealizarReservaMapper->misReservas($user);
-		
+
 		$this->view->setVariable("UsuarioRegistradousuario", $usuario, false);
-		
+
 		$this->view->render("reservas", "misReservas");
-		
-		
+
+
 	}
 	public function cancelarReserva() {
 		$reserva = new RealizarReserva();
@@ -47,13 +47,13 @@ class RealizarReservaController extends BaseController {
 		$reserva->setPistaIdPista($pista);
 		$reserva->setHoraInicio($horaInicio);
 		$reserva->setHoraFin($horaFin);
-		
-		
-			
+
+
+
 		$hoy = date ( 'Y/m/d');
 		$fechafin = strtotime ( '-1 day' , strtotime ( $fecha ) ) ;
 		$fechafin = date ( 'Y/m/d' , $fechafin );
-					
+
 		if($hoy<=$fechafin ){
 			$disponibilidad='disponible';
 			$numInscritos='0';
@@ -67,11 +67,11 @@ class RealizarReservaController extends BaseController {
 			echo 'No se puede cancelar la reserva';
 			$this->view->render("reservas", "gestionarReservas");
 		}
-		
-		
+
+
 	}
 
-	
+
 	public function anadirReserva() {
 			$reserva = new RealizarReserva();
 			// populate the Post object with data form the form
@@ -82,7 +82,7 @@ class RealizarReservaController extends BaseController {
 			$fecha=$_REQUEST["fecha"];
 			$disponibilidad=$_REQUEST["disponibilidad"];
 			$fin=$_REQUEST["finInscripcion"];
-			
+
 			$usuario=$_REQUEST["usuario"];
 			$reserva->setPistaIdPista($pista);
 			$reserva->setHoraInicio($hora);
@@ -90,23 +90,22 @@ class RealizarReservaController extends BaseController {
 			$reserva->setFecha($fecha);
 			$reserva->setUsuarioRegistradoUsuario($usuario);
 			$reserva->setFinInscripcion($fin);
-			
 
-			
-			
+
+
 			$hoy = date ( 'Y/m/d');
-		
-			
+
+
 				//Si viene de darle a inscribirse
 				if(isset($_REQUEST["inscripcion"])){
 					if($hoy<=$fin){
 						$this->RealizarReservaMapper->insertarInscripción($reserva,$fecha,$hora,$pista,$num,$fin);
 						echo 'Operación realizada';
-						
+
 					}else{
 						echo 'No se puede realizar más inscripciones';
 					}
-				
+
 				}else if(isset($_REQUEST["desinscribirse"])){//Si viene de darle a desinscribirse
 					if($hoy<=$fin){
 						$this->RealizarReservaMapper->cancelarInscripcion($reserva,$fecha,$hora,$pista,$num,$fin);
@@ -114,9 +113,9 @@ class RealizarReservaController extends BaseController {
 					}else{
 						echo 'No se puede cancelar la inscripción';
 					}
-						
-			
-					
+
+
+
 				}else{//Si viene de darle a reservar
 					if($hoy<=$fin){
 						$disponibilidad='ocupado';
@@ -126,16 +125,16 @@ class RealizarReservaController extends BaseController {
 						$this->RealizarReservaMapper->insertarReserva($reserva);
 						$this->GestionarReservasMapper->updateHorario($disponibilidad, $pista, $hora, $fecha,$numInscritos);
 						echo 'Operación realizada';
-						
+
 					}else{
 						echo 'No se puede realizar reservas ya que quedan menos de 7 días';
 					}
 
-				
+
 				}
 
 			$this->view->render("reservas", "gestionarReservas");
-			
+
 
 	}
 
