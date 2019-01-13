@@ -55,7 +55,7 @@ $anterior=0;
 
 											<?php
 											if($pista->getDisponibilidad()=='disponible'){
-												//if($pista->getNumInscritos()=='' ||$pista->getNumInscritos()=='0'){
+												if($pista->getNumInscritos()=='' ||$pista->getNumInscritos()=='0'){
 													?>
 													<td>
                           <div class="btn-group" data-toggle="buttons">
@@ -74,14 +74,27 @@ $anterior=0;
                           </div>
                           </td>
 												<?php
-												/*}else{
+												}else{
 													?>
-													<td><a style="border:solid;background-color:blue;color:black;" href="index.php?controller=gestionarReservas&amp;action=comprobarReserva&amp;fecha=<?= $pista->getFecha(); ?>&amp;
-													pista=<?= $pista->getHorarioIdPista(); ?>&amp;hora=<?= $pista->getHora(); ?>&amp;
-													disponibilidad=<?= $pista->getDisponibilidad();?>&amp;
-													numInscritos="""><?php echo $pista->getHora(); ?></a></td>
+
+                          <td>
+                          <div class="btn-group" data-toggle="buttons">
+                          <label class="btn btn-danger">
+                          <input disabled style="border:solid;background-color:green;color:black;"
+                          type="checkbox"
+                          name="reservas[]"
+                          value="<?= $pista->getFecha(); ?>
+                                 <?= $pista->getHorarioIdPista(); ?>
+                                 <?= $pista->getHora(); ?>
+                                 <?= $pista->getDisponibilidad();?>">
+
+
+                            <?php echo $pista->getHora(); ?></input>
+                            </label>
+                          </div>
+                          </td>
 												<?php
-                      }*/
+                      }
 												?>
 
 											<?php
