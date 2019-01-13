@@ -55,6 +55,8 @@ class GestionarReservasController extends BaseController {
 	}
 
 	public function acordarReserva() {
+			$enfrentamiento = $_REQUEST['enfrentamiento'];
+			$this->view->setVariable("idEnfrentamiento", $enfrentamiento, false);
 			$this->view->render("reservas", "acordarReserva");
 
 	}
@@ -62,9 +64,11 @@ class GestionarReservasController extends BaseController {
 	public function acordarPistasFecha() {
 
 		if (isset($_REQUEST['fecha'])){
+			$idEnfrentamiento=$_REQUEST["idEnfrent"];
 			$dia=$_REQUEST["fecha"];
 			$fecha= $this->GestionarReservasMapper->findByFecha($dia);
 			$this->view->setVariable("fecha", $fecha, false);
+			$this->view->setVariable("idEnfrentamiento", $idEnfrentamiento, false);
 			$this->view->render("reservas", "acordarReserva");
 		}
 	}
@@ -72,11 +76,21 @@ class GestionarReservasController extends BaseController {
 	public function elegirReservas() {
 
 			$reservas = $_REQUEST['reservas'];
+			$arrayReservas = array();
+			foreach ($reservas as $reserva){
+				$r = explode("/", $reserva);
+				var_dump($r[0]);
+				var_dump($r[1]);
+				var_dump($r[2]);
+				var_dump($r[3]);
+
+    		array_push($arrayReservas, $r);
+			}
+
+
 			$this->view->setVariable("reservas", $reservas, false);
 			$this->view->render("reservas", "acordarReserva");
-			foreach ($reservas as $reserva){
-    			var_dump($reserva);
-			}
+
 
 	}
 

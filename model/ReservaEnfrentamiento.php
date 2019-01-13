@@ -32,9 +32,10 @@ class ReservaEnfrentamiento {
 	* @param int $idReserva
 	* @param int $idEnfrentamiento
 	*/
-	public function __construct($idReserva=NULL, $idEnfrentamiento=NULL) {
+	public function __construct($idReserva=NULL, $idEnfrentamiento=NULL, $idPista=NULL) {
 		$this->idEnfrentamiento = $idEnfrentamiento;
 		$this->idReserva = $idReserva;
+		$this->idPista = $idPista;
 	}
 
 	/**
@@ -53,6 +54,10 @@ class ReservaEnfrentamiento {
 	*/
 	public function getIdEnfrentamiento() {
 		return $this->idEnfrentamiento;
+	}
+
+	public function getIdPista() {
+		return $this->idPista;
 	}
 
 

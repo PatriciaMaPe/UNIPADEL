@@ -30,10 +30,20 @@ class ReservaEnfrentamientoMapper {
       $reservasEnfrentamiento_db = $stmt->fetch(PDO::FETCH_ASSOC);
 
       array_push($idsReservasEnfrent, new ReservaEnfrentamiento($reservasEnfrentamiento_db["idReserva"],
-                                   $reservasEnfrentamiento_db["idEnfrentamiento"]));
+                                   $reservasEnfrentamiento_db["idEnfrentamiento"],
+                                   $reservasEnfrentamiento_db["PistaidPista"]));
     }
 
     return $idsReservasEnfrent;
 
+  }
+
+
+  public function insertarReservaEnfrentamiento($idReserva,$idEnfrentamiento, $idPista) {
+
+    $stmt = $this->db->prepare("INSERT INTO Reserva_Enfrentamiento(idReserva,idEnfrentamiento,PistaidPista) VALUES (?,?,?)");
+    $stmt->execute(array($idReserva, $idEnfrentamiento, $idPista));
+
+    return $this->db->lastInsertId();
   }
 }
