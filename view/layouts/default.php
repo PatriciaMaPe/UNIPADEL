@@ -200,6 +200,7 @@ $currenttype = $_SESSION["currenttype"];
 						<?= $currentuser ?>
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="index.php?controller=enfrentamiento&amp;action=enfrentamientosUsuario">Enfrentamientos</a>
 						<a class="dropdown-item" href="index.php?controller=usuarioRegistrado&amp;action=logout">Logout</a>
 					</div>
 					</li>
