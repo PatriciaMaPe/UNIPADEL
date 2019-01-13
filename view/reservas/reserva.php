@@ -45,15 +45,9 @@ $view->setVariable("title", "Gestionar reservas");
 									<a href="index.php?controller=RealizarReserva"><button type="button" >Volver</button></a>
 											<input type="submit" name="inscripcion" value="Inscribirse" >
 											<input type="submit" name="desinscribirse" value="Cancelar Inscripcion" >
-											<?php
-											if($_SESSION["currentuser"]=='admin'){
-												?>
-												<input type="submit" name="reservar" value="Reservar" >
-												<?php
-											}
+											
+											<input type="submit" name="reservar" value="Reservar" >
 										
-										
-										?>
 									
 									
 									
