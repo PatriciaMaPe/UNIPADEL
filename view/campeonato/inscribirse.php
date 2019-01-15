@@ -7,6 +7,9 @@ $errors = $view->getVariable("errors");
 $campeonato = $view->getVariable("campeonato");
 $categorias = $view->getVariable("categorias");
 
+$currentuser = $_SESSION["currentuser"];
+$currenttype = $_SESSION["currenttype"];
+
 $view->setVariable("title", "Inscribirse Campeonato");
 ?>
 
@@ -59,7 +62,7 @@ $view->setVariable("title", "Inscribirse Campeonato");
                         <h3>Inscribirse Campeonato</h3>
                         <form name="inscribirsecampeonato" action="index.php?controller=Campeonato&amp;action=inscribirse" method="POST">
                             <label>Usuario capitan</label>
-                            <input type="text" name="nombreCapitan" value="" required/><br>
+                            <input type="text" name="nombreCapitan" value="<?php echo $currentuser ?>" readonly/><br>
                             <label>Usuario compañero </label>
                             <input type="text" name="nombreDeportista" value="" required/><br>
                             <label>Nivel</label><br>

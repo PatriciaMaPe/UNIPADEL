@@ -6,6 +6,9 @@ $view = ViewManager::getInstance();
 $campeonato = $view->getVariable("campeonato");
 $categorias = $view->getVariable("categorias");
 $view->setVariable("title", "Campeonato");
+
+$currentuser = $_SESSION["currentuser"];
+$currenttype = $_SESSION["currenttype"];
 ?>
 
 <html lang="es">
@@ -54,12 +57,13 @@ $view->setVariable("title", "Campeonato");
                 </tbody>
             </table>
         </div>
-        <!-- SOLO EL ADMIN PUEDE AÑADIR CATEGORIAS -->
+        <?php if($currenttype == "admin"){ ?>
         <div>
                 <?php if ($categorias == NULL) { ?>
                 <a href="index.php?controller=campeonato&amp;action=anadirCategoria&amp;id=<?= $campeonato["idCampeonato"] ?>">Añadir Categorias</a>
                 <?php } ?>
             </div>
+        <?php } ?>
         <footer>
             <p>ABP_23</p>
         </footer>
