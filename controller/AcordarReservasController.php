@@ -28,6 +28,7 @@ class AcordarReservasController extends BaseController {
 
 
 	public function acordarReserva() {
+
 			$enfrentamiento = $_REQUEST['enfrentamiento'];
 			$posiblesReservas = $this->comprobarPosiblesReservas($enfrentamiento);
 
@@ -40,6 +41,7 @@ class AcordarReservasController extends BaseController {
 			}
 
 
+
 	}
 
 	public function comprobarPosiblesReservas($enfrentamiento) {
@@ -50,9 +52,11 @@ class AcordarReservasController extends BaseController {
 	public function acordarPistasFecha() {
 
 		if (isset($_REQUEST['fecha'])){
+			$idEnfrentamiento=$_REQUEST["idEnfrent"];
 			$dia=$_REQUEST["fecha"];
 			$fecha= $this->GestionarReservasMapper->findByFecha($dia);
 			$this->view->setVariable("fecha", $fecha, false);
+			$this->view->setVariable("idEnfrentamiento", $idEnfrentamiento, false);
 			$this->view->render("reservas", "acordarReserva");
 		}
 	}
