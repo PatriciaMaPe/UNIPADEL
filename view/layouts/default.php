@@ -180,15 +180,16 @@ $currenttype = $_SESSION["currenttype"];
 						<a class="dropdown-item" href="index.php?controller=enfrentamiento&amp;action=index">Enfrentamientos</a>
 					</div>
 				</li>
-
+                                <!--
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="index.php?controller=partidos&amp;action=index" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						Partidos
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<!-- <a class="dropdown-item" href="index.php?controller=partido&amp;action=view">Consultar partidos</a> -->
+						<!-- <a class="dropdown-item" href="index.php?controller=partido&amp;action=view">Consultar partidos</a>
 					</div>
 				</li>
+                                -->
 				<!--<li class="nav-item active">
           <a class="nav-link" href="index.php?controller=establecerPistas&amp;action=index">Pistas</a>
         </li>-->

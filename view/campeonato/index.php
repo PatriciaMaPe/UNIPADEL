@@ -6,6 +6,9 @@ $errors = $view->getVariable("errors");
 $campeonatos = $view->getVariable("campeonatos");
 $gruposCampeonatos = $view->getVariable("gruposCampeonatos");
 $view->setVariable("title", "Crear Campeonato");
+
+$currentuser = $_SESSION["currentuser"];
+$currenttype = $_SESSION["currenttype"];
 ?>
 
 <html lang="es">
@@ -32,9 +35,10 @@ $view->setVariable("title", "Crear Campeonato");
                             <td>
                                 <a href="index.php?controller=campeonato&amp;action=inscribir&amp;id=<?= $campeonato->getIdCampeonato(); ?>">Inscribirse</a>
                                 <a href="index.php?controller=campeonato&amp;action=view&amp;id=<?= $campeonato->getIdCampeonato(); ?>">Consultar</a>
-                                <!-- SOLO EL ADMIN PUEDE VER MODIFICAR O ELIMINAR -->
-                                <a href="index.php?controller=campeonato&amp;action=modificar&amp;id=<?= $campeonato->getIdCampeonato(); ?>">Modificar</a>                                   
-                                <?php
+                                <?php if($currenttype == "admin"){ ?>
+                                <a href="index.php?controller=campeonato&amp;action=modificar&amp;id=<?= $campeonato->getIdCampeonato(); ?>">Modificar</a> 
+                                <?php }
+                                if($currenttype == "admin"){
                                 $show = true;
                                 foreach ($gruposCampeonatos as $grupo):
                                     if ($grupo->getCampeonato()->getIdCampeonato() == $campeonato->getIdCampeonato()) {
@@ -45,6 +49,7 @@ $view->setVariable("title", "Crear Campeonato");
                                     ?>
                                     <a href="index.php?controller=campeonato&amp;action=eliminar&amp;id=<?= $campeonato->getIdCampeonato(); ?>" onclick="return confirm('¿Confirmas que quieres eliminar este campeonato: <?php echo $campeonato->getNombreCampeonato() ?> ?')">Eliminar</a>
                                 <?php } ?>
+                                    <?php } ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

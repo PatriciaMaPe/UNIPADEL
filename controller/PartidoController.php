@@ -133,13 +133,13 @@ class PartidoController extends BaseController {
             $partidoReserva->setIdReserva($idReserva);
             $this->partidoReservaMapper->save($partidoReserva);
             
-            $this->gestionarReservasMapper->updateHorario($disponibilidad, $pista, $hora, $fecha);
+            $this->gestionarReservasMapper->updateHorario($disponibilidad, $pista, $hora, $fecha, 0);
             
         } else {
             $disponibilidad = 'disponible';
             $reserva->setDisponibilidad('disponible');
             $this->realizarReservaMapper->cancelarReserva2($reserva);
-            $this->gestionarReservasMapper->updateHorario($disponibilidad, $pista, $hora, $fecha);
+            $this->gestionarReservasMapper->updateHorario($disponibilidad, $pista, $hora, $fecha, 0 );
         }
         //MOSTRAR MENSAJE ERROR O CORRECTA EJECUCION
         $partidos = $this->partidoMapper->findAll();

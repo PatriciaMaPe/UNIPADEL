@@ -7,6 +7,9 @@ $fecha = $view->getVariable("fecha");
 $anterior = 0;
 $view->setVariable("title", "Crear Partido");
 
+$currentuser = $_SESSION["currentuser"];
+$currenttype = $_SESSION["currenttype"];
+
 ?>
 
 <html lang="es">
