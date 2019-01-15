@@ -390,6 +390,7 @@ CREATE TABLE `reserva` (
   `disponibilidad` varchar(10) COLLATE latin1_spanish_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
+
 --
 -- Volcado de datos para la tabla `reserva`
 --
@@ -454,16 +455,41 @@ INSERT INTO `usuarioregistrado` (`usuario`, `password`, `nombre`, `apellido`, `t
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `Enfrentamiento`
+-- Estructura de tabla para la tabla `PosiblesReservasEnfrentamiento`
+--
+
+CREATE TABLE `PosiblesReservasEnfrentamiento` (
+  `idEnfrentamiento` int(4) NOT NULL,
+  `UsuarioRegistradousuario` varchar(20) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `idReserva` int(4) NOT NULL,
+  `fecha` date DEFAULT NULL,
+  `horaInicio` time DEFAULT NULL,
+  `horaFin` time DEFAULT NULL,
+  `PistaidPista` int(4) DEFAULT NULL,
+  `disponibilidad` varchar(10) COLLATE latin1_spanish_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+--
+-- Indices de la tabla `PosiblesReservasEnfrentamiento`
+--
+ALTER TABLE `PosiblesReservasEnfrentamiento`
+  ADD PRIMARY KEY (`idReserva`,`idEnfrentamiento`);
+
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `Reserva_Enfrentamiento`
 --
 
 CREATE TABLE `Reserva_Enfrentamiento` (
   `idReserva` int(4) NOT NULL,
-  `idEnfrentamiento` int(4) NOT NULL
+  `idEnfrentamiento` int(4) NOT NULL,
+  `PistaidPista` int(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 --
--- Indices de la tabla `Campeonato_Categoria`
+-- Indices de la tabla `Reserva_Enfrentamiento`
 --
 ALTER TABLE `Reserva_Enfrentamiento`
   ADD PRIMARY KEY (`idReserva`,`idEnfrentamiento`);

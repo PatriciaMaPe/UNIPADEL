@@ -45,9 +45,9 @@ $currenttype = $_SESSION["currenttype"];
       <td>
 
 					<?php if($reservas[$reserva]->getIdEnfrentamiento() == $enfrentamiento->getIdEnfrentamiento()): ?>
-							<?= $reservas[$reserva]->getIdReserva(); ?>
+							<?= $reservas[$reserva]->getIdPista(); ?>
 						<?php else: ?>
-							<a href="index.php?controller=gestionarReservas&amp;action=acordarReserva">Reservar</a>
+							<a href="index.php?controller=acordarReservas&amp;action=acordarReserva&amp;enfrentamiento=<?= $enfrentamiento->getIdEnfrentamiento(); ?>">Reservar</a>
 					<?php endif; ?>
       </td>
 
