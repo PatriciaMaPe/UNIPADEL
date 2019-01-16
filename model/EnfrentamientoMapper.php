@@ -108,6 +108,7 @@ class EnfrentamientoMapper {
 			foreach ($idsPareja as $id)
 			$stmt = $this->db->prepare("SELECT * FROM Enfrentamiento WHERE ParejaidPareja1=?
 				OR ParejaidPareja2=? AND ParejaidPareja2!=ParejaidPareja1");
+			
 			$stmt->execute(array($id, $id));
 			$enfrentamientoPareja1_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

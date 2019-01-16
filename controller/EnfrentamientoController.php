@@ -76,6 +76,7 @@ class EnfrentamientoController extends BaseController {
 		$idPareja = $this->parejaMapper->getIdPareja($usuario);
 		//recogemos los enfrentamientos de la pareja
 		$enfrentamientosPareja = $this->enfrentamientoMapper->findByEnfrentamientosPareja($idPareja);
+		
 		//Array de parejas
 		$arrayParejas = array();
 		//obtenemos el número de reservas de cada enfrentamiento
