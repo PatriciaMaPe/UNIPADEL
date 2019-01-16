@@ -505,10 +505,10 @@ class ParejaMapper {
 
 					return $this->db->lastInsertId();
 			}
-                        
-                        
-    //Funciones Nacho   
-                        
+
+
+    //Funciones Nacho
+
     public function countByGrupo($idGrupo) {
 
         $stmt = $this->db->prepare("SELECT COUNT(*) as cont FROM Pareja WHERE GrupoidGrupo = $idGrupo ");
@@ -519,7 +519,6 @@ class ParejaMapper {
     }
 
     public function addPareja($capitan, $deportista, $grupoId, $tipoLiga) {
-
         $stmt = $this->db->prepare("INSERT INTO Pareja(capitan,deportista,GrupoidGrupo,GrupotipoLiga) values (?,?,?,?)");
         $stmt->execute(array($capitan, $deportista, $grupoId, $tipoLiga));
         return $this->db->lastInsertId();
@@ -527,8 +526,10 @@ class ParejaMapper {
 
     public function findDupledA($deportista, $grupoId, $tipoLiga) {
 
-        $stmt = $this->db->prepare("SELECT COUNT(*) as cont FROM Pareja WHERE capitan = '$deportista' AND GrupoidGrupo = $grupoId AND GrupotipoLiga = '$tipoLiga'");
-        $stmt->execute();
+        //$stmt = $this->db->prepare("SELECT COUNT(*) as cont FROM Pareja WHERE capitan = '$deportista' AND GrupoidGrupo = $grupoId AND GrupotipoLiga = '$tipoLiga'");
+				$stmt = $this->db->prepare("SELECT COUNT(*) as cont FROM Pareja WHERE capitan = ? AND GrupoidGrupo = ? AND GrupotipoLiga = ?");
+
+				$stmt->execute(array($deportista, $grupoId, $tipoLiga));
         $numParejas = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $numParejas;
@@ -536,26 +537,35 @@ class ParejaMapper {
 
     public function findDupledB($deportista, $grupoId, $tipoLiga) {
 
-        $stmt = $this->db->prepare("SELECT COUNT(*) as cont FROM Pareja WHERE deportista = '$deportista' AND GrupoidGrupo = $grupoId AND GrupotipoLiga = '$tipoLiga'");
-        $stmt->execute();
+        //$stmt = $this->db->prepare("SELECT COUNT(*) as cont FROM Pareja WHERE deportista = '$deportista' AND GrupoidGrupo = $grupoId AND GrupotipoLiga = '$tipoLiga'");
+				$stmt = $this->db->prepare("SELECT COUNT(*) as cont FROM Pareja WHERE deportista = ? AND GrupoidGrupo = ? AND GrupotipoLiga = ?");
+
+				$stmt->execute(array($deportista, $grupoId, $tipoLiga));
         $numParejas = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $numParejas;
     }
 
     	public function crearGrupoB($campeonatoId, $categoriaId, $tipoLiga){
-		$stmt = $this->db->prepare("SELECT idGrupo FROM Grupo
-			WHERE Campeonato_CategoriaCampeonatoidCampeonato = $campeonatoId AND Campeonato_CategoriaCategoriaidCategoria = $categoriaId
-			AND  tipoLiga = '$tipoLiga'");
-		$stmt->execute();
-		$grupoid_db = $stmt->fetch(PDO::FETCH_ASSOC);
+			//$stmt = $this->db->prepare("SELECT idGrupo FROM Grupo
+				//WHERE Campeonato_CategoriaCampeonatoidCampeonato = $campeonatoId
+				//AND Campeonato_CategoriaCategoriaidCategoria = $categoriaId
+				//AND  tipoLiga = '$tipoLiga'");
+				$stmt = $this->db->prepare("SELECT idGrupo FROM Grupo
+					WHERE Campeonato_CategoriaCampeonatoidCampeonato = ?
+					AND Campeonato_CategoriaCategoriaidCategoria = ?
+					AND  tipoLiga = ?");
+			$stmt->execute(array($campeonatoId, $categoriaId, $tipoLiga));
+			$grupoid_db = $stmt->fetch(PDO::FETCH_ASSOC);
+
 
 		if($grupoid_db==NULL){
 			$stmt = $this->db->prepare("INSERT INTO Grupo (tipoLiga, Campeonato_CategoriaCampeonatoidCampeonato,
 				Campeonato_CategoriaCategoriaidCategoria) VALUES (?,?,?);");
 			$stmt->execute(array($tipoLiga, $campeonatoId, $categoriaId));
 			$registro = $this->db->lastInsertId();
+
 		}
-                return $registro;
+			return $this->db->lastInsertId();
 	}
 }

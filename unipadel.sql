@@ -220,7 +220,7 @@ INSERT INTO `enfrentamiento` (`idEnfrentamiento`, `ParejaidPareja1`, `ParejaidPa
 --
 
 CREATE TABLE `grupo` (
-  `idGrupo` int(4) NOT NULL,
+  `idGrupo` int(4) NOT NULL AUTO_INCREMENT,
   `tipoLiga` varchar(10) COLLATE latin1_spanish_ci NOT NULL,
   `Campeonato_CategoriaCampeonatoidCampeonato` int(4) NOT NULL,
   `Campeonato_CategoriaCategoriaidCategoria` int(4) NOT NULL
