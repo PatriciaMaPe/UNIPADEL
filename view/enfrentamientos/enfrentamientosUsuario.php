@@ -49,7 +49,11 @@ $currenttype = $_SESSION["currenttype"];
           <td>
 
     					<?php if($enfrentamiento[1] != NULL): ?>
-    							<?= $enfrentamiento[1]; ?>
+                <a href="index.php?controller=acordarReservas&amp;action=mostrarReserva&amp;
+                idEnfrentamiento=<?= $enfrentamiento[0]->getIdEnfrentamiento(); ?>&amp;
+                idPista=<?= $enfrentamiento[1];?>"><?= $enfrentamiento[1]; ?></a>
+
+
     					<?php elseif($enfrentamiento[2]!=NULL): ?>
                   <a href="index.php?controller=acordarReservas&amp;action=acordarReserva&amp;enfrentamiento=<?= $enfrentamiento[0]->getIdEnfrentamiento(); ?>">Propuesta</a>
               <?php

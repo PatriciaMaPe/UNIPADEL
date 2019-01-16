@@ -18,11 +18,13 @@ class ReservaMapper {
 		$this->db = PDOConnection::getInstance();
 	}
 
-	/*public function findReservaByIdEnfrentamiento($idEnfrentamiento) {
-		$stmt = $this->db->prepare("INSERT INTO Reserva (fecha,PistaidPista,horaInicio,horaFin,disponibilidad) VALUES (?,?,?,?,?)");
-		$stmt->execute(array($reserva->getFecha(),$reserva->getPistaidPista(),$reserva->getHoraInicio(),$reserva->getHoraFin(),$reserva->getDisponibilidad()));
-		return $this->db->lastInsertId();
-	}*/
+	public function findReservaById($idReserva) {
+
+		$stmt = $this->db->prepare("SELECT * FROM Reserva WHERE idReserva=?");
+		$stmt->execute(array($idReserva));
+		$reserva_db = $stmt->fetch(PDO::FETCH_ASSOC);
+		return $reserva_db;
+	}
 	/*public function cancelarReserva(RealizarReserva $reserva) {
 		$stmt = $this->db->prepare("DELETE FROM Reserva WHERE PistaidPista=? AND horaInicio=? AND fecha=?");
 		$stmt->execute(array($reserva->getPistaidPista(),$reserva->getHoraInicio(),$reserva->getFecha()));

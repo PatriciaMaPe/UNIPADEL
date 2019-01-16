@@ -17,9 +17,8 @@ $anterior=0;
 			<table class="table" >
 			<thead><tr><th>Etiquetas</th></tr></thead>
 			<tbody><tr>
-				<td style="border:solid;background-color:green;color:black;">Disponible</td>
-				<td style="border:solid;background-color:blue;color:black;">Libre</td>
-				<td style="border:solid;background-color:red;color:black;">Ocupado</td>
+				<td style="border:solid;background-color:#01DF3A;color:black;">Disponible</td>
+				<td style="border:solid;background-color:#FF4000;color:black;">Ocupado</td>
 			</tr></tbody>
 			</table>
 

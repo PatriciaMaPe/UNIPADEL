@@ -11,6 +11,7 @@ require_once(__DIR__."/../model/EnfrentamientoMapper.php");
 require_once(__DIR__."/../model/ParejaMapper.php");
 require_once(__DIR__."/../core/ViewManager.php");
 require_once(__DIR__."/../controller/BaseController.php");
+require_once(__DIR__."/../model/ReservaMapper.php");
 /**
 * @author Patricia
 */
@@ -18,6 +19,7 @@ class AcordarReservasController extends BaseController {
 
 	private $gestionarReservasMapper;
 	private $PosiblesReservasEnfrentamientoMapper;
+	private $ReservaMapper;
 
 	public function __construct() {
 		parent::__construct();
@@ -27,6 +29,7 @@ class AcordarReservasController extends BaseController {
 		$this->ReservaEnfrentamientoMapper = new ReservaEnfrentamientoMapper();
 		$this->EnfrentamientoMapper = new EnfrentamientoMapper();
 		$this->ParejaMapper = new ParejaMapper();
+		$this->ReservaMapper = new ReservaMapper();
 	}
 
 
@@ -166,6 +169,17 @@ class AcordarReservasController extends BaseController {
 			}
 		}
 
+
+	}
+
+	public function mostrarReserva() {
+		$idEnfrentamiento = $_REQUEST['idEnfrentamiento'];
+
+		$idReserva = $this->ReservaEnfrentamientoMapper->findIdReservaByIdEnfrentamiento($idEnfrentamiento);
+		$reserva = $this->ReservaMapper->findReservaById($idReserva);
+
+		$this->view->setVariable("reserva", $reserva, false);
+		$this->view->render("reservas", "reservaAcordada");
 
 	}
 

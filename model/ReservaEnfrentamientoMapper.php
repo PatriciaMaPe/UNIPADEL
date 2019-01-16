@@ -31,6 +31,16 @@ class ReservaEnfrentamientoMapper {
       return $reservasEnfrentamiento_db["PistaidPista"];
   }
 
+  public function findIdReservaByIdEnfrentamiento($enfrentamiento){
+    $idsReservasEnfrent = array();
+
+      $stmt = $this->db->prepare("SELECT idReserva FROM Reserva_Enfrentamiento WHERE idEnfrentamiento=?");
+      $stmt->execute(array($enfrentamiento));
+      $reservasEnfrentamiento_db = $stmt->fetch(PDO::FETCH_ASSOC);
+
+      return $reservasEnfrentamiento_db["idReserva"];
+  }
+
 
   public function insertarReservaEnfrentamiento($idReserva,$idEnfrentamiento, $idPista, $horaInicio, $fecha) {
     try {
