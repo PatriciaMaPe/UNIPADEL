@@ -104,7 +104,7 @@ class PartidoController extends BaseController {
         $this->view->setVariable("horaFinal", $horaFinal, false);
         $this->view->render("partido", "reserva");
     }
-    
+
      public function anadirReservaPartido() {
         $reserva = new RealizarReserva();
         $pista = $_REQUEST["pista"];
@@ -121,7 +121,7 @@ class PartidoController extends BaseController {
         if ($disponibilidad == 'disponible') {
             $disponibilidad = 'ocupado';
             $reserva->setDisponibilidad('ocupado');
-            
+
             $partido = new Partido();
             $partido->setFecha($fecha);
             $partido->setHoraInicio($hora);
@@ -132,9 +132,9 @@ class PartidoController extends BaseController {
             $partidoReserva->setIdPartido($idPartido);
             $partidoReserva->setIdReserva($idReserva);
             $this->partidoReservaMapper->save($partidoReserva);
-            
+
             $this->gestionarReservasMapper->updateHorario($disponibilidad, $pista, $hora, $fecha, 0);
-            
+
         } else {
             $disponibilidad = 'disponible';
             $reserva->setDisponibilidad('disponible');
