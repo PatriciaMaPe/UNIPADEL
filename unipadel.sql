@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-01-2019 a las 11:36:19
+-- Tiempo de generación: 16-01-2019 a las 16:13:19
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.2.12
 
@@ -273,7 +273,35 @@ INSERT INTO `horario` (`fecha`, `idPista`, `horario`, `disponibilidad`, `numInsc
 ('2019-01-06', 4, '01:30:00', 'ocupado', 2),
 ('2019-01-06', 4, '03:00:00', 'disponible', NULL),
 ('2019-01-06', 4, '04:30:00', 'disponible', NULL),
-('2019-01-06', 4, '06:00:00', 'disponible', NULL);
+('2019-01-06', 4, '06:00:00', 'disponible', NULL),
+('2019-01-17', 1, '00:00:00', 'disponible', NULL),
+('2019-01-17', 1, '01:30:00', 'disponible', NULL),
+('2019-01-17', 1, '03:00:00', 'disponible', NULL),
+('2019-01-17', 1, '04:30:00', 'disponible', NULL),
+('2019-01-20', 1, '00:00:00', 'disponible', NULL),
+('2019-01-20', 1, '01:30:00', 'disponible', NULL),
+('2019-01-20', 1, '03:00:00', 'disponible', NULL),
+('2019-01-20', 1, '04:30:00', 'disponible', NULL),
+('2019-01-20', 2, '00:00:00', 'disponible', NULL),
+('2019-01-20', 2, '01:30:00', 'disponible', NULL),
+('2019-01-20', 2, '03:00:00', 'disponible', NULL),
+('2019-01-20', 2, '04:30:00', 'disponible', NULL),
+('2019-01-25', 1, '00:00:00', 'ocupado', 0),
+('2019-01-25', 1, '01:30:00', 'disponible', 1),
+('2019-01-25', 1, '03:00:00', 'disponible', NULL),
+('2019-01-25', 1, '04:30:00', 'disponible', NULL),
+('2019-01-25', 2, '00:00:00', 'ocupado', 0),
+('2019-01-25', 2, '01:30:00', 'disponible', 2),
+('2019-01-25', 2, '03:00:00', 'disponible', NULL),
+('2019-01-25', 2, '04:30:00', 'disponible', NULL),
+('2019-01-25', 3, '00:00:00', 'ocupado', 0),
+('2019-01-25', 3, '01:30:00', 'disponible', 3),
+('2019-01-25', 3, '03:00:00', 'disponible', NULL),
+('2019-01-25', 3, '04:30:00', 'disponible', NULL),
+('2019-01-25', 4, '00:00:00', 'ocupado', 0),
+('2019-01-25', 4, '01:30:00', 'disponible', 1),
+('2019-01-25', 4, '03:00:00', 'disponible', NULL),
+('2019-01-25', 4, '04:30:00', 'disponible', NULL);
 
 -- --------------------------------------------------------
 
@@ -336,12 +364,11 @@ CREATE TABLE `partido` (
 --
 
 INSERT INTO `partido` (`idPartido`, `fecha`, `horaInicio`, `horaFin`, `inicioInscripcion`, `finInscripcion`, `pista`) VALUES
-(120, '2019-01-06', '01:30:00', '03:00:00', '0000-00-00', '0000-00-00', 1),
-(121, '2019-01-06', '03:00:00', '04:30:00', '0000-00-00', '0000-00-00', 1),
-(122, '2019-01-06', '01:30:00', '03:00:00', '0000-00-00', '0000-00-00', 1),
-(123, '2019-01-06', '01:30:00', '03:00:00', '0000-00-00', '0000-00-00', 2),
-(124, '2019-01-06', '01:30:00', '03:00:00', '0000-00-00', '0000-00-00', 3),
-(125, '2019-01-06', '01:30:00', '03:00:00', '0000-00-00', '0000-00-00', 4);
+(127, '2019-01-25', '00:00:00', '01:30:00', NULL, '2019-01-18', 1),
+(128, '2019-01-25', '01:30:00', '03:00:00', NULL, '2019-01-18', 1),
+(129, '2019-01-25', '01:30:00', '03:00:00', NULL, '2019-01-18', 2),
+(130, '2019-01-25', '01:30:00', '03:00:00', NULL, '2019-01-18', 3),
+(131, '2019-01-25', '01:30:00', '03:00:00', NULL, '2019-01-18', 4);
 
 -- --------------------------------------------------------
 
@@ -395,10 +422,10 @@ CREATE TABLE `reserva` (
 --
 
 INSERT INTO `reserva` (`UsuarioRegistradousuario`, `idReserva`, `fecha`, `horaInicio`, `horaFin`, `PistaidPista`, `disponibilidad`) VALUES
-('elena', 3, '2019-01-06', '01:30:00', '03:00:00', 1, 'ocupado'),
-('elena', 4, '2019-01-06', '01:30:00', '03:00:00', 2, 'ocupado'),
-('elena', 5, '2019-01-06', '01:30:00', '03:00:00', 3, 'ocupado'),
-('elena', 6, '2019-01-06', '01:30:00', '03:00:00', 4, 'ocupado');
+('admin', 11, '2019-01-25', '00:00:00', '01:30:00', 2, 'ocupado'),
+('admin', 12, '2019-01-25', '00:00:00', '01:30:00', 3, 'ocupado'),
+('admin', 13, '2019-01-25', '00:00:00', '01:30:00', 4, 'ocupado'),
+('admin', 14, '2019-01-25', '00:00:00', '01:30:00', 1, 'ocupado');
 
 -- --------------------------------------------------------
 
@@ -419,6 +446,7 @@ CREATE TABLE `usuarioregistrado` (
 --
 
 INSERT INTO `usuarioregistrado` (`usuario`, `password`, `nombre`, `apellido`, `tipoUsuario`) VALUES
+('admin', 'admin', 'admin', 'admin', 'admin'),
 ('ala', 'ala', 'Ana', 'Alvarez', 'deportista'),
 ('ana', 'purple', 'Ana', 'Martinez', 'deportista'),
 ('ara', 'ara', 'Ana', 'Rodriguez', 'deportista'),
@@ -591,7 +619,7 @@ ALTER TABLE `pareja`
 -- AUTO_INCREMENT de la tabla `partido`
 --
 ALTER TABLE `partido`
-  MODIFY `idPartido` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
+  MODIFY `idPartido` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
 
 --
 -- AUTO_INCREMENT de la tabla `pista`
@@ -603,7 +631,7 @@ ALTER TABLE `pista`
 -- AUTO_INCREMENT de la tabla `reserva`
 --
 ALTER TABLE `reserva`
-  MODIFY `idReserva` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idReserva` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Restricciones para tablas volcadas

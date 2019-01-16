@@ -30,7 +30,7 @@ $view->setVariable("title", "Gestionar reservas");
 									?>
 									<tr><th>Fin inscripciones</th><td> <input style="border:none" type="text" name="finInscripcion" <?php echo "value='".$nuevafecha."'";?> readonly></td></tr>
 									
-									<tr><th>Numero Inscritos</th><td> <input style="border:none" type="number" name="numInscritos" value="<?= $view->getVariable("numInscritos");?>" readonly></td></tr>
+									<tr><th>Numero Inscritos</th><td> <input style="border:none" type="text" name="numInscritos" value="<?= $view->getVariable("numInscritos");?>" readonly></td></tr>
 									
 									
 								
@@ -42,11 +42,17 @@ $view->setVariable("title", "Gestionar reservas");
 									
 									</tbody></table>
 
-									<a href="index.php?controller=RealizarReserva"><button type="button" >Volver</button></a>
-											<input type="submit" name="inscripcion" value="Inscribirse" >
-											<input type="submit" name="desinscribirse" value="Cancelar Inscripcion" >
+									<a href="index.php?controller=gestionarReservas&amp;action=index"><button type="button" >Volver</button></a>
+										<?php
+											if($view->getVariable("disponibilidad")!="ocupado"){
+										?>
+												<input type="submit" name="inscripcion" value="Inscribirse" >
+												<input type="submit" name="desinscribirse" value="Cancelar Inscripcion" >
 											
-											<input type="submit" name="reservar" value="Reservar" >
+												<input type="submit" name="reservar" value="Reservar" >
+										<?php
+											}
+										?>	
 										
 									
 									

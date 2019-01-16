@@ -21,7 +21,7 @@ class RealizarReservaMapper {
 
 	public function insertarInscripción(RealizarReserva $reserva , $fecha,$hora,$pista,$num,$finInscripcion) {
 			
-		 	if($num==2){//ESTE IF PARA SABER SI NUM INSCRITOS ES IGUAL, SI LO ES INSERTA LA RESERVA Y SE PONE A CERO
+		 	if($num==3){//ESTE IF PARA SABER SI NUM INSCRITOS ES IGUAL, SI LO ES INSERTA LA RESERVA Y SE PONE A CERO
 		 		
 				$stmt = $this->db->prepare("INSERT INTO Reserva (fecha,PistaidPista,horaInicio,horaFin,disponibilidad,UsuarioRegistradousuario) VALUES (?,?,?,?,?,?)");
 				$stmt->execute(array($reserva->getFecha(),$reserva->getPistaidPista(),$reserva->getHoraInicio(),$reserva->getHoraFin(),'ocupado',$reserva->getUsuarioRegistradousuario()));
@@ -51,7 +51,7 @@ class RealizarReservaMapper {
 
 	public function cancelarInscripcion(RealizarReserva $reserva,$fecha,$hora,$pista,$num) {
 
-		if($num < 3 && $num > 0){
+		if($num < 4 && $num > 0){
 			$num--;
 			$stmt7 = $this->db->prepare("UPDATE Horario SET numInscritos='".$num."' WHERE fecha='".$fecha."' AND horario='".$hora."' AND idPista='".$pista."'");
 			$stmt7->execute();
@@ -74,7 +74,7 @@ class RealizarReservaMapper {
 		
 	}
 	public function misReservas($user){
-		$stmt = $this->db->prepare("SELECT * FROM Reserva WHERE UsuarioRegistradousuario=? ORDER BY fecha,horaInicio");
+		$stmt = $this->db->prepare("SELECT * FROM Reserva WHERE UsuarioRegistradousuario=? ORDER BY fecha,PistaidPista,horaInicio");
 		$stmt->execute(array($user));
 		$reservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 		
