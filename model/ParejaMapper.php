@@ -50,14 +50,15 @@ class ParejaMapper {
 		//Comprobacion numero minimo de participantes: Regular->minimo de 8 participantes
 		$numParticipantes = $this->comprobarNumMinParticipantes($grupoId,'regular');
 		if($numParticipantes<8){
-			throw new Exception("No hay suficientes participantes para realizar los enfrentamientos:
-			minimo 8 participantes, hay " . $numParticipantes);
+			return "<div class='alert alert-warning' role='alert'>No hay suficientes participantes para realizar los enfrentamientos:
+			minimo 8 participantes</div>";
+
 		}
 
 		$numEnfrentamientos = $this->combrobarEnfrentamientos($grupoId, 'regular');
 		if($numEnfrentamientos>0){
-			throw new Exception("Ya se han realizado los enfrentamientos del grupo: " . $grupoId);
-		}
+			return "<div class='alert alert-info' role='alert'>Ya se han realizado los enfrentamientos de este grupo</div>";
+		}else{
 
 		$stmt = $this->db->prepare("SELECT idPareja FROM Pareja WHERE GrupoidGrupo=? AND GrupotipoLiga='regular'");
 		$stmt->execute(array($grupoId));
@@ -83,8 +84,8 @@ class ParejaMapper {
 
 			}
 		}
-			return $this->db->lastInsertId();
-			//return $parejas;
+			//return $this->db->lastInsertId();
+		}
 	}
 
 //TODO Crear la clasificacion y update de grupo
@@ -95,7 +96,11 @@ class ParejaMapper {
 			$this->borrarClasificacion($campeonatoId, $tipoLiga);
 		}
 
-		$grupoid = $this->crearGrupo($grupoId,$campeonatoId, $categoriaId, 'cuartos');
+		$numPartidosNoJugados = $this->comprobarFinPartidosLiga($grupoId,$tipoLiga);
+		if($numPartidosNoJugados==0){
+			$grupoid = $this->crearGrupo($grupoId,$campeonatoId, $categoriaId, 'cuartos');
+		}
+
 		//Devuelve parejas y su grupo en el campeonato
 		$stmt = $this->db->prepare("SELECT distinct(idPareja), GrupoidGrupo FROM Pareja, Grupo
 			WHERE GrupoidGrupo=? AND GrupotipoLiga=? AND Grupo.Campeonato_CategoriaCampeonatoidCampeonato=?");
@@ -132,8 +137,8 @@ class ParejaMapper {
 	public function generarEnfrentamientosCuartos($grupoId, $campeonatoId, $categoriaId){
 		$numEnfrentamientos = $this->combrobarEnfrentamientos($grupoId, 'cuartos');
 		if($numEnfrentamientos>0){
-			throw new Exception("Ya se han realizado los enfrentamientos del grupo: " . $grupoId);
-		}
+			return "<div class='alert alert-info' role='alert'>Ya se han realizado los enfrentamientos de este grupo</div>";
+		}else{
 		$stmt = $this->db->prepare("SELECT ParejaidPareja FROM Clasificacion
 			WHERE CampeonatoidCampeonato=? AND GrupotipoLiga=? AND GrupoidGrupo=? ORDER BY resultado DESC");
 		$stmt->execute(array($campeonatoId, 'regular', $grupoId));
@@ -151,7 +156,8 @@ class ParejaMapper {
 				array_push($parejasCuartos, $pareja);
 			}
 		}else{
-			throw new Exception("No hay suficientes parejas para realizar los cuartos");
+			return "<div class='alert alert-warning' role='alert'>No hay suficientes parejas para realizar los cuartos</div>";
+
 		}
 
 		//insertar las parejeas en cuartos
@@ -179,7 +185,7 @@ class ParejaMapper {
 
 		}
 
-		return $this->db->lastInsertId();
+	}
 
 	}
 
@@ -190,8 +196,14 @@ class ParejaMapper {
 			if($clasificacionCuartos>0){
 				$this->borrarClasificacion($campeonatoId, $tipoLiga);
 			}
-			//Creamos grupo para la proxima liga
-			$grupoid = $this->crearGrupo($grupoId, $campeonatoId, $categoriaId, 'semifinal');
+
+
+
+			$numPartidosNoJugados = $this->comprobarFinPartidosLiga($grupoId,$tipoLiga);
+			if($numPartidosNoJugados==0){
+				//Creamos grupo para la proxima liga
+				$grupoid = $this->crearGrupo($grupoId, $campeonatoId, $categoriaId, 'semifinal');
+			}
 
 			$stmt = $this->db->prepare("SELECT ParejaidPareja1, resultado, Grupo.idGrupo FROM Enfrentamiento, Grupo
 				WHERE GrupotipoLiga='cuartos' AND Grupo.Campeonato_CategoriaCampeonatoidCampeonato = ?
@@ -204,8 +216,6 @@ class ParejaMapper {
 				for($i=0; $i<8;$i++) {
 					array_push($parejasSemifinales, $parejas_db[$i]);
 				}
-			}else{
-				throw new Exception("No hay suficientes parejas para realizar los cuartos");
 			}
 
 
@@ -223,14 +233,9 @@ class ParejaMapper {
 						$stmt->execute(array($pareja['ParejaidPareja1'], $pareja['resultado'], $pareja['idGrupo'], 'cuartos', $campeonatoId));
 
 				}
-			}else{
-
-				$this->view->setFlash("Ya existe la clasificacion no se puede crear");
-				// render the view (/controller/enfrentamientos/index.php)
-				$this->view->redirect("enfrentamiento", "index");
 			}
 
-				return $this->db->lastInsertId();
+
 		}
 
 
@@ -258,6 +263,15 @@ class ParejaMapper {
 		$numParticipantes = $stmt->fetch(PDO::FETCH_ASSOC);
 
 		return $numParticipantes['count(idPareja)'];
+	}
+
+	public function comprobarFinPartidosLiga($grupoId,$tipoLiga){
+		$stmt = $this->db->prepare("SELECT count(*) FROM Enfrentamiento
+			WHERE GrupoidGrupo=? AND GrupotipoLiga=? AND (set1='-' OR set2='-' OR set3='-') AND ParejaidPareja1!=ParejaidPareja2");
+		$stmt->execute(array($grupoId, $tipoLiga));
+		$numPartidosNoJugados = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		return $numPartidosNoJugados['count(*)'];
 	}
 
 	public function combrobarEnfrentamientos($grupoId, $tipoLiga){
@@ -305,14 +319,15 @@ class ParejaMapper {
 
 
 	public function generarEnfrentamientosSemifinales($grupoId, $campeonatoId, $categoriaId){
-		$clasificacionSemiFinales = $this->combrobarRanking($campeonatoId, 'semifinal');
-		if($clasificacionSemiFinales>0){
-			throw new Exception("Ya se han realizado la clasificacion semifinales del campeonato: " . $campeonatoId);
-		}
+		//$clasificacionSemiFinales = $this->combrobarRanking($campeonatoId, 'semifinal');
+		//if($clasificacionSemiFinales>0){
+			//throw new Exception("Ya se han realizado la clasificacion semifinales del campeonato: " . $campeonatoId);
+		//}
+
 		$numEnfrentamientos = $this->combrobarEnfrentamientos($grupoId, 'semifinal');
 		if($numEnfrentamientos>0){
-			throw new Exception("Ya se han realizado los enfrentamientos del grupo: " . $grupoId);
-		}
+			return "<div class='alert alert-info' role='alert'>Ya se han realizado los enfrentamientos de este grupo</div>";
+		}else{
 		$stmt = $this->db->prepare("SELECT ParejaidPareja FROM Clasificacion
 			WHERE CampeonatoidCampeonato=? AND GrupotipoLiga='cuartos' ORDER BY resultado DESC");
 		$stmt->execute(array($campeonatoId));
@@ -334,7 +349,8 @@ class ParejaMapper {
 				array_push($parejasSemifinales, $pareja);
 			}
 		}else{
-			throw new Exception("No hay suficientes parejas para realizar las semifinales");
+			return "<div class='alert alert-warning' role='alert'>No hay suficientes parejas</div>";
+
 		}
 
 		$this->insertar($parejas, $grupoId, 'semifinal');
@@ -352,25 +368,28 @@ class ParejaMapper {
 
 		$stmt = $this->db->prepare("INSERT INTO Enfrentamiento(ParejaidPareja1, ParejaidPareja2,
 		resultado, set1, set2, set3, GrupoidGrupo, GrupotipoLiga) values (?,?,?,?,?,?,?,?)");
-		var_dump($parejasS);
+
 		for($i=0; $i<2;$i++) {
 			$stmt->execute(array($parejasS[$i]->getIdPareja(), $parejasS[sizeof($parejasS)-($i+1)]->getIdPareja(), 0, "-", "-", "-", $grupoId, 'semifinal'));
 			$stmt->execute(array($parejasS[sizeof($parejasS)-($i+1)]->getIdPareja(), $parejasS[$i]->getIdPareja(), 0, "-", "-", "-", $grupoId, 'semifinal'));
 
 		}
 
-		return $this->db->lastInsertId();
+		}
 	}
 
 
-	//TODO mostrar pagina de clasificacion despues de generarla
 		public function generarRankingSemifinales($grupoId, $campeonatoId, $categoriaId){
-			$clasificacionSemifinal = $this->combrobarRanking($campeonatoId, $tipoLiga);
+			$clasificacionSemifinal = $this->combrobarRanking($campeonatoId, 'semifinal');
 			if($clasificacionSemifinal>0){
-				$this->borrarClasificacion($campeonatoId, $tipoLiga);
+				$this->borrarClasificacion($campeonatoId, 'semifinal');
 			}
+
+			$numPartidosNoJugados = $this->comprobarFinPartidosLiga($grupoId,'semifinal');
+			if($numPartidosNoJugados==0){
 			//Creamos grupo para la proxima liga
 			$grupoid = $this->crearGrupo($grupoId, $campeonatoId, $categoriaId, 'final');
+			}
 
 			$stmt = $this->db->prepare("SELECT ParejaidPareja1, resultado, Grupo.idGrupo FROM Enfrentamiento, Grupo
 				WHERE GrupotipoLiga='semifinal' AND Grupo.Campeonato_CategoriaCampeonatoidCampeonato = ?
@@ -383,8 +402,6 @@ class ParejaMapper {
 				for($i=0; $i<4;$i++) {
 					array_push($parejasSemifinales, $parejas_db[$i]);
 				}
-			}else{
-				throw new Exception("No hay suficientes parejas para realizar la semifinal");
 			}
 
 
@@ -408,14 +425,14 @@ class ParejaMapper {
 		}
 
 		public function generarEnfrentamientosFinales($grupoId, $campeonatoId, $categoriaId){
-			$clasificacionFinales = $this->combrobarRanking($campeonatoId, 'final');
-			if($clasificacionFinales>0){
-				throw new Exception("Ya se han realizado la clasificacion final del campeonato: " . $campeonatoId);
-			}
+			//$clasificacionFinales = $this->combrobarRanking($campeonatoId, 'final');
+			//if($clasificacionFinales>0){
+				//throw new Exception("Ya se han realizado la clasificacion final del campeonato: " . $campeonatoId);
+			//}
 			$numEnfrentamientos = $this->combrobarEnfrentamientos($grupoId, 'final');
 			if($numEnfrentamientos>0){
-				throw new Exception("Ya se han realizado los enfrentamientos del grupo: " . $grupoId);
-			}
+				return "<div class='alert alert-info' role='alert'>Ya se han realizado los enfrentamientos de este grupo</div>";
+			}else{
 			$stmt = $this->db->prepare("SELECT ParejaidPareja FROM Clasificacion
 				WHERE CampeonatoidCampeonato=? AND GrupotipoLiga='semifinal' ORDER BY resultado DESC");
 			$stmt->execute(array($campeonatoId));
@@ -437,7 +454,8 @@ class ParejaMapper {
 					array_push($parejasFinales, $pareja);
 				}
 			}else{
-				throw new Exception("No hay suficientes parejas para realizar las finales");
+				return "<div class='alert alert-warning' role='alert'>No hay suficientes parejas para realizar las finales</div>";
+
 			}
 
 			$this->insertar($parejas, $grupoId, 'final');
@@ -460,12 +478,12 @@ class ParejaMapper {
 			$stmt->execute(array($parejasF[1]->getIdPareja(), $parejasF[0]->getIdPareja(), 0, "-", "-", "-", $grupoId, 'final'));
 
 
-			return $this->db->lastInsertId();
+			}
 		}
 
 
 
-			public function generarRankingFinales($grupoId, $campeonatoId, $categoriaId){
+			public function generarRankingFinales($grupoId, $campeonatoId, $categoriaId,$tipoLiga){
 				$clasificacionFinal = $this->combrobarRanking($campeonatoId, $tipoLiga);
 				if($clasificacionFinal>0){
 					$this->borrarClasificacion($campeonatoId, $tipoLiga);
@@ -482,8 +500,6 @@ class ParejaMapper {
 					for($i=0; $i<2;$i++) {
 						array_push($parejasFinales, $parejas_db[$i]);
 					}
-				}else{
-					throw new Exception("No hay suficientes parejas para realizar la final");
 				}
 
 

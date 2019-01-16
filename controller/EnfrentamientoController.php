@@ -117,13 +117,19 @@ class EnfrentamientoController extends BaseController {
 			$this->view->render("usuarios", "login");
 		}else{
 				if (!isset($_REQUEST["id"])) {
-					throw new Exception("A id is mandatory");
+					$this->view->setFlash("<div class='alert alert-danger' role='alert'>
+					Se necesita id de grupo</div>");
+					$this->view->redirect("enfrentamiento", "index");
 				}
 				if (!isset($_REQUEST["liga"])) {
-					throw new Exception("A liga is mandatory");
+					$this->view->setFlash("<div class='alert alert-danger' role='alert'>
+					Se necesita el tipo de liga</div>");
+					$this->view->redirect("enfrentamiento", "index");
 				}
 				if (!isset($_REQUEST["campeonato"])) {
-					throw new Exception("A campeonato is mandatory");
+					$this->view->setFlash("<div class='alert alert-danger' role='alert'>
+					Se necesita id de campeonato</div>");
+					$this->view->redirect("enfrentamiento", "index");
 				}
 
 				$grupoId = $_REQUEST["id"];
@@ -135,7 +141,10 @@ class EnfrentamientoController extends BaseController {
 		$parejas = $this->enfrentamientoMapper->findAllParejas($grupoId, $tipoLiga);
 
 		if($enfrentamientosParejas==NULL){
-			throw new Exception("No se han realizado los enfrentamientos");
+			$this->view->setFlash("
+			<div class='alert alert-danger' role='alert'>Aun no se han realizado los enfrentamientos
+			</div>");
+			$this->view->redirect("enfrentamiento", "index");
 		}
 
 		// put the array containing Post object to the view
@@ -164,7 +173,9 @@ class EnfrentamientoController extends BaseController {
 		$parejas = $this->enfrentamientoMapper->findAllParejas($grupoId, $tipoLiga);
 
 		if($enfrentamientosParejas==NULL){
-			throw new Exception("No se han realizado los enfrentamientos");
+			$this->view->setFlash("<div class='alert alert-danger' role='alert'>
+			No se han realizado los enfrentamientos</div>");
+			$this->view->redirect("enfrentamiento", "index");
 		}
 
 		// put the array containing Post object to the view
@@ -181,16 +192,24 @@ class EnfrentamientoController extends BaseController {
 	//TODO desactivar boton de generar enfrentamientos una vez realizado
 	public function generarEnfrentamientos() {
 		if (!isset($_REQUEST["id"])) {
-			throw new Exception("A id is mandatory");
+			$this->view->setFlash("<div class='alert alert-danger' role='alert'>
+			Se necesita id del grupo</div>");
+			$this->view->redirect("enfrentamiento", "index");
 		}
 		if (!isset($_REQUEST["liga"])) {
-			throw new Exception("A liga is mandatory");
+			$this->view->setFlash("<div class='alert alert-danger' role='alert'>
+			Se necesita el tipo de liga</div>");
+			$this->view->redirect("enfrentamiento", "index");
 		}
 		if (!isset($_REQUEST["campeonato"])) {
-			throw new Exception("A campeonato is mandatory");
+			$this->view->setFlash("<div class='alert alert-danger' role='alert'>
+			Se necesita id de campeonato</div>");
+			$this->view->redirect("enfrentamiento", "index");
 		}
 		if (!isset($_REQUEST["categoria"])) {
-			throw new Exception("A categoria is mandatory");
+			$this->view->setFlash("<div class='alert alert-danger' role='alert'>
+			Se necesita id de categoria</div>");
+			$this->view->redirect("enfrentamiento", "index");
 		}
 
 		$grupoId = $_REQUEST["id"];
@@ -199,29 +218,43 @@ class EnfrentamientoController extends BaseController {
 		$categoriaId = $_REQUEST["categoria"];
 		// Get the Post object from the database
 		if($tipoLiga=='regular'){
-		$lastInsert = $this->parejaMapper->generarEnfrentamientosRegular($grupoId,$campeonatoId, $categoriaId);
+		$info = $this->parejaMapper->generarEnfrentamientosRegular($grupoId,$campeonatoId, $categoriaId);
 	} elseif ($tipoLiga=='cuartos') {
-		$lastInsert = $this->parejaMapper->generarEnfrentamientosCuartos($grupoId,$campeonatoId, $categoriaId);
+		$info = $this->parejaMapper->generarEnfrentamientosCuartos($grupoId,$campeonatoId, $categoriaId);
 	} elseif ($tipoLiga=='semifinal') {
-		$lastInsert = $this->parejaMapper->generarEnfrentamientosSemifinales($grupoId,$campeonatoId, $categoriaId);
+		$info = $this->parejaMapper->generarEnfrentamientosSemifinales($grupoId,$campeonatoId, $categoriaId);
 	} elseif ($tipoLiga=='final') {
-		$lastInsert = $this->parejaMapper->generarEnfrentamientosFinales($grupoId,$campeonatoId, $categoriaId);
+		$info = $this->parejaMapper->generarEnfrentamientosFinales($grupoId,$campeonatoId, $categoriaId);
 	}
+	if($info!=NULL){
+		$this->view->setFlash($info);
+		$this->view->redirect("enfrentamiento", "index");
+	}
+	$this->view->setFlash("Operación realizada");
+	$this->view->redirect("enfrentamiento", "view");
 }
 
 
 	public function generarRanking() {
 		if (!isset($_REQUEST["id"])) {
-			throw new Exception("A id is mandatory");
+			$this->view->setFlash("<div class='alert alert-danger' role='alert'>
+			Se necesita id de grupo</div>");
+			$this->view->redirect("enfrentamiento", "index");
 		}
 		if (!isset($_REQUEST["liga"])) {
-			throw new Exception("A liga is mandatory");
+			$this->view->setFlash("<div class='alert alert-danger' role='alert'>
+			Se necesita el tipo de liga</div>");
+			$this->view->redirect("enfrentamiento", "index");
 		}
 		if (!isset($_REQUEST["campeonato"])) {
-			throw new Exception("A campeonato is mandatory");
+			$this->view->setFlash("<div class='alert alert-danger' role='alert'>
+			Se necesita id de campeonato</div>");
+			$this->view->redirect("enfrentamiento", "index");
 		}
 		if (!isset($_REQUEST["categoria"])) {
-			throw new Exception("A categoria is mandatory");
+			$this->view->setFlash("<div class='alert alert-danger' role='alert'>
+			Se necesita id de categoria</div>");
+			$this->view->redirect("enfrentamiento", "index");
 		}
 
 
