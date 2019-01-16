@@ -116,19 +116,19 @@ class EnfrentamientoController extends BaseController {
 			//throw new Exception("Necesitas iniciar sesion");
 			$this->view->render("usuarios", "login");
 		}else{
-		if (!isset($_REQUEST["id"])) {
-			throw new Exception("A id is mandatory");
-		}
-		if (!isset($_REQUEST["liga"])) {
-			throw new Exception("A liga is mandatory");
-		}
-		if (!isset($_REQUEST["campeonato"])) {
-			throw new Exception("A campeonato is mandatory");
-		}
+				if (!isset($_REQUEST["id"])) {
+					throw new Exception("A id is mandatory");
+				}
+				if (!isset($_REQUEST["liga"])) {
+					throw new Exception("A liga is mandatory");
+				}
+				if (!isset($_REQUEST["campeonato"])) {
+					throw new Exception("A campeonato is mandatory");
+				}
 
-		$grupoId = $_REQUEST["id"];
-		$tipoLiga = $_REQUEST["liga"];
-		$campeonato = $_REQUEST["campeonato"];
+				$grupoId = $_REQUEST["id"];
+				$tipoLiga = $_REQUEST["liga"];
+				$campeonato = $_REQUEST["campeonato"];
 
 		// obtain the data from the database
 		$enfrentamientosParejas = $this->enfrentamientoMapper->findByIdPareja($grupoId, $tipoLiga, $campeonato);
@@ -143,11 +143,40 @@ class EnfrentamientoController extends BaseController {
 		$this->view->setVariable("parejas", $parejas, false);
 		$this->view->setVariable("idGrupo", $grupoId, false);
 		$this->view->setVariable("tipoLiga", $tipoLiga, false);
-
+		$this->view->setVariable("campeonato", $campeonato, false);
 		// render the view (/view/enfrentamientos/view.php)
 		$this->view->render("enfrentamientos", "view");
 		}
 	}
+
+	public function viewResultados($idC,$idG,$idL){
+		if (!isset($this->currentUser)) {
+			//throw new Exception("Necesitas iniciar sesion");
+			$this->view->render("usuarios", "login");
+		}else{
+			$grupoId = $idG;
+			$tipoLiga = $idL;
+			$campeonato =$idC;
+		}
+
+		// obtain the data from the database
+		$enfrentamientosParejas = $this->enfrentamientoMapper->findByIdPareja($grupoId, $tipoLiga, $campeonato);
+		$parejas = $this->enfrentamientoMapper->findAllParejas($grupoId, $tipoLiga);
+
+		if($enfrentamientosParejas==NULL){
+			throw new Exception("No se han realizado los enfrentamientos");
+		}
+
+		// put the array containing Post object to the view
+		$this->view->setVariable("enfrentamientosParejas", $enfrentamientosParejas, false);
+		$this->view->setVariable("parejas", $parejas, false);
+		$this->view->setVariable("idGrupo", $grupoId, false);
+		$this->view->setVariable("tipoLiga", $tipoLiga, false);
+		$this->view->setVariable("campeonato", $campeonato, false);
+		// render the view (/view/enfrentamientos/view.php)
+		$this->view->render("enfrentamientos", "view");
+	}
+
 
 	//TODO desactivar boton de generar enfrentamientos una vez realizado
 	public function generarEnfrentamientos() {
@@ -243,9 +272,14 @@ class EnfrentamientoController extends BaseController {
 		$set2 = $_POST["set2"];
 		$set3 = $_POST["set3"];
 
-		$this->enfrentamientoMapper->recogerResultados($idPareja1, $idPareja2, $set1, $set2, $set3);
+		$campeonato = $_REQUEST["campeonato"];
+		$grupoId = $_REQUEST["grupoId"];
+		$tipoLiga = $_REQUEST["tipoLiga"];
 
-		$this->view->redirect("enfrentamiento", "index");
+		$this->enfrentamientoMapper->recogerResultados($idPareja1, $idPareja2, $set1, $set2, $set3);
+		$this->viewResultados($campeonato,$grupoId,$tipoLiga);
+
+		//$this->view->redirect("enfrentamiento", "index");
 
 
 }
