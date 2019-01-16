@@ -8,6 +8,7 @@ require_once(__DIR__."/../model/GrupoMapper.php");
 require_once(__DIR__."/../model/ParejaMapper.php");
 require_once(__DIR__."/../model/ClasificacionMapper.php");
 require_once(__DIR__."/../model/ReservaEnfrentamientoMapper.php");
+require_once(__DIR__."/../model/PosiblesReservasEnfrentamientoMapper.php");
 
 require_once(__DIR__."/../core/ViewManager.php");
 require_once(__DIR__."/../controller/BaseController.php");
@@ -39,6 +40,7 @@ class EnfrentamientoController extends BaseController {
 		$this->parejaMapper = new ParejaMapper();
 		$this->clasificacionMapper = new ClasificacionMapper();
 		$this->reservaEnfrentamientoMapper = new ReservaEnfrentamientoMapper();
+		$this->posiblesReservasEnfrentamientoMapper = new PosiblesReservasEnfrentamientoMapper();
 	}
 
 	/**
@@ -74,11 +76,29 @@ class EnfrentamientoController extends BaseController {
 		$idPareja = $this->parejaMapper->getIdPareja($usuario);
 		//recogemos los enfrentamientos de la pareja
 		$enfrentamientosPareja = $this->enfrentamientoMapper->findByEnfrentamientosPareja($idPareja);
-		//Recuperamos las pistas asociados a cada enfrentamiento
-		$reservasEnfrentamiento = $this->reservaEnfrentamientoMapper->findReservaByIdEnfrentamiento($enfrentamientosPareja);
+		//Array de parejas
+		$arrayParejas = array();
+		//obtenemos el número de reservas de cada enfrentamiento
+		foreach ($enfrentamientosPareja as $key => $enf) {
+			$reservaPista = $this->reservaEnfrentamientoMapper->findReservaByIdEnfrentamiento($enf->getIdEnfrentamiento());
+			$posiblesReservas = count($this->posiblesReservasEnfrentamientoMapper->findAllByEnfrentamiento($enf->getIdEnfrentamiento()));
+			//Comprobamos si existe el enfrentamiento dentro del array comprobando las parejas
+			//Si no existe la añadimos y ponemos los datos en $enfrentamientosPareja
+			//Si ya existe la eliminamos de $enfrentamientosPareja
+			if(
+				!in_array([$enf->getPareja1(), $enf->getPareja2()], $arrayParejas) &&
+				!in_array([$enf->getPareja2(), $enf->getPareja1()], $arrayParejas)
+			) {
+				array_push($arrayParejas,[$enf->getPareja1(), $enf->getPareja2()]);
+				$enfrentamientosPareja[$key] = [$enf, $reservaPista, $posiblesReservas];
+			}
+			else {
+				unset($enfrentamientosPareja[$key]);
+			}
+		}
 
 		$this->view->setVariable("enfrentamientosPareja", $enfrentamientosPareja, false);
-		$this->view->setVariable("reservasEnfrentamiento", $reservasEnfrentamiento, false);
+		//$this->view->setVariable("reservasEnfrentamiento", $reservasEnfrentamiento, false);
 		// render the view (/view/enfrentamientos/enfrentamientosUsuario.php)
 		$this->view->render("enfrentamientos", "enfrentamientosUsuario");
 

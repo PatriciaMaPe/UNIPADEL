@@ -505,10 +505,10 @@ class ParejaMapper {
 
 					return $this->db->lastInsertId();
 			}
-                        
-                        
-    //Funciones Nacho   
-                        
+
+
+    //Funciones Nacho
+
     public function countByGrupo($idGrupo) {
 
         $stmt = $this->db->prepare("SELECT COUNT(*) as cont FROM Pareja WHERE GrupoidGrupo = $idGrupo ");
@@ -542,5 +542,13 @@ class ParejaMapper {
 
         return $numParejas;
     }
+
+		public function findByIdPareja($parejaId){
+		$stmt = $this->db->prepare("SELECT * from Pareja where idPareja=?");
+		$stmt->execute(array($parejaId));
+		$pareja = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		return new Pareja($pareja['idPareja'], new UsuarioRegistrado($pareja['capitan']), new UsuarioRegistrado($pareja['deportista']));
+	}
 
 }

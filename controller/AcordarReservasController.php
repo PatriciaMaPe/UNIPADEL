@@ -7,6 +7,8 @@ require_once(__DIR__."/../model/GestionarReservasMapper.php");
 require_once(__DIR__."/../model/PosiblesReservasEnfrentamientoMapper.php");
 require_once(__DIR__."/../model/RealizarReservaMapper.php");
 require_once(__DIR__."/../model/ReservaEnfrentamientoMapper.php");
+require_once(__DIR__."/../model/EnfrentamientoMapper.php");
+require_once(__DIR__."/../model/ParejaMapper.php");
 require_once(__DIR__."/../core/ViewManager.php");
 require_once(__DIR__."/../controller/BaseController.php");
 /**
@@ -23,23 +25,39 @@ class AcordarReservasController extends BaseController {
 		$this->PosiblesReservasEnfrentamientoMapper = new PosiblesReservasEnfrentamientoMapper();
 		$this->RealizarReservaMapper = new RealizarReservaMapper();
 		$this->ReservaEnfrentamientoMapper = new ReservaEnfrentamientoMapper();
-
+		$this->EnfrentamientoMapper = new EnfrentamientoMapper();
+		$this->ParejaMapper = new ParejaMapper();
 	}
 
 
 	public function acordarReserva() {
+			$enfrentamientoId = $_REQUEST['enfrentamiento'];
+			$enfrentamiento = $this->EnfrentamientoMapper->findByIdEnfrentamiento($enfrentamientoId);
+			$pareja1 = $this->ParejaMapper->findByIdPareja($enfrentamiento->getPareja1()->getIdPareja());
+			$pareja2 = $this->ParejaMapper->findByIdPareja($enfrentamiento->getPareja2()->getIdPareja());
 
-			$enfrentamiento = $_REQUEST['enfrentamiento'];
-			$posiblesReservas = $this->comprobarPosiblesReservas($enfrentamiento);
-
-			if($posiblesReservas!=NULL){ //Una pareja ya ha elegido pistas, solo se muestran
-				$this->view->setVariable("posiblesReservas", $posiblesReservas, false);
-				$this->view->render("reservas", "elegirReserva");
-			}else{
-				$this->view->setVariable("idEnfrentamiento", $enfrentamiento, false);
-				$this->view->render("reservas", "acordarReserva");
+			if ($pareja1->getCapitan()->getUsuario()==$_SESSION["currentuser"] || $pareja2->getCapitan()->getUsuario()==$_SESSION["currentuser"]) {
+				$esCapitan=true;
+			}
+			else {
+				$esCapitan=false;
 			}
 
+			$posiblesReservas = $this->comprobarPosiblesReservas($enfrentamientoId);
+			if($posiblesReservas!=NULL){ //Una pareja ya ha elegido pistas, solo se muestran
+				$this->view->setVariable("posiblesReservas", $posiblesReservas, false);
+				$this->view->setVariable("esCapitan", $esCapitan, false);
+				$this->view->render("reservas", "elegirReserva");
+				die;
+			}
+			if($esCapitan) {
+				$this->view->setVariable("idEnfrentamiento", $enfrentamientoId, false);
+				$this->view->render("reservas", "acordarReserva");
+			}
+			else {
+				$this->view->setFlash("No se han realizado peticiones de reserva");
+				$this->view->redirect("enfrentamiento", "enfrentamientosUsuario");
+			}
 
 
 	}
@@ -87,8 +105,8 @@ class AcordarReservasController extends BaseController {
 
 			$this->PosiblesReservasEnfrentamientoMapper->insertarPosiblesReservas($arrayReservas, $currentuser, $idEnfrentamiento);
 
-			$this->view->render("reservas", "acordarReserva");
-			echo("Reserva realizada");
+			$this->view->setFlash("Reserva realizada");
+			$this->view->redirect("enfrentamiento", "enfrentamientosUsuario");
 
 	}
 
@@ -102,15 +120,52 @@ class AcordarReservasController extends BaseController {
 			$horaFin = $_REQUEST['horaFin'];
 			$pista = $_REQUEST['pista'];
 
-			$this->GestionarReservasMapper->updateHorario("ocupado", $pista, $horaInicio, $fecha);
-			$insercion = $this->RealizarReservaMapper->insertarReserva(new RealizarReserva(
-				NULL, $fecha, $horaInicio, $horaFin, $pista, "ocupado"
-			));
+			$enfrentamiento = $this->EnfrentamientoMapper->findByIdEnfrentamiento($idEnfrentamiento);
+			$pareja1 = $this->ParejaMapper->findByIdPareja($enfrentamiento->getPareja1()->getIdPareja());
+			$pareja2 = $this->ParejaMapper->findByIdPareja($enfrentamiento->getPareja2()->getIdPareja());
 
-			$this->ReservaEnfrentamientoMapper->insertarReservaEnfrentamiento($insercion,$idEnfrentamiento,$pista);
+			if ($pareja1->getCapitan()->getUsuario()==$_SESSION["currentuser"] || $pareja2->getCapitan()->getUsuario()==$_SESSION["currentuser"]) {
+				$esCapitan=true;
+			}
+			else {
+				$esCapitan=false;
+			}
 
-			$this->view->render("enfrentamientos", "enfrentamientosUsuario");
-			echo("Reserva realizada");
+			if($esCapitan && $usuario!=$_SESSION["currentuser"]) {
+				$this->GestionarReservasMapper->updateHorario("ocupado", $pista, $horaInicio, $fecha);
+				$insercion = $this->RealizarReservaMapper->insertarReserva(new RealizarReserva(
+					NULL, $fecha, $horaInicio, $horaFin, $pista, "ocupado"
+				));
+
+				$this->ReservaEnfrentamientoMapper->insertarReservaEnfrentamiento($insercion,$idEnfrentamiento,$pista, $horaInicio, $fecha);
+
+				$this->view->setFlash("Operación realizada");
+				$this->view->redirect("enfrentamiento", "enfrentamientosUsuario");
+			}
+			else {
+				$this->view->setFlash("Solo el capitan del equipo contrincante puede confirmar la reserva");
+				$this->view->redirect("enfrentamiento", "enfrentamientosUsuario");
+			}
+	}
+
+	public function rechazarAcuerdo() {
+		$idEnfrentamiento = $_REQUEST['idEnfrentamiento'];
+		$usuario = $_REQUEST['usuario'];
+		$esCapitan = $_REQUEST['esCapitan'];
+
+		if($esCapitan) {
+			try {
+				$this->PosiblesReservasEnfrentamientoMapper->eliminarAcuerdo($idEnfrentamiento);
+				$this->view->setFlash("Operación realizada");
+				$this->view->redirect("enfrentamiento", "enfrentamientosUsuario");
+			}
+			catch (Exception $e)
+			{
+				$this->view->setFlash("Fallo durante la transacción");
+				$this->view->redirect("enfrentamiento", "enfrentamientosUsuario");
+			}
+		}
+
 
 	}
 

@@ -55,10 +55,9 @@ class PosiblesReservasEnfrentamientoMapper {
 		return $posiblesReservas;
 	}
 
-
-
-
-
-
+	public function eliminarAcuerdo($idEnfrentamiento) {
+		$stmt = $this->db->prepare("DELETE FROM PosiblesReservasEnfrentamiento WHERE idEnfrentamiento=?");
+		$stmt->execute(array($idEnfrentamiento));
+	}
 
 }

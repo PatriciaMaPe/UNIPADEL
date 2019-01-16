@@ -421,7 +421,7 @@ CREATE TABLE `usuarioregistrado` (
 
 INSERT INTO `usuarioregistrado` (`usuario`, `password`, `nombre`, `apellido`, `tipoUsuario`) VALUES
 ('ala', 'ala', 'Ana', 'Alvarez', 'deportista'),
-('ana', 'purple', 'Ana', 'Martinez', 'deportista'),
+('ana', 'purple', 'Ana', 'Martinez', 'admin'),
 ('ara', 'ara', 'Ana', 'Rodriguez', 'deportista'),
 ('bet', 'bet', 'Bella', 'Torres', 'deportista'),
 ('betty', 'betty', 'Bea', 'Martinez', 'deportista'),
@@ -461,7 +461,7 @@ INSERT INTO `usuarioregistrado` (`usuario`, `password`, `nombre`, `apellido`, `t
 CREATE TABLE `PosiblesReservasEnfrentamiento` (
   `idEnfrentamiento` int(4) NOT NULL,
   `UsuarioRegistradousuario` varchar(20) COLLATE latin1_spanish_ci DEFAULT NULL,
-  `idReserva` int(4) NOT NULL,
+  `idReserva` int(4) NOT NULL AUTO_INCREMENT,
   `fecha` date DEFAULT NULL,
   `horaInicio` time DEFAULT NULL,
   `horaFin` time DEFAULT NULL,

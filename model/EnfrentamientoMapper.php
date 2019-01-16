@@ -107,16 +107,25 @@ class EnfrentamientoMapper {
 	public function findByEnfrentamientosPareja($idsPareja){
 			foreach ($idsPareja as $id)
 			$stmt = $this->db->prepare("SELECT * FROM Enfrentamiento WHERE ParejaidPareja1=?
-				AND ParejaidPareja2!=ParejaidPareja1");
-			$stmt->execute(array($id));
+				OR ParejaidPareja2=? AND ParejaidPareja2!=ParejaidPareja1");
+			$stmt->execute(array($id, $id));
 			$enfrentamientoPareja1_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 			$enfrentamientosPareja = array();
 
 			foreach ($enfrentamientoPareja1_db as $enfrentamiento) {
-				//var_dump($enfrentamiento);
-				$pareja1 = new Pareja($enfrentamiento["ParejaidPareja1"]);
-				$pareja2 = new Pareja($enfrentamiento["ParejaidPareja2"]);
+				// Pareja 1
+				$stmt = $this->db->prepare("SELECT * FROM Pareja WHERE idPareja=?");
+				$stmt->execute(array($enfrentamiento["ParejaidPareja1"]));
+				$pareja_db = $stmt->fetch(PDO::FETCH_ASSOC);
+				$pareja1 = new Pareja($pareja_db["idPareja"], new UsuarioRegistrado($pareja_db["capitan"]), new UsuarioRegistrado($pareja_db["deportista"]));
+
+				// Pareja 2
+				$stmt = $this->db->prepare("SELECT * FROM Pareja WHERE idPareja=?");
+				$stmt->execute(array($enfrentamiento["ParejaidPareja2"]));
+				$pareja_db = $stmt->fetch(PDO::FETCH_ASSOC);
+				$pareja2 = new Pareja($pareja_db["idPareja"], new UsuarioRegistrado($pareja_db["capitan"]), new UsuarioRegistrado($pareja_db["deportista"]));
+
 				//var_dump($enfrentamiento["idEnfrentamiento"]);
 				array_push($enfrentamientosPareja,
 				new Enfrentamiento($enfrentamiento["idEnfrentamiento"],
