@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-01-2019 a las 16:13:19
+-- Tiempo de generación: 16-01-2019 a las 23:44:14
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.2.12
 
@@ -119,7 +119,11 @@ INSERT INTO `clasificacion` (`idClasificacion`, `ParejaidPareja`, `resultado`, `
 (49, 9, 2, 1, 'regular', 1),
 (50, 10, 5, 1, 'regular', 1),
 (51, 11, 2, 1, 'regular', 1),
-(52, 12, 0, 1, 'regular', 1);
+(52, 12, 0, 1, 'regular', 1),
+(53, 5, NULL, 2, 'regular', 1),
+(54, 6, NULL, 2, 'regular', 1),
+(55, 7, NULL, 2, 'regular', 1),
+(56, 8, NULL, 2, 'regular', 1);
 
 -- --------------------------------------------------------
 
@@ -147,67 +151,67 @@ INSERT INTO `enfrentamiento` (`idEnfrentamiento`, `ParejaidPareja1`, `ParejaidPa
 (1, 1, 1, 0, '-', '-', '-', 1, 'regular'),
 (2, 1, 2, 0, '2-3', '1-2', '4-5', 1, 'regular'),
 (3, 1, 3, 2, '2-3', '3-1', '5-2', 1, 'regular'),
-(4, 1, 4, 2, '2-1', '3-5', '4-1', 1, 'regular'),
-(5, 1, 9, 1, '2-6', '1-4', '2-1', 1, 'regular'),
+(4, 1, 4, 0, '-', '-', '-', 1, 'regular'),
+(5, 1, 9, 0, '-', '-', '-', 1, 'regular'),
 (6, 1, 10, 1, '1-3', '5-3', '2-6', 1, 'regular'),
-(7, 1, 11, 3, '2-1', '2-2', '4-1', 1, 'regular'),
-(8, 1, 12, 2, '1-2', '3-1', '4-1', 1, 'regular'),
+(7, 1, 11, 0, '-', '-', '-', 1, 'regular'),
+(8, 1, 12, 0, '-', '-', '-', 1, 'regular'),
 (9, 2, 2, 0, '-', '-', '-', 1, 'regular'),
 (10, 2, 1, 3, '3-2', '2-1', '5-4', 1, 'regular'),
 (11, 2, 3, 2, '2-3', '5-4', '5-5', 1, 'regular'),
-(12, 2, 4, 3, '1-1', '2-1', '5-2', 1, 'regular'),
-(13, 2, 9, 3, '1-0', '2-1', '7-1', 1, 'regular'),
-(14, 2, 10, 1, '2-3', '1-2', '5-1', 1, 'regular'),
+(12, 2, 4, 0, '-', '-', '-', 1, 'regular'),
+(13, 2, 9, 0, '-', '-', '-', 1, 'regular'),
+(14, 2, 10, 0, '-', '-', '-', 1, 'regular'),
 (15, 2, 11, 1, '4-3', '2-5', '5-8', 1, 'regular'),
-(16, 2, 12, 3, '2-1', '3-3', '4-1', 1, 'regular'),
+(16, 2, 12, 0, '-', '-', '-', 1, 'regular'),
 (17, 3, 3, 0, '-', '-', '-', 1, 'regular'),
 (18, 3, 1, 1, '3-2', '1-3', '2-5', 1, 'regular'),
 (19, 3, 2, 2, '3-2', '4-5', '5-5', 1, 'regular'),
 (20, 3, 4, 3, '4-2', '1-0', '3-2', 1, 'regular'),
 (21, 3, 9, 1, '1-3', '5-9', '2-1', 1, 'regular'),
 (22, 3, 10, 1, '1-4', '4-5', '3-3', 1, 'regular'),
-(23, 3, 11, 1, '2-4', '1-5', '3-3', 1, 'regular'),
-(24, 3, 12, 2, '2-2', '1-0', '2-4', 1, 'regular'),
+(23, 3, 11, 0, '-', '-', '-', 1, 'regular'),
+(24, 3, 12, 0, '-', '-', '-', 1, 'regular'),
 (25, 4, 4, 0, '-', '-', '-', 1, 'regular'),
-(26, 4, 1, 1, '1-2', '5-3', '1-4', 1, 'regular'),
-(27, 4, 2, 1, '1-1', '1-2', '2-5', 1, 'regular'),
+(26, 4, 1, 0, '-', '-', '-', 1, 'regular'),
+(27, 4, 2, 0, '-', '-', '-', 1, 'regular'),
 (28, 4, 3, 0, '2-4', '0-1', '2-3', 1, 'regular'),
 (29, 4, 9, 0, '-', '-', '-', 1, 'regular'),
 (30, 4, 10, 0, '-', '-', '-', 1, 'regular'),
-(31, 4, 11, 3, '2-1', '4-1', '5-1', 1, 'regular'),
-(32, 4, 12, 3, '2-1', '1-1', '5-1', 1, 'regular'),
+(31, 4, 11, 0, '-', '-', '-', 1, 'regular'),
+(32, 4, 12, 0, '-', '-', '-', 1, 'regular'),
 (33, 9, 9, 0, '-', '-', '-', 1, 'regular'),
-(34, 9, 1, 2, '6-2', '4-1', '1-2', 1, 'regular'),
-(35, 9, 2, 0, '0-1', '1-2', '1-7', 1, 'regular'),
+(34, 9, 1, 0, '-', '-', '-', 1, 'regular'),
+(35, 9, 2, 0, '-', '-', '-', 1, 'regular'),
 (36, 9, 3, 2, '3-1', '9-5', '1-2', 1, 'regular'),
 (37, 9, 4, 0, '-', '-', '-', 1, 'regular'),
 (38, 9, 10, 0, '-', '-', '-', 1, 'regular'),
 (39, 9, 11, 0, '-', '-', '-', 1, 'regular'),
-(40, 9, 12, 3, '2-2', '3-1', '4-1', 1, 'regular'),
+(40, 9, 12, 0, '-', '-', '-', 1, 'regular'),
 (41, 10, 10, 0, '-', '-', '-', 1, 'regular'),
 (42, 10, 1, 2, '3-1', '3-5', '6-2', 1, 'regular'),
-(43, 10, 2, 2, '3-2', '2-1', '1-5', 1, 'regular'),
+(43, 10, 2, 0, '-', '-', '-', 1, 'regular'),
 (44, 10, 3, 3, '4-1', '5-4', '3-3', 1, 'regular'),
 (45, 10, 4, 0, '-', '-', '-', 1, 'regular'),
 (46, 10, 9, 0, '-', '-', '-', 1, 'regular'),
 (47, 10, 11, 0, '-', '-', '-', 1, 'regular'),
-(48, 10, 12, 2, '2-3', '5-1', '4-1', 1, 'regular'),
+(48, 10, 12, 0, '-', '-', '-', 1, 'regular'),
 (49, 11, 11, 0, '-', '-', '-', 1, 'regular'),
-(50, 11, 1, 1, '1-2', '2-2', '1-4', 1, 'regular'),
+(50, 11, 1, 0, '-', '-', '-', 1, 'regular'),
 (51, 11, 2, 2, '3-4', '5-2', '8-5', 1, 'regular'),
-(52, 11, 3, 3, '4-2', '5-1', '3-3', 1, 'regular'),
-(53, 11, 4, 0, '1-2', '1-4', '1-5', 1, 'regular'),
+(52, 11, 3, 0, '-', '-', '-', 1, 'regular'),
+(53, 11, 4, 0, '-', '-', '-', 1, 'regular'),
 (54, 11, 9, 0, '-', '-', '-', 1, 'regular'),
 (55, 11, 10, 0, '-', '-', '-', 1, 'regular'),
-(56, 11, 12, 1, '2-4', '2-1', '3-4', 1, 'regular'),
+(56, 11, 12, 0, '-', '-', '-', 1, 'regular'),
 (57, 12, 12, 0, '-', '-', '-', 1, 'regular'),
-(58, 12, 1, 1, '2-1', '1-3', '1-4', 1, 'regular'),
-(59, 12, 2, 1, '1-2', '3-3', '1-4', 1, 'regular'),
-(60, 12, 3, 2, '2-2', '0-1', '4-2', 1, 'regular'),
-(61, 12, 4, 1, '1-2', '1-1', '1-5', 1, 'regular'),
-(62, 12, 9, 1, '2-2', '1-3', '1-4', 1, 'regular'),
-(63, 12, 10, 1, '3-2', '1-5', '1-4', 1, 'regular'),
-(64, 12, 11, 2, '4-2', '1-2', '4-3', 1, 'regular');
+(58, 12, 1, 0, '-', '-', '-', 1, 'regular'),
+(59, 12, 2, 0, '-', '-', '-', 1, 'regular'),
+(60, 12, 3, 0, '-', '-', '-', 1, 'regular'),
+(61, 12, 4, 0, '-', '-', '-', 1, 'regular'),
+(62, 12, 9, 0, '-', '-', '-', 1, 'regular'),
+(63, 12, 10, 0, '-', '-', '-', 1, 'regular'),
+(64, 12, 11, 0, '-', '-', '-', 1, 'regular');
 
 -- --------------------------------------------------------
 
@@ -222,16 +226,13 @@ CREATE TABLE `grupo` (
   `Campeonato_CategoriaCategoriaidCategoria` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
-
-
-
 --
 -- Volcado de datos para la tabla `grupo`
 --
 
 INSERT INTO `grupo` (`idGrupo`, `tipoLiga`, `Campeonato_CategoriaCampeonatoidCampeonato`, `Campeonato_CategoriaCategoriaidCategoria`) VALUES
 (1, 'regular', 1, 1),
-(2, 'regular', 1, 2),
+(2, 'regular', 1, 1),
 (4, 'regular', 3, 3);
 
 -- --------------------------------------------------------
@@ -253,54 +254,18 @@ CREATE TABLE `horario` (
 --
 
 INSERT INTO `horario` (`fecha`, `idPista`, `horario`, `disponibilidad`, `numInscritos`) VALUES
-('2019-01-06', 1, '00:00:00', 'disponible', NULL),
-('2019-01-06', 1, '01:30:00', 'ocupado', 2),
-('2019-01-06', 1, '03:00:00', 'disponible', 1),
-('2019-01-06', 1, '04:30:00', 'disponible', NULL),
-('2019-01-06', 1, '06:00:00', 'disponible', NULL),
-('2019-01-06', 1, '07:30:00', 'disponible', NULL),
-('2019-01-06', 2, '00:00:00', 'disponible', NULL),
-('2019-01-06', 2, '01:30:00', 'ocupado', 2),
-('2019-01-06', 2, '03:00:00', 'disponible', NULL),
-('2019-01-06', 2, '04:30:00', 'disponible', NULL),
-('2019-01-06', 2, '06:00:00', 'disponible', NULL),
-('2019-01-06', 2, '07:30:00', 'disponible', NULL),
-('2019-01-06', 3, '00:00:00', 'disponible', NULL),
-('2019-01-06', 3, '01:30:00', 'ocupado', 2),
-('2019-01-06', 3, '03:00:00', 'disponible', NULL),
-('2019-01-06', 4, '00:00:00', 'disponible', NULL),
-('2019-01-06', 4, '01:30:00', 'ocupado', 2),
-('2019-01-06', 4, '03:00:00', 'disponible', NULL),
-('2019-01-06', 4, '04:30:00', 'disponible', NULL),
-('2019-01-06', 4, '06:00:00', 'disponible', NULL),
-('2019-01-17', 1, '00:00:00', 'disponible', NULL),
-('2019-01-17', 1, '01:30:00', 'disponible', NULL),
-('2019-01-17', 1, '03:00:00', 'disponible', NULL),
-('2019-01-17', 1, '04:30:00', 'disponible', NULL),
-('2019-01-20', 1, '00:00:00', 'disponible', NULL),
-('2019-01-20', 1, '01:30:00', 'disponible', NULL),
-('2019-01-20', 1, '03:00:00', 'disponible', NULL),
-('2019-01-20', 1, '04:30:00', 'disponible', NULL),
-('2019-01-20', 2, '00:00:00', 'disponible', NULL),
-('2019-01-20', 2, '01:30:00', 'disponible', NULL),
-('2019-01-20', 2, '03:00:00', 'disponible', NULL),
-('2019-01-20', 2, '04:30:00', 'disponible', NULL),
 ('2019-01-25', 1, '00:00:00', 'ocupado', 0),
 ('2019-01-25', 1, '01:30:00', 'disponible', 1),
 ('2019-01-25', 1, '03:00:00', 'disponible', NULL),
 ('2019-01-25', 1, '04:30:00', 'disponible', NULL),
 ('2019-01-25', 2, '00:00:00', 'ocupado', 0),
-('2019-01-25', 2, '01:30:00', 'disponible', 2),
+('2019-01-25', 2, '01:30:00', 'disponible', 1),
 ('2019-01-25', 2, '03:00:00', 'disponible', NULL),
 ('2019-01-25', 2, '04:30:00', 'disponible', NULL),
 ('2019-01-25', 3, '00:00:00', 'ocupado', 0),
-('2019-01-25', 3, '01:30:00', 'disponible', 3),
+('2019-01-25', 3, '01:30:00', 'disponible', 1),
 ('2019-01-25', 3, '03:00:00', 'disponible', NULL),
-('2019-01-25', 3, '04:30:00', 'disponible', NULL),
-('2019-01-25', 4, '00:00:00', 'ocupado', 0),
-('2019-01-25', 4, '01:30:00', 'disponible', 1),
-('2019-01-25', 4, '03:00:00', 'disponible', NULL),
-('2019-01-25', 4, '04:30:00', 'disponible', NULL);
+('2019-01-25', 3, '04:30:00', 'disponible', NULL);
 
 -- --------------------------------------------------------
 
@@ -363,11 +328,9 @@ CREATE TABLE `partido` (
 --
 
 INSERT INTO `partido` (`idPartido`, `fecha`, `horaInicio`, `horaFin`, `inicioInscripcion`, `finInscripcion`, `pista`) VALUES
-(127, '2019-01-25', '00:00:00', '01:30:00', NULL, '2019-01-18', 1),
-(128, '2019-01-25', '01:30:00', '03:00:00', NULL, '2019-01-18', 1),
-(129, '2019-01-25', '01:30:00', '03:00:00', NULL, '2019-01-18', 2),
-(130, '2019-01-25', '01:30:00', '03:00:00', NULL, '2019-01-18', 3),
-(131, '2019-01-25', '01:30:00', '03:00:00', NULL, '2019-01-18', 4);
+(144, '2019-01-25', '01:30:00', '03:00:00', NULL, '2019-01-18', 1),
+(146, '2019-01-25', '01:30:00', '03:00:00', NULL, '2019-01-18', 2),
+(147, '2019-01-25', '01:30:00', '03:00:00', NULL, '2019-01-18', 3);
 
 -- --------------------------------------------------------
 
@@ -416,16 +379,14 @@ CREATE TABLE `reserva` (
   `disponibilidad` varchar(10) COLLATE latin1_spanish_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
-
 --
 -- Volcado de datos para la tabla `reserva`
 --
 
 INSERT INTO `reserva` (`UsuarioRegistradousuario`, `idReserva`, `fecha`, `horaInicio`, `horaFin`, `PistaidPista`, `disponibilidad`) VALUES
-('admin', 11, '2019-01-25', '00:00:00', '01:30:00', 2, 'ocupado'),
-('admin', 12, '2019-01-25', '00:00:00', '01:30:00', 3, 'ocupado'),
-('admin', 13, '2019-01-25', '00:00:00', '01:30:00', 4, 'ocupado'),
-('admin', 14, '2019-01-25', '00:00:00', '01:30:00', 1, 'ocupado');
+('admin', 27, '2019-01-25', '00:00:00', '01:30:00', 1, 'ocupado'),
+('admin', 28, '2019-01-25', '00:00:00', '01:30:00', 2, 'ocupado'),
+('admin', 29, '2019-01-25', '00:00:00', '01:30:00', 3, 'ocupado');
 
 -- --------------------------------------------------------
 
@@ -448,7 +409,7 @@ CREATE TABLE `usuarioregistrado` (
 INSERT INTO `usuarioregistrado` (`usuario`, `password`, `nombre`, `apellido`, `tipoUsuario`) VALUES
 ('admin', 'admin', 'admin', 'admin', 'admin'),
 ('ala', 'ala', 'Ana', 'Alvarez', 'deportista'),
-('ana', 'purple', 'Ana', 'Martinez', 'admin'),
+('ana', 'purple', 'Ana', 'Martinez', 'deportista'),
 ('ara', 'ara', 'Ana', 'Rodriguez', 'deportista'),
 ('bet', 'bet', 'Bella', 'Torres', 'deportista'),
 ('betty', 'betty', 'Bea', 'Martinez', 'deportista'),
@@ -478,50 +439,6 @@ INSERT INTO `usuarioregistrado` (`usuario`, `password`, `nombre`, `apellido`, `t
 ('sara', 'sara', 'Sara', 'Fernandez', 'deportista'),
 ('vfvarela', 'purple', 'Victor', 'Fernandez', 'deportista'),
 ('vvarela', 'vvarela', 'Vlas', 'Varela', 'deportista');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `PosiblesReservasEnfrentamiento`
---
-
-CREATE TABLE `PosiblesReservasEnfrentamiento` (
-  `idEnfrentamiento` int(4) NOT NULL,
-  `UsuarioRegistradousuario` varchar(20) COLLATE latin1_spanish_ci DEFAULT NULL,
-  `idReserva` int(4) NOT NULL,
-  `fecha` date DEFAULT NULL,
-  `horaInicio` time DEFAULT NULL,
-  `horaFin` time DEFAULT NULL,
-  `PistaidPista` int(4) DEFAULT NULL,
-  `disponibilidad` varchar(10) COLLATE latin1_spanish_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-
---
--- Indices de la tabla `PosiblesReservasEnfrentamiento`
---
-ALTER TABLE `PosiblesReservasEnfrentamiento`
-  ADD PRIMARY KEY (`idReserva`,`idEnfrentamiento`);
-
-ALTER TABLE `PosiblesReservasEnfrentamiento` CHANGE `idReserva` `idReserva` INT(4) NOT NULL AUTO_INCREMENT;
-
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `Reserva_Enfrentamiento`
---
-
-CREATE TABLE `Reserva_Enfrentamiento` (
-  `idReserva` int(4) NOT NULL,
-  `idEnfrentamiento` int(4) NOT NULL,
-  `PistaidPista` int(4) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-
---
--- Indices de la tabla `Reserva_Enfrentamiento`
---
-ALTER TABLE `Reserva_Enfrentamiento`
-  ADD PRIMARY KEY (`idReserva`,`idEnfrentamiento`);
 
 --
 -- Índices para tablas volcadas
@@ -663,19 +580,19 @@ ALTER TABLE `pareja`
 -- AUTO_INCREMENT de la tabla `partido`
 --
 ALTER TABLE `partido`
-  MODIFY `idPartido` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
+  MODIFY `idPartido` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
 
 --
 -- AUTO_INCREMENT de la tabla `pista`
 --
 ALTER TABLE `pista`
-  MODIFY `idPista` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `idPista` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `reserva`
 --
 ALTER TABLE `reserva`
-  MODIFY `idReserva` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `idReserva` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- Restricciones para tablas volcadas
