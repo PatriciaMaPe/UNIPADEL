@@ -39,9 +39,16 @@ $currenttype = $_SESSION["currenttype"];
                             $anterior = $pista->getHorarioIdPista();
                         }
                         ?>
-                        <?php if ($pista->getDisponibilidad() == 'disponible') { ?>
-                            <td><a style="border:solid;background-color:green;color:black;" href="index.php?controller=Partido&amp;action=comprobarReservaPartido&amp;fecha=<?= $pista->getFecha(); ?>&amp;pista=<?= $pista->getHorarioIdPista(); ?>&amp;hora=<?= $pista->getHora(); ?>&amp;disponibilidad=<?= $pista->getDisponibilidad(); ?>"><?php echo $pista->getHora(); ?></a></td>
-                            <?php } else { ?>
+                        <?php if ($pista->getDisponibilidad() == 'disponible') { 
+                                if($pista->getNumInscritos()=='' ||$pista->getNumInscritos()=='0'){?>
+                                    <td><a style="border:solid;background-color:green;color:black;" href="index.php?controller=Partido&amp;action=comprobarReservaPartido&amp;fecha=<?= $pista->getFecha(); ?>&amp;pista=<?= $pista->getHorarioIdPista(); ?>&amp;hora=<?= $pista->getHora(); ?>&amp;disponibilidad=<?= $pista->getDisponibilidad(); ?>"><?php echo $pista->getHora(); ?></a></td>
+                                    <?php
+                                }else{
+                                    ?>
+                                    <td><a style="border:solid;background-color:blue;color:black;" href="index.php?controller=Partido&amp;action=comprobarReservaPartido&amp;fecha=<?= $pista->getFecha(); ?>&amp;pista=<?= $pista->getHorarioIdPista(); ?>&amp;hora=<?= $pista->getHora(); ?>&amp;disponibilidad=<?= $pista->getDisponibilidad(); ?>"><?php echo $pista->getHora(); ?></a></td>
+                                    <?php
+                                }
+                         } else { ?>
                             <td><a style="border:solid;background-color:red;color:black;" href="index.php?controller=Partido&amp;action=comprobarReservaPartido&amp;fecha=<?= $pista->getFecha(); ?>&amp;pista=<?= $pista->getHorarioIdPista(); ?>&amp;hora=<?= $pista->getHora(); ?>&amp;disponibilidad=<?= $pista->getDisponibilidad(); ?>"><?php echo $pista->getHora(); ?></a></td>
         <?php } ?>
     <?php }
