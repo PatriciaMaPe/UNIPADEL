@@ -41,9 +41,14 @@ class ParejaMapper {
 	public function getIdPareja($usuario){
 		$stmt = $this->db->prepare("SELECT idPareja from Pareja where capitan=? OR deportista=?");
 		$stmt->execute(array($usuario,$usuario));
-		$idsPareja_db = $stmt->fetch(PDO::FETCH_ASSOC);
+		$idsPareja_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-		return $idsPareja_db;
+		$idsPareja = array();
+		foreach ($idsPareja_db as $idPareja) {
+			array_push($idsPareja, $idPareja['idPareja']);
+		}
+
+		return $idsPareja;
 	}
 
 	public function generarEnfrentamientosRegular($grupoId,$campeonatoId, $categoriaId){

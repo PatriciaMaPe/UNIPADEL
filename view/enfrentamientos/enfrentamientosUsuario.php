@@ -31,6 +31,8 @@ $currenttype = $_SESSION["currenttype"];
 
   <tbody>
     <?php foreach ($enfrentamientosPareja as $enfrentamiento):
+
+
         if($enfrentamiento[0]->getPareja1()->getIdPareja() != $enfrentamiento[0]->getPareja2()->getIdPareja()):
       ?>
         <tr>

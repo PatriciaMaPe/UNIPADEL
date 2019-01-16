@@ -105,16 +105,20 @@ class EnfrentamientoMapper {
 	* Recuperamos todos los enfrentamientos de una pareja
 	*/
 	public function findByEnfrentamientosPareja($idsPareja){
-			foreach ($idsPareja as $id)
+		$parejaEnfrent = array();
+			foreach ($idsPareja as $id){
 			$stmt = $this->db->prepare("SELECT * FROM Enfrentamiento WHERE ParejaidPareja1=?
 				OR ParejaidPareja2=? AND ParejaidPareja2!=ParejaidPareja1");
-			
 			$stmt->execute(array($id, $id));
 			$enfrentamientoPareja1_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				array_push($parejaEnfrent,$enfrentamientoPareja1_db);
+		}
+
 
 			$enfrentamientosPareja = array();
+			for($i=0;$i<sizeof($parejaEnfrent);$i++){
+			foreach ($parejaEnfrent[$i] as $enfrentamiento) {
 
-			foreach ($enfrentamientoPareja1_db as $enfrentamiento) {
 				// Pareja 1
 				$stmt = $this->db->prepare("SELECT * FROM Pareja WHERE idPareja=?");
 				$stmt->execute(array($enfrentamiento["ParejaidPareja1"]));
@@ -131,8 +135,9 @@ class EnfrentamientoMapper {
 				array_push($enfrentamientosPareja,
 				new Enfrentamiento($enfrentamiento["idEnfrentamiento"],
 				$pareja1, $pareja2, $enfrentamiento["set1"], $enfrentamiento["set2"], $enfrentamiento["set3"],
-				$enfrentamiento["resultado"], new Grupo($enfrentamiento["GrupoidGrupo"], NULL, NULL, $enfrentamiento["GrupotipoLiga"])));
+				$enfrentamiento["resultado"], new Grupo($enfrentamiento["GrupoidGrupo"], NULL, NULL, $enfrentamiento["GrupotipoLiga"]), $enfrentamiento["GrupotipoLiga"]));
 			}
+		}
 				//var_dump($enfrentamientosPareja);
 
 				//array_push($enfrentamientos, $enfrentamientosPareja);

@@ -74,6 +74,7 @@ class EnfrentamientoController extends BaseController {
 
 		//Recogemos los distintos ids que tiene la pareja segun la liga
 		$idPareja = $this->parejaMapper->getIdPareja($usuario);
+
 		//recogemos los enfrentamientos de la pareja
 		$enfrentamientosPareja = $this->enfrentamientoMapper->findByEnfrentamientosPareja($idPareja);
 		
@@ -87,10 +88,10 @@ class EnfrentamientoController extends BaseController {
 			//Si no existe la añadimos y ponemos los datos en $enfrentamientosPareja
 			//Si ya existe la eliminamos de $enfrentamientosPareja
 			if(
-				!in_array([$enf->getPareja1(), $enf->getPareja2()], $arrayParejas) &&
-				!in_array([$enf->getPareja2(), $enf->getPareja1()], $arrayParejas)
+				!in_array([$enf->getPareja1(), $enf->getPareja2(), $enf->getLiga()], $arrayParejas) &&
+				!in_array([$enf->getPareja2(), $enf->getPareja1(), $enf->getLiga()], $arrayParejas)
 			) {
-				array_push($arrayParejas,[$enf->getPareja1(), $enf->getPareja2()]);
+				array_push($arrayParejas,[$enf->getPareja1(), $enf->getPareja2(), $enf->getLiga()]);
 				$enfrentamientosPareja[$key] = [$enf, $reservaPista, $posiblesReservas];
 			}
 			else {
