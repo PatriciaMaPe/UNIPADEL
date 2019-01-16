@@ -30,7 +30,9 @@ $view->setVariable("title", "Gestionar reservas");
 									?>
 									<tr><th>Fin inscripciones</th><td> <input style="border:none" type="text" name="finInscripcion" <?php echo "value='".$nuevafecha."'";?> readonly></td></tr>
 									
+
 									<tr><th>Numero Inscritos</th><td> <input style="border:none" type="text" name="numInscritos" value="<?= $view->getVariable("numInscritos");?>" readonly></td></tr>
+
 									
 									
 								
