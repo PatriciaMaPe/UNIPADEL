@@ -39,7 +39,7 @@ class ReservaEnfrentamientoMapper {
       $stmt = $this->db->prepare("INSERT INTO Reserva_Enfrentamiento(idReserva,idEnfrentamiento,PistaidPista) VALUES (?,?,?)");
       $stmt->execute(array($idReserva, $idEnfrentamiento, $idPista));
 
-      eliminarReservaEnfrentamiento($idEnfrentamiento);
+      $this->eliminarReservaEnfrentamiento($idEnfrentamiento);
 
       $this->db->commit();
 

@@ -132,9 +132,9 @@ class AcordarReservasController extends BaseController {
 			}
 
 			if($esCapitan && $usuario!=$_SESSION["currentuser"]) {
-				$this->GestionarReservasMapper->updateHorario("ocupado", $pista, $horaInicio, $fecha);
+				$this->GestionarReservasMapper->updateHorario("ocupado", $pista, $horaInicio, $fecha, NULL);
 				$insercion = $this->RealizarReservaMapper->insertarReserva(new RealizarReserva(
-					NULL, $fecha, $horaInicio, $horaFin, $pista, "ocupado"
+					NULL, $fecha, $horaInicio, $horaFin, $pista, "ocupado", $_SESSION["currentuser"]
 				));
 
 				$this->ReservaEnfrentamientoMapper->insertarReservaEnfrentamiento($insercion,$idEnfrentamiento,$pista, $horaInicio, $fecha);

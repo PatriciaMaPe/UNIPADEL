@@ -18,7 +18,7 @@ class ReservaMapper {
 		$this->db = PDOConnection::getInstance();
 	}
 
-	/*public function insertarReserva(RealizarReserva $reserva) {
+	/*public function findReservaByIdEnfrentamiento($idEnfrentamiento) {
 		$stmt = $this->db->prepare("INSERT INTO Reserva (fecha,PistaidPista,horaInicio,horaFin,disponibilidad) VALUES (?,?,?,?,?)");
 		$stmt->execute(array($reserva->getFecha(),$reserva->getPistaidPista(),$reserva->getHoraInicio(),$reserva->getHoraFin(),$reserva->getDisponibilidad()));
 		return $this->db->lastInsertId();
@@ -29,7 +29,7 @@ class ReservaMapper {
 
 	}*/
 
-	
+
 
 
 
