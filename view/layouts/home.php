@@ -26,11 +26,11 @@ $view->setVariable("title", "home");
 		<h3 class="display-3 text-center"><?= "Club UNIPADEL!" ?></h3>
 	</header>
 	<main>
-		<!-- flash message -->
+		<!-- flash message
 		<div id="flash">
 			<?= $view->popFlash() ?>
 		</div>
-
+-->
 <!--
 		<h1> Iniciar sesion </h1>
 
@@ -63,7 +63,7 @@ $view->setVariable("title", "home");
 		    <div id="noticias" class="container">
 					<div class="row justify-content-md-center">
 		  <div class="card col-sm-12 col-md-8 col-lg-5 col-xl-3" >
-		    <img class="card-img-top" src="../assets/padel1.jpg" alt="Card image cap">
+		    <img class="card-img-top" src="assets/padel1.jpg" alt="Card image cap">
 		    <div class="card-body">
 		      <h5 class="card-title">IV Campeonato</h5>
 		      <p class="card-text">Lorem ipsum dolor sit amet consectetur adipiscing, elit facilisi fusce varius sodales,
@@ -73,7 +73,7 @@ $view->setVariable("title", "home");
 		  </div>
 
 		  <div class="card col-sm-12 col-md-8 col-lg-5 col-xl-3">
-		    <img class="card-img-top" src="padel1.jpg" alt="Card image cap">
+		    <img class="card-img-top" src="assets/padel2.jpg" alt="Card image cap">
 		    <div class="card-body">
 		      <h5 class="card-title">Nuevos horarios de pistas</h5>
 		      <p class="card-text">Lorem ipsum dolor sit amet consectetur adipiscing, elit facilisi fusce varius sodales,
@@ -83,7 +83,7 @@ $view->setVariable("title", "home");
 		  </div>
 
 		  <div class="card col-sm-12 col-md-8 col-lg-5 col-xl-3">
-		    <img class="card-img-top" src="../assets/padel1.jpg" alt="Card image cap">
+		    <img class="card-img-top" src="assets/padel3.jpg" alt="Card image cap">
 		    <div class="card-body">
 		      <h5 class="card-title">Abrimos nuevo centro de padel</h5>
 		      <p class="card-text">Lorem ipsum dolor sit amet consectetur adipiscing, elit facilisi fusce varius sodales,

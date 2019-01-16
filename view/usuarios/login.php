@@ -30,4 +30,4 @@ $errors = $view->getVariable("errors");
   </div>
 </form>
 
-<p>Not user? <a href="index.php?controller=usuarioController&amp;action=register"> Register here!</a></p>
+<p>Not user? <a href="index.php?controller=usuarioRegistrado&amp;action=register"> Register here!</a></p>

@@ -9,8 +9,12 @@ $enfrenParejas = $view->getVariable("enfrentamientosParejas"); //array con enfre
 $parejas = $view->getVariable("parejas");
 $idGrupo = $view->getVariable("idGrupo");
 $tipoLiga = $view->getVariable("tipoLiga");
+$campeonato = $view->getVariable("campeonato");
+
 $view->setVariable("title", "Enfrentamientos");
 
+$currentuser = $_SESSION["currentuser"];
+$currenttype = $_SESSION["currenttype"];
 
 ?>
 <div class="row justify-content-md-center">
@@ -119,6 +123,7 @@ $view->setVariable("title", "Enfrentamientos");
                       data-set1="<?= $enfrentamiento->getSet1(); ?>"
                       data-set2="<?= $enfrentamiento->getSet2(); ?>"
                       data-set3="<?= $enfrentamiento->getSet3(); ?>"
+                      data-campeonato="<?= $campeonato ?>"
                       data-grupo="<?= $idGrupo ?>"
                       data-liga="<?= $tipoLiga ?>"
                       >
@@ -151,7 +156,11 @@ $view->setVariable("title", "Enfrentamientos");
         </button>
       </div>
       <div class="modal-body">
-        <form action="index.php?controller=enfrentamiento&amp;action=modificarResultados" method="POST">
+        <form action="index.php?controller=enfrentamiento&amp;action=modificarResultados&amp;
+        campeonato=<?= $campeonato ?>&amp;
+        grupoId=<?= $idGrupo ?>&amp;
+        tipoLiga=<?= $tipoLiga ?>
+        " method="POST">
 
           <div class="form-group">
             <div class="form-row">
@@ -175,7 +184,11 @@ $view->setVariable("title", "Enfrentamientos");
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-primary">Modificar resultados</button>
+            <?php if ($currenttype=="admin"): ?>
+              <button type="submit" class="btn btn-primary">Modificar resultados</button>
+            <?php else: ?>
+              <button disabled type="submit" class="btn btn-primary">Modificar resultados</button>
+            <?php endif ?>
           </div>
         </div>
         </form>

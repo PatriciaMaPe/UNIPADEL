@@ -3,8 +3,8 @@
 
 $view = ViewManager::getInstance();
 
-$currentuser = $_SESSION["currentuser"];
-$currenttype = $_SESSION["currenttype"];
+$currentuser = $view->getVariable("currentusername");
+$currenttype = $view->getVariable("currenttype");
 
 ?><!DOCTYPE html>
 <html>
@@ -107,7 +107,7 @@ $currenttype = $_SESSION["currenttype"];
             <a class="dropdown-item" href="index.php?controller=gestionarReservas&amp;action=index">Listado reservas</a>
           </div>
         </li>
-        
+
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Campeonatos
@@ -193,7 +193,7 @@ $currenttype = $_SESSION["currenttype"];
 				<!--<li class="nav-item active">
           <a class="nav-link" href="index.php?controller=establecerPistas&amp;action=index">Pistas</a>
         </li>-->
-				
+
 			</ul>
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item dropdown mr-2">
@@ -236,6 +236,10 @@ $currenttype = $_SESSION["currenttype"];
   <!-- /Header -->
 
 	<main>
+		<!-- flash message -->
+		<div id="flash">
+			<?= $view->popFlash() ?>
+		</div>
 		<?= $view->getFragment(ViewManager::DEFAULT_FRAGMENT) ?>
 	</main>
 

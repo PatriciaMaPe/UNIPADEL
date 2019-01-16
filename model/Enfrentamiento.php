@@ -62,6 +62,12 @@ class Enfrentamiento {
 	private $grupo;
 
 	/**
+	* The list of comments of this post
+	* @var Liga
+	*/
+	private $liga;
+
+	/**
 	* The constructor
 	*
 	* @param int $idEnfrentamiento The id of the post
@@ -73,7 +79,7 @@ class Enfrentamiento {
 	* @param string $resultado The list of comments
 	*/
 	public function __construct($idEnfrentamiento=NULL, Pareja $pareja1=NULL, Pareja $pareja2=NULL,
-															$set1=NULL, $set2=NULL, $set3=NULL, $resultado=NULL, Grupo $grupo=NULL) {
+															$set1=NULL, $set2=NULL, $set3=NULL, $resultado=NULL, Grupo $grupo=NULL, $liga="regular") {
 		$this->idEnfrentamiento = $idEnfrentamiento;
 		$this->pareja1 = $pareja1;
 		$this->pareja2 = $pareja2;
@@ -82,6 +88,7 @@ class Enfrentamiento {
 		$this->set3 = $set3;
 		$this->resultado = $resultado;
 		$this->grupo = $grupo;
+		$this->liga = $liga;
 
 	}
 
@@ -157,6 +164,15 @@ class Enfrentamiento {
 	}
 
 	/**
+	* Gets the title of this post
+	*
+	* @return Grupo The title of this post
+	*/
+	public function getLiga() {
+		return $this->liga;
+	}
+
+	/**
 	* Sets the title of this post
 	*
 	* @param string $title the title of this post
@@ -196,6 +212,15 @@ class Enfrentamiento {
 		$this->resultado = $res;
 	}
 
+	/**
+	* Sets the title of this post
+	*
+	* @param string $title the title of this post
+	* @return void
+	*/
+	public function setLiga($liga) {
+		$this->liga = $liga;
+	}
 
 
 
