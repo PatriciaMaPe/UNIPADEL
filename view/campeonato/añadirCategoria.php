@@ -69,7 +69,7 @@ $view->setVariable("title", "Añadir Categoria");
                             </div>
                         </div>
                         <label>Número de participantes por categoria</label>
-                        <input type="number" name="maxParticipantes" min="8" max="12">
+                        <input type="number" name="maxParticipantes" min="8" max="12" required>
                         <br><br>
                         <input type="hidden" value="<?php echo $campeonato["idCampeonato"] ?>" name="idCampeonato" />
                         <input type="submit" name="submit" value="Añadir Categorias">

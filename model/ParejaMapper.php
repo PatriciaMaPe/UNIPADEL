@@ -543,4 +543,19 @@ class ParejaMapper {
         return $numParejas;
     }
 
+    	public function crearGrupoB($campeonatoId, $categoriaId, $tipoLiga){
+		$stmt = $this->db->prepare("SELECT idGrupo FROM Grupo
+			WHERE Campeonato_CategoriaCampeonatoidCampeonato = $campeonatoId AND Campeonato_CategoriaCategoriaidCategoria = $categoriaId
+			AND  tipoLiga = '$tipoLiga'");
+		$stmt->execute();
+		$grupoid_db = $stmt->fetch(PDO::FETCH_ASSOC);
+
+		if($grupoid_db==NULL){
+			$stmt = $this->db->prepare("INSERT INTO Grupo (tipoLiga, Campeonato_CategoriaCampeonatoidCampeonato,
+				Campeonato_CategoriaCategoriaidCategoria) VALUES (?,?,?);");
+			$stmt->execute(array($tipoLiga, $campeonatoId, $categoriaId));
+			$registro = $this->db->lastInsertId();
+		}
+                return $registro;
+	}
 }

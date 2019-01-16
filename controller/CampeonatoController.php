@@ -409,7 +409,7 @@ class CampeonatoController extends BaseController {
                 $grupos = $this->grupoMapper->findByCampeonatoCategoria($idCampeonato, $categoria["idCategoria"]);
                 $idGrupo = NULL;
                 if ($grupos == NULL) {
-                    $idGrupo = $this->parejaMapper->crearGrupo(NULL, $idCampeonato, $categoria["idCategoria"], 'regular');
+                    $idGrupo = $this->parejaMapper->crearGrupoB($idCampeonato, $categoria["idCategoria"], "regular");
                 } else {
                     foreach ($grupos as $grupo) {
                         $numParticipantes = $this->parejaMapper->countByGrupo($grupo["idGrupo"]);
@@ -419,14 +419,14 @@ class CampeonatoController extends BaseController {
                     }
                 }
                 if ($idGrupo == NULL) {
-                    $idGrupo = $this->parejaMapper->crearGrupo(NULL, $idCampeonato, $categoria["idCategoria"], "regular");
+                    $idGrupo = $this->parejaMapper->crearGrupoB($idCampeonato, $categoria["idCategoria"], "regular");
                 }
-
-                $contA = $this->parejaMapper->findDupledA($capitan, $idGrupo, "regular");
-                $contB = $this->parejaMapper->findDupledB($compañero, $idGrupo, "regular");
-
+                $regular = 'regular';
+                $contA = $this->parejaMapper->findDupledA($capitan, $idGrupo, $regular);
+                $contB = $this->parejaMapper->findDupledB($compañero, $idGrupo, $regular);
                 if ($contA["cont"] == 0 && $contB["cont"] == 0) {
                     $this->parejaMapper->addPareja($capitan, $compañero, $idGrupo, "regular");
+                    echo 'INSCRIPCIÓN REALIZADA CON ÉXITO';
                 }
             }
         }
